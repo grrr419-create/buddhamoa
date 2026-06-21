@@ -1,0 +1,3 @@
+# buddhamoa
+
+Buddhamoa landing page.
