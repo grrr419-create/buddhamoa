@@ -1,19 +1,13 @@
 ---
-import type { ChannelLink } from "../types";
+import type { SocialFollowChannel } from "../types";
 
 type Props = {
-  channels: ChannelLink[];
+  channels: SocialFollowChannel[];
 };
 
 const { channels } = Astro.props;
 
-const ctaLabels: Partial<Record<ChannelLink["icon"], string>> = {
-  youtube: "유튜브 구독",
-  instagram: "인스타 팔로우",
-  tiktok: "틱톡 팔로우",
-};
-
-const icons: Partial<Record<ChannelLink["icon"], string>> = {
+const icons: Record<SocialFollowChannel["icon"], string> = {
   youtube:
     '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21 8.2a3 3 0 0 0-2.1-2.1C17.1 5.6 12 5.6 12 5.6s-5.1 0-6.9.5A3 3 0 0 0 3 8.2a31.3 31.3 0 0 0 0 7.6 3 3 0 0 0 2.1 2.1c1.8.5 6.9.5 6.9.5s5.1 0 6.9-.5a3 3 0 0 0 2.1-2.1 31.3 31.3 0 0 0 0-7.6Z"/><path d="m10.3 14.8 4.4-2.8-4.4-2.8v5.6Z"/></svg>',
   instagram:
@@ -29,14 +23,14 @@ const icons: Partial<Record<ChannelLink["icon"], string>> = {
       <a
         class={`social-follow-button social-follow-button--${channel.icon}`}
         href={channel.href}
-        aria-label={`${ctaLabels[channel.icon] ?? `${channel.label} 바로가기`}`}
-        title={`${ctaLabels[channel.icon] ?? `${channel.label} 바로가기`}`}
+        aria-label={channel.ctaLabel}
+        title={channel.ctaLabel}
         data-track={`social_follow_${channel.icon}`}
         target="_blank"
         rel="noreferrer"
       >
         <span class="social-follow-button__icon" set:html={icons[channel.icon]} />
-        <span>{ctaLabels[channel.icon] ?? channel.label}</span>
+        <span>{channel.ctaLabel}</span>
       </a>
     ))
   }

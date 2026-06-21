@@ -1,6 +1,5 @@
 import type {
   CategoryLink,
-  ChannelLink,
   FAQItem,
   ProductShort,
   TempleShort,
@@ -205,44 +204,6 @@ export const templeShorts: TempleShort[] = [
     templeName: "용주사",
     tags: ["#화성용주사", "#경기도절", "#화성절", "#화성사찰"],
     videoUrl: "https://www.instagram.com/reel/DHBFIo0zHet/?utm_source=ig_web_copy_link&igsh=MzRlODBiNWFlZA==",
-  },
-];
-
-export const channels: ChannelLink[] = [
-  {
-    label: "스마트스토어",
-    href: siteConfig.storeUrl,
-    handle: "mkt.shopping.naver.com/link/68457bd08dd273404b731bfd",
-    description: "최종 구매와 상세 옵션 확인은 스마트스토어에서 진행합니다.",
-    icon: "store",
-  },
-  {
-    label: "네이버블로그",
-    href: "https://blog.naver.com/buddha-moa",
-    handle: "blog.naver.com/buddha-moa",
-    description: "불교용품의 의미와 사용법, 선물용 추천 포인트를 차분하게 전하기 좋은 채널입니다.",
-    icon: "blog",
-  },
-  {
-    label: "유튜브",
-    href: "https://www.youtube.com/@buddha-moa?sub_confirmation=1",
-    handle: "@buddha-moa",
-    description: "상품 소개와 분위기 있는 짧은 영상을 연결할 수 있습니다.",
-    icon: "youtube",
-  },
-  {
-    label: "인스타그램",
-    href: "https://www.instagram.com/buddhamoa",
-    handle: "@buddhamoa",
-    description: "신상품 이미지와 감도 있는 장면을 빠르게 보여주기 좋습니다.",
-    icon: "instagram",
-  },
-  {
-    label: "틱톡",
-    href: "https://www.tiktok.com/@buddhamoa",
-    handle: "@buddhamoa",
-    description: "짧은 숏폼으로 제품 분위기와 사용 장면을 전개할 수 있습니다.",
-    icon: "tiktok",
   },
 ];
 

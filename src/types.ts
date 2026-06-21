@@ -1,11 +1,3 @@
-export type ChannelLink = {
-  label: string;
-  href: string;
-  handle: string;
-  description: string;
-  icon: "store" | "blog" | "youtube" | "instagram" | "tiktok";
-};
-
 export type FAQItem = {
   question: string;
   answer: string;
@@ -36,6 +28,13 @@ export type TempleShort = {
   templeName: string;
   tags: string[];
   videoUrl?: string;
+};
+
+export type SocialFollowChannel = {
+  icon: "youtube" | "instagram" | "tiktok";
+  href: string;
+  label: string;
+  ctaLabel: string;
 };
 
 export type ProductShort = {

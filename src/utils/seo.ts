@@ -1,4 +1,4 @@
-import { channels, faqs, sellerInfo, siteConfig, siteUrl } from "../data/site";
+import { faqs, sellerInfo, siteConfig, siteUrl } from "../data/site";
 import type { FAQItem, Product } from "../types";
 import { withBase } from "./paths";
 
@@ -27,7 +27,6 @@ export function organizationSchema() {
       streetAddress: sellerInfo.address,
       addressCountry: "KR",
     },
-    sameAs: channels.map((channel) => channel.href),
     knowsAbout: siteConfig.keywords,
   };
 }

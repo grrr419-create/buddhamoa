@@ -1,0 +1,145 @@
+---
+import Layout from "../layouts/Layout.astro";
+
+const title = "조회수 통계 | 붓다모아";
+const description = "붓다모아 관리자용 비공개 조회수 통계 페이지입니다.";
+---
+
+<Layout
+  title={title}
+  description={description}
+  pathname="/stats/"
+  robots="noindex,nofollow,noarchive"
+>
+  <section class="panel stats-dashboard" data-stats-dashboard>
+    <div class="stats-dashboard__head">
+      <div>
+        <p class="eyebrow">Private Stats</p>
+        <h1>조회수 통계</h1>
+      </div>
+      <div class="stats-dashboard__actions" data-stats-session hidden>
+        <span class="stats-dashboard__user" data-stats-user></span>
+        <button class="button-secondary" type="button" data-stats-refresh>새로고침</button>
+        <button class="button-secondary" type="button" data-stats-logout>로그아웃</button>
+      </div>
+    </div>
+
+    <p class="body-copy">
+      Supabase Auth로 로그인한 허용 관리자만 조회할 수 있습니다.
+    </p>
+
+    <div class="stats-alert" data-stats-message hidden></div>
+
+    <form class="stats-login" data-stats-login>
+      <label for="stats-email">관리자 이메일</label>
+      <div class="stats-login__row">
+        <input
+          id="stats-email"
+          name="email"
+          type="email"
+          autocomplete="email"
+          placeholder="admin@example.com"
+          required
+          data-stats-email
+        />
+        <button class="button" type="submit">로그인 링크 받기</button>
+      </div>
+    </form>
+
+    <div class="stats-content" data-stats-content hidden>
+      <div class="stats-summary">
+        <article class="stats-card">
+          <span>Today</span>
+          <strong data-stats-total="today">—</strong>
+        </article>
+        <article class="stats-card">
+          <span>Total</span>
+          <strong data-stats-total="total">—</strong>
+        </article>
+      </div>
+
+      <div class="stats-grid">
+        <section class="stats-panel">
+          <h2>최근 일별 조회수</h2>
+          <div class="stats-table-wrap">
+            <table class="stats-table">
+              <thead>
+                <tr>
+                  <th scope="col">날짜</th>
+                  <th scope="col">조회수</th>
+                </tr>
+              </thead>
+              <tbody data-stats-daily></tbody>
+            </table>
+          </div>
+        </section>
+
+        <section class="stats-panel">
+          <h2>유입 도메인</h2>
+          <div class="stats-table-wrap">
+            <table class="stats-table">
+              <thead>
+                <tr>
+                  <th scope="col">유입</th>
+                  <th scope="col">조회수</th>
+                </tr>
+              </thead>
+              <tbody data-stats-referrers></tbody>
+            </table>
+          </div>
+        </section>
+
+        <section class="stats-panel">
+          <h2>인기 페이지</h2>
+          <div class="stats-table-wrap">
+            <table class="stats-table">
+              <thead>
+                <tr>
+                  <th scope="col">경로</th>
+                  <th scope="col">조회수</th>
+                </tr>
+              </thead>
+              <tbody data-stats-paths></tbody>
+            </table>
+          </div>
+        </section>
+
+        <section class="stats-panel">
+          <h2>UTM 캠페인</h2>
+          <div class="stats-table-wrap">
+            <table class="stats-table">
+              <thead>
+                <tr>
+                  <th scope="col">소스 / 매체 / 캠페인</th>
+                  <th scope="col">조회수</th>
+                </tr>
+              </thead>
+              <tbody data-stats-utm></tbody>
+            </table>
+          </div>
+        </section>
+
+        <section class="stats-panel">
+          <h2>기기 구분</h2>
+          <div class="stats-table-wrap">
+            <table class="stats-table">
+              <thead>
+                <tr>
+                  <th scope="col">기기</th>
+                  <th scope="col">조회수</th>
+                </tr>
+              </thead>
+              <tbody data-stats-devices></tbody>
+            </table>
+          </div>
+        </section>
+      </div>
+
+      <p class="stats-updated" data-stats-updated></p>
+    </div>
+  </section>
+</Layout>
+
+<script>
+  import "../scripts/statsDashboard.ts";
+</script>

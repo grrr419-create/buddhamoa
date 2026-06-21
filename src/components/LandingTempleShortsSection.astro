@@ -1,25 +1,16 @@
 ---
-import type { ChannelLink, TempleShort } from "../types";
+import type { TempleShort } from "../types";
 import SectionHeader from "./SectionHeader.astro";
 import TempleShorts from "./TempleShorts.astro";
 
 type Props = {
-  channels: ChannelLink[];
   shorts: TempleShort[];
 };
 
-const { channels, shorts } = Astro.props;
-const followChannelIcons = new Set<ChannelLink["icon"]>([
-  "youtube",
-  "instagram",
-  "tiktok",
-]);
-const socialChannels = channels.filter((channel) =>
-  followChannelIcons.has(channel.icon),
-);
+const { shorts } = Astro.props;
 ---
 
 <section id="temple-shorts">
   <SectionHeader eyebrow="Short Temple Walks" title="잠깐, 사찰 한 바퀴" />
-  <TempleShorts channels={socialChannels} shorts={shorts} />
+  <TempleShorts shorts={shorts} />
 </section>

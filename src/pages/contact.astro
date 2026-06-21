@@ -1,11 +1,11 @@
 ---
 import Layout from "../layouts/Layout.astro";
-import { channels, sellerInfo, siteConfig } from "../data/site";
+import { sellerInfo, siteConfig } from "../data/site";
 import { organizationSchema } from "../utils/seo";
 
 const title = "문의 안내 | 붓다모아";
 const description =
-  "붓다모아 문의 안내와 스마트스토어, 블로그, SNS 채널 정보를 확인하세요.";
+  "붓다모아 문의 안내와 판매자 정보를 확인하세요.";
 ---
 
 <Layout
@@ -18,7 +18,7 @@ const description =
     <div class="panel detail-copy">
       <div>
         <p class="eyebrow">Contact</p>
-        <h1>문의와 채널 안내</h1>
+        <h1>문의 안내</h1>
       </div>
       <p class="body-copy">
         상품 옵션, 재고, 배송과 같은 실제 주문 관련 내용은 스마트스토어 상세 페이지에서 가장
@@ -69,20 +69,6 @@ const description =
         </dl>
       </div>
 
-      <div class="detail-card">
-        <p class="meta-chip">연결 채널</p>
-        <ul class="highlight-list">
-          {channels.map((channel) => (
-            <li>
-              <strong>{channel.label}</strong>
-              <br />
-              <a href={channel.href} data-track={`contact_${channel.label}`}>
-                {channel.handle}
-              </a>
-            </li>
-          ))}
-        </ul>
-      </div>
     </aside>
   </section>
 </Layout>

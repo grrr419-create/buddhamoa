@@ -1,0 +1,123 @@
+---
+const statLabels = [
+  { key: "today", label: "Today" },
+  { key: "total", label: "Total" },
+];
+---
+
+<aside class="site-view-counter" aria-label="사이트 조회수" data-view-counter>
+  {
+    statLabels.map((stat) => (
+      <div class="site-view-counter__item">
+        <span class="site-view-counter__label">{stat.label}</span>
+        <strong
+          class="site-view-counter__value"
+          aria-live="polite"
+          data-view-count={stat.key}
+        >
+          —
+        </strong>
+      </div>
+    ))
+  }
+</aside>
+
+<script>
+  const supabaseUrl = import.meta.env.PUBLIC_SUPABASE_URL || "";
+  const supabaseAnonKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY || "";
+  const siteKey = import.meta.env.PUBLIC_VIEW_COUNTER_SITE_KEY || "buddhamoa";
+
+  type ViewCountResponse = {
+    today_count?: unknown;
+    total_count?: unknown;
+  };
+
+  const counter = document.querySelector<HTMLElement>("[data-view-counter]");
+
+  const normalizeSupabaseUrl = (value: string) => value.replace(/\/+$/, "");
+
+  const formatCount = (value: unknown) => {
+    const count = Number(value);
+    if (!Number.isFinite(count) || count < 0) return "—";
+
+    return new Intl.NumberFormat("ko-KR").format(count);
+  };
+
+  const setCount = (name: string, value: unknown) => {
+    const target = document.querySelector(`[data-view-count="${name}"]`);
+    if (!target) return;
+
+    target.textContent = formatCount(value);
+  };
+
+  const getReferrerDomain = () => {
+    if (!document.referrer) return null;
+
+    try {
+      const hostname = new URL(document.referrer).hostname.toLowerCase();
+      return hostname.replace(/^www\./, "") || null;
+    } catch {
+      return null;
+    }
+  };
+
+  const getDeviceType = () => {
+    const width = window.innerWidth || window.screen?.width || 0;
+    if (width > 0 && width < 768) return "mobile";
+    if (width > 0 && width < 1024) return "tablet";
+
+    return "desktop";
+  };
+
+  const readUtm = (params: URLSearchParams, key: string) => {
+    const value = params.get(key);
+    return value ? value.slice(0, 180) : null;
+  };
+
+  const recordView = async () => {
+    if (!counter || !supabaseUrl || !supabaseAnonKey) return;
+    if (/\/stats\/?$/.test(window.location.pathname)) return;
+
+    const params = new URLSearchParams(window.location.search);
+    const screenWidth = Math.round(window.screen?.width || window.innerWidth || 0);
+    const endpoint = `${normalizeSupabaseUrl(supabaseUrl)}/rest/v1/rpc/record_site_view`;
+
+    const payload = {
+      site_key: siteKey,
+      pathname: window.location.pathname,
+      referrer_domain: getReferrerDomain(),
+      utm_source: readUtm(params, "utm_source"),
+      utm_medium: readUtm(params, "utm_medium"),
+      utm_campaign: readUtm(params, "utm_campaign"),
+      utm_term: readUtm(params, "utm_term"),
+      utm_content: readUtm(params, "utm_content"),
+      device_type: getDeviceType(),
+      language: navigator.language || null,
+      screen_width: screenWidth > 0 ? screenWidth : null,
+    };
+
+    try {
+      const response = await fetch(endpoint, {
+        method: "POST",
+        headers: {
+          apikey: supabaseAnonKey,
+          Authorization: `Bearer ${supabaseAnonKey}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ payload }),
+        keepalive: true,
+      });
+
+      if (!response.ok) return;
+
+      const counts = (await response.json()) as ViewCountResponse;
+      setCount("today", counts?.today_count);
+      setCount("total", counts?.total_count);
+      counter.setAttribute("data-view-counter-state", "ready");
+    } catch {
+      counter.setAttribute("data-view-counter-state", "unavailable");
+    }
+  };
+
+  recordView();
+</script>

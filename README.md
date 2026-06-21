@@ -1,7 +1,7 @@
 # 붓다모아 랜딩 마이크로사이트
 
 Astro로 만든 `붓다모아` 전용 정적 랜딩 사이트입니다.  
-메인 랜딩, 상품 상세 페이지, 보조 채널 링크, SEO 메타, JSON-LD 구조화 데이터, 사이트맵, robots.txt, 외부 링크 클릭 추적 준비가 포함되어 있습니다.
+메인 랜딩, 상품 상세 페이지, 상단 조회수 표시, SEO 메타, JSON-LD 구조화 데이터, 사이트맵, robots.txt, 외부 링크 클릭 추적 준비가 포함되어 있습니다.
 
 ## 실행 방법
 
@@ -28,10 +28,35 @@ PUBLIC_SITE_URL=https://your-domain.com npm run build
 - `sitemap-index.xml`
 - `robots.txt`의 사이트맵 주소
 
+## 조회수 집계 설정
+
+상단 `Today`/`Total` 조회수는 Supabase RPC를 통해 기록됩니다. Supabase SQL 편집기나 CLI로
+`supabase/migrations/*.sql`을 적용한 뒤, 배포 환경에 아래 값을 설정해 주세요.
+
+```sh
+PUBLIC_SUPABASE_URL=https://your-project.supabase.co
+PUBLIC_SUPABASE_ANON_KEY=your-anon-key
+PUBLIC_VIEW_COUNTER_SITE_KEY=buddhamoa
+```
+
+Supabase 환경변수가 없으면 조회수 영역은 대시(`—`) 상태로 표시되고 방문 기록을 전송하지 않습니다.
+
+비공개 통계 페이지는 `/stats/`에 있으며 Supabase Auth 이메일 로그인으로 보호됩니다. Supabase
+SQL Editor에서 관리자 이메일을 소문자로 허용 목록에 추가해 주세요.
+
+```sql
+insert into public.stats_admins (email)
+values ('admin@example.com')
+on conflict (email) do nothing;
+```
+
+Supabase Auth 설정의 Site URL과 Redirect URLs에는 실제 배포 주소의 `/stats/` 경로를 허용해야
+이메일 로그인 링크가 통계 페이지로 돌아옵니다.
+
 ## 실제 운영 전 교체 권장 항목
 
 - `src/data/site.ts`
-  - 스마트스토어, 블로그, 유튜브, 인스타그램, 틱톡 실제 링크
+  - 스마트스토어 링크
   - 연락처 정보
 - `src/data/products.ts`
   - 스마트스토어 실제 상품 URL

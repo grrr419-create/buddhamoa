@@ -6,7 +6,6 @@ import ProductShortsSection from "../components/ProductShortsSection.astro";
 import LandingTempleShortsSection from "../components/LandingTempleShortsSection.astro";
 import {
   categories,
-  channels,
   productShorts,
   siteConfig,
   templeShorts,
@@ -35,6 +34,6 @@ const description =
 
   <LandingCategorySection categories={categories} storeUrl={siteConfig.storeUrl} />
   <ProductShortsSection shorts={productShorts} />
-  <LandingTempleShortsSection channels={channels} shorts={templeShorts} />
+  <LandingTempleShortsSection shorts={templeShorts} />
 
 </Layout>

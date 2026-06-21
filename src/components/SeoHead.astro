@@ -7,6 +7,7 @@ type Props = {
   description: string;
   pathname: string;
   image?: string;
+  robots?: string;
   structuredData?: Record<string, unknown>[];
 };
 
@@ -15,6 +16,7 @@ const {
   description,
   pathname,
   image = "/images/brand/new-og-image.png",
+  robots = "index,follow,max-image-preview:large",
   structuredData = [],
 } = Astro.props;
 
@@ -28,7 +30,7 @@ const faviconPath = withBase("/images/brand/파비콘.png");
 <meta name="generator" content={Astro.generator} />
 <meta name="description" content={description} />
 <meta name="keywords" content="불교용품, 법당용품, 기도용품, 선물용 불교용품, 붓다모아" />
-<meta name="robots" content="index,follow,max-image-preview:large" />
+<meta name="robots" content={robots} />
 <link rel="icon" type="image/png" href={faviconPath} />
 <link rel="shortcut icon" type="image/png" href={faviconPath} />
 <link rel="apple-touch-icon" href={faviconPath} />

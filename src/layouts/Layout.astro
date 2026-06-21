@@ -9,10 +9,11 @@ type Props = {
   description: string;
   pathname: string;
   image?: string;
+  robots?: string;
   structuredData?: Record<string, unknown>[];
 };
 
-const { title, description, pathname, image, structuredData = [] } = Astro.props;
+const { title, description, pathname, image, robots, structuredData = [] } = Astro.props;
 ---
 
 <!doctype html>
@@ -23,6 +24,7 @@ const { title, description, pathname, image, structuredData = [] } = Astro.props
       description={description}
       pathname={pathname}
       image={image}
+      robots={robots}
       structuredData={structuredData}
     />
   </head>
