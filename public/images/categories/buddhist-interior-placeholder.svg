@@ -4,6 +4,6 @@
   <rect x="230" y="248" width="340" height="214" rx="26" fill="#D8BC8A"/>
   <rect x="258" y="278" width="284" height="154" rx="20" fill="#F9F0E2"/>
   <rect x="202" y="462" width="396" height="22" rx="11" fill="#9A753E"/>
-  <text x="400" y="598" text-anchor="middle" fill="#1E1A16" font-family="Georgia, serif" font-size="50">불교인테리어</text>
-  <text x="400" y="652" text-anchor="middle" fill="#65584A" font-family="Arial, sans-serif" font-size="24">대표 이미지 업로드 예정</text>
+  <text x="400" y="598" text-anchor="middle" fill="#1E1A16" font-family="Noto Serif KR, Noto Serif CJK KR, serif" font-size="50">불교인테리어</text>
+  <text x="400" y="652" text-anchor="middle" fill="#65584A" font-family="Noto Sans KR, Noto Sans CJK KR, sans-serif" font-size="24">대표 이미지 업로드 예정</text>
 </svg>

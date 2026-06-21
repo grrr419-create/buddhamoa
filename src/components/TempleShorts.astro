@@ -1,53 +1,31 @@
 ---
-import type { TempleShort } from "../types";
+import type { ChannelLink, TempleShort } from "../types";
+import { getShortVideoEmbed } from "../utils/shortVideoEmbeds";
+import SocialFollowCta from "./SocialFollowCta.astro";
 
 type Props = {
+  channels: ChannelLink[];
   shorts: TempleShort[];
 };
 
-const { shorts } = Astro.props;
+const { channels, shorts } = Astro.props;
 
 const playIcon =
   '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.6v12.8L18.2 12 8 5.6Z"/></svg>';
 
-function getYouTubeId(url?: string) {
-  if (!url) return "";
-
-  try {
-    const parsedUrl = new URL(url);
-    const host = parsedUrl.hostname.replace(/^www\./, "");
-    const parts = parsedUrl.pathname.split("/").filter(Boolean);
-
-    if (host === "youtu.be") {
-      return parts[0] ?? "";
-    }
-
-    if (host.endsWith("youtube.com")) {
-      if (parts[0] === "shorts" || parts[0] === "embed") {
-        return parts[1] ?? "";
-      }
-
-      return parsedUrl.searchParams.get("v") ?? "";
-    }
-  } catch {
-    const match = url.match(/(?:shorts\/|youtu\.be\/|v=)([A-Za-z0-9_-]+)/);
-    return match?.[1] ?? "";
-  }
-
-  return "";
-}
-
-function getEmbedUrl(url?: string) {
-  const id = getYouTubeId(url);
-
-  return id
-    ? `https://www.youtube.com/embed/${id}?rel=0&modestbranding=1&playsinline=1`
-    : "";
-}
+const socialChannelByIcon = new Map<ChannelLink["icon"], ChannelLink>(
+  channels.map((channel): [ChannelLink["icon"], ChannelLink] => [channel.icon, channel]),
+);
+const templeFollowIcons: Record<string, ChannelLink["icon"]> = {
+  "paju-bogwangsa": "youtube",
+  "suwon-bongnyeongsa": "tiktok",
+  "hwaseong-yongjusa": "instagram",
+};
 
 const preparedShorts = shorts.map((short) => ({
   ...short,
-  embedUrl: getEmbedUrl(short.youtubeUrl),
+  ...getShortVideoEmbed(short.videoUrl),
+  followChannel: socialChannelByIcon.get(templeFollowIcons[short.slug]),
 }));
 ---
 
@@ -58,9 +36,11 @@ const preparedShorts = shorts.map((short) => ({
         <div class="temple-short-card__media">
           {short.embedUrl ? (
             <iframe
+              class={`temple-short-card__iframe temple-short-card__iframe--${short.provider}`}
               src={short.embedUrl}
-              title={`${short.title} 유튜브 쇼츠`}
+              title={`${short.title} ${short.providerLabel}`}
               loading="lazy"
+              scrolling="no"
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
               referrerpolicy="strict-origin-when-cross-origin"
               allowfullscreen
@@ -84,6 +64,13 @@ const preparedShorts = shorts.map((short) => ({
           <div class="temple-short-card__tags" aria-label={`${short.templeName} 관련 해시태그`}>
             {short.tags.map((tag) => <span>{tag}</span>)}
           </div>
+          {
+            short.followChannel && (
+              <div class="temple-short-card__social">
+                <SocialFollowCta channels={[short.followChannel]} />
+              </div>
+            )
+          }
         </div>
       </article>
     ))

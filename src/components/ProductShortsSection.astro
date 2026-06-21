@@ -1,0 +1,56 @@
+---
+import type { ProductShort } from "../types";
+import SectionHeader from "./SectionHeader.astro";
+
+type Props = {
+  shorts: ProductShort[];
+};
+
+const { shorts } = Astro.props;
+---
+
+<section id="product-shorts">
+  <SectionHeader eyebrow="Buddhamoa at a Glance" title="짧게보는 붓다모아" />
+  <div class="temple-shorts-grid">
+    {
+      shorts.map((short) => (
+        <article class="temple-short-card" data-track={`product_short_${short.slug}`}>
+          <div class="temple-short-card__media">
+            <iframe
+              src={short.embedUrl}
+              title={`${short.title} 짧게보는 붓다모아 영상`}
+              loading="lazy"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              referrerpolicy="strict-origin-when-cross-origin"
+              allowfullscreen
+            />
+          </div>
+
+          <div class="temple-short-card__body">
+            <h3>{short.title}</h3>
+            <div class="temple-short-card__tags" aria-label={`${short.title} 관련 해시태그`}>
+              {short.tags.map((tag) => <span>{tag}</span>)}
+            </div>
+            <a
+              class="temple-short-card__buy"
+              href={short.storeUrl}
+              aria-label={`${short.title} 상품 보러가기`}
+              data-track={`product_short_buy_${short.slug}`}
+              target="_blank"
+              rel="noreferrer"
+            >
+              <span class="temple-short-card__buy-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24">
+                  <path d="M7.2 8.2V6.9a4.8 4.8 0 0 1 9.6 0v1.3" />
+                  <path d="M5.4 8.2h13.2l-.8 11.1a2 2 0 0 1-2 1.8H8.2a2 2 0 0 1-2-1.8L5.4 8.2Z" />
+                  <path d="M8.6 11.5c.8 1.2 1.9 1.9 3.4 1.9s2.6-.7 3.4-1.9" />
+                </svg>
+              </span>
+              <span>상품 보러가기</span>
+            </a>
+          </div>
+        </article>
+      ))
+    }
+  </div>
+</section>

@@ -5,6 +5,6 @@
   <path d="M400 224C468 224 524 280 524 348C524 416 468 472 400 472V224Z" fill="#C7A46D"/>
   <circle cx="400" cy="304" r="24" fill="#F4EADB"/>
   <circle cx="400" cy="392" r="24" fill="#9A753E"/>
-  <text x="400" y="598" text-anchor="middle" fill="#1E1A16" font-family="Georgia, serif" font-size="52">풍수용품</text>
-  <text x="400" y="652" text-anchor="middle" fill="#65584A" font-family="Arial, sans-serif" font-size="24">대표 이미지 업로드 예정</text>
+  <text x="400" y="598" text-anchor="middle" fill="#1E1A16" font-family="Noto Serif KR, Noto Serif CJK KR, serif" font-size="52">풍수용품</text>
+  <text x="400" y="652" text-anchor="middle" fill="#65584A" font-family="Noto Sans KR, Noto Sans CJK KR, sans-serif" font-size="24">대표 이미지 업로드 예정</text>
 </svg>

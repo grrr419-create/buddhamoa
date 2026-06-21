@@ -2,6 +2,7 @@ import type {
   CategoryLink,
   ChannelLink,
   FAQItem,
+  ProductShort,
   TempleShort,
   TopNotice,
 } from "../types";
@@ -150,6 +151,33 @@ export const categories: CategoryLink[] = [
   },
 ];
 
+export const productShorts: ProductShort[] = [
+  {
+    slug: "little-monk",
+    title: "동자승",
+    href: "https://youtu.be/gDVtfdCrxKI?si=BVZ61EAaWDTlQKni",
+    embedUrl: "https://www.youtube.com/embed/gDVtfdCrxKI?rel=0&modestbranding=1&playsinline=1",
+    tags: ["#동자승", "#아기스님", "#미니불상"],
+    storeUrl: "https://mkt.shopping.naver.com/link/685682a922dc33661fca0383",
+  },
+  {
+    slug: "buddhist-frog",
+    title: "불교개구리",
+    href: "https://youtu.be/WNiT1ImP5eM?si=gxkaVtpgmaVojGcy",
+    embedUrl: "https://www.youtube.com/embed/WNiT1ImP5eM?rel=0&modestbranding=1&playsinline=1",
+    tags: ["#불교굿즈", "#불교박람회굿즈", "#불상"],
+    storeUrl: "https://mkt.shopping.naver.com/link/69bdf8fcfc2fa7235761439e",
+  },
+  {
+    slug: "three-buddhas",
+    title: "삼존불",
+    href: "https://youtu.be/QwL_rB425cc?si=6NBfBEToXzZxLj7L",
+    embedUrl: "https://www.youtube.com/embed/QwL_rB425cc?rel=0&modestbranding=1&playsinline=1",
+    tags: ["#지장보살", "#석가모니", "#관세음보살"],
+    storeUrl: "https://mkt.shopping.naver.com/link/687392211cb140447c418a97",
+  },
+];
+
 export const templeShorts: TempleShort[] = [
   {
     slug: "paju-bogwangsa",
@@ -157,7 +185,7 @@ export const templeShorts: TempleShort[] = [
     location: "경기 파주",
     templeName: "보광사",
     tags: ["#파주보광사", "#파주절보광사", "#경기도사찰", "#파주사찰"],
-    youtubeUrl: "https://youtu.be/Sq7DIo2N8aU?si=9QOBBlKu4wRsAXyx",
+    videoUrl: "https://youtu.be/Sq7DIo2N8aU?si=9QOBBlKu4wRsAXyx",
   },
   {
     slug: "suwon-bongnyeongsa",
@@ -165,7 +193,7 @@ export const templeShorts: TempleShort[] = [
     location: "경기 수원",
     templeName: "봉녕사",
     tags: ["#수원봉녕사", "#봉녕사절", "#봉녕사수원", "#수원사찰"],
-    youtubeUrl: "https://youtu.be/ExGxzuj4jW0?si=VFQoMeBLBVhJC4sy",
+    videoUrl: "https://www.tiktok.com/@buddhamoa/video/7632312467825249557?is_from_webapp=1&sender_device=pc",
   },
   {
     slug: "hwaseong-yongjusa",
@@ -173,7 +201,7 @@ export const templeShorts: TempleShort[] = [
     location: "경기 화성",
     templeName: "용주사",
     tags: ["#화성용주사", "#경기도절", "#화성절", "#화성사찰"],
-    youtubeUrl: "https://youtu.be/ATc5-f5VvwM?si=ADi0cDkGjmHEOV3U",
+    videoUrl: "https://www.instagram.com/reel/DHBFIo0zHet/?utm_source=ig_web_copy_link&igsh=MzRlODBiNWFlZA==",
   },
 ];
 

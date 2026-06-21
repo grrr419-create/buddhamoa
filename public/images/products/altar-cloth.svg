@@ -3,5 +3,5 @@
   <path d="M190 220H610V430L560 388L510 430L460 388L410 430L360 388L310 430L260 388L210 430L190 220Z" fill="#8E2231"/>
   <path d="M210 252H590" stroke="#D8B56F" stroke-width="12"/>
   <path d="M230 292H570" stroke="#D8B56F" stroke-width="8"/>
-  <text x="400" y="560" text-anchor="middle" fill="#5B4B34" font-family="Georgia, serif" font-size="42">금선 포인트 불단 보</text>
+  <text x="400" y="560" text-anchor="middle" fill="#5B4B34" font-family="Noto Serif KR, Noto Serif CJK KR, serif" font-size="42">금선 포인트 불단 보</text>
 </svg>

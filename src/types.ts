@@ -35,7 +35,16 @@ export type TempleShort = {
   location: string;
   templeName: string;
   tags: string[];
-  youtubeUrl?: string;
+  videoUrl?: string;
+};
+
+export type ProductShort = {
+  slug: string;
+  title: string;
+  href: string;
+  embedUrl: string;
+  tags: string[];
+  storeUrl: string;
 };
 
 export type Product = {

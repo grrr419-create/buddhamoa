@@ -3,8 +3,8 @@
   <circle cx="1038" cy="122" r="180" fill="#D9BE8D" fill-opacity="0.28"/>
   <circle cx="170" cy="550" r="220" fill="#9A793D" fill-opacity="0.12"/>
   <rect x="72" y="72" width="1056" height="486" rx="36" fill="#FFF9F0" stroke="#D3C1A3"/>
-  <text x="122" y="200" fill="#97743C" font-family="Georgia, serif" font-size="34" letter-spacing="8">BUDDHAMOA</text>
-  <text x="122" y="298" fill="#1E1A16" font-family="Georgia, serif" font-size="72" font-weight="700">정갈한 불교용품 편집샵</text>
-  <text x="122" y="376" fill="#1E1A16" font-family="Georgia, serif" font-size="72" font-weight="700">붓다모아 랜딩</text>
-  <text x="122" y="454" fill="#65584A" font-family="Arial, sans-serif" font-size="28">불교용품 · 법당용품 · 기도용품 · 스마트스토어 연결</text>
+  <text x="122" y="200" fill="#97743C" font-family="Noto Serif KR, Noto Serif CJK KR, serif" font-size="34" letter-spacing="8">BUDDHAMOA</text>
+  <text x="122" y="298" fill="#1E1A16" font-family="Noto Serif KR, Noto Serif CJK KR, serif" font-size="72" font-weight="700">정갈한 불교용품 편집샵</text>
+  <text x="122" y="376" fill="#1E1A16" font-family="Noto Serif KR, Noto Serif CJK KR, serif" font-size="72" font-weight="700">붓다모아 랜딩</text>
+  <text x="122" y="454" fill="#65584A" font-family="Noto Sans KR, Noto Sans CJK KR, sans-serif" font-size="28">불교용품 · 법당용품 · 기도용품 · 스마트스토어 연결</text>
 </svg>

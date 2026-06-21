@@ -3,6 +3,6 @@
   <rect x="64" y="64" width="672" height="672" rx="28" fill="#FFF8EE" stroke="#D7C3A1" stroke-width="4"/>
   <circle cx="400" cy="340" r="118" stroke="#9A753E" stroke-width="24" stroke-dasharray="12 20"/>
   <circle cx="400" cy="340" r="26" fill="#C3A26A"/>
-  <text x="400" y="598" text-anchor="middle" fill="#1E1A16" font-family="Georgia, serif" font-size="48">불교액세서리</text>
-  <text x="400" y="652" text-anchor="middle" fill="#65584A" font-family="Arial, sans-serif" font-size="24">대표 이미지 업로드 예정</text>
+  <text x="400" y="598" text-anchor="middle" fill="#1E1A16" font-family="Noto Serif KR, Noto Serif CJK KR, serif" font-size="48">불교액세서리</text>
+  <text x="400" y="652" text-anchor="middle" fill="#65584A" font-family="Noto Sans KR, Noto Sans CJK KR, sans-serif" font-size="24">대표 이미지 업로드 예정</text>
 </svg>

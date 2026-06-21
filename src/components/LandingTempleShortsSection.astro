@@ -1,7 +1,6 @@
 ---
 import type { ChannelLink, TempleShort } from "../types";
 import SectionHeader from "./SectionHeader.astro";
-import SocialFollowCta from "./SocialFollowCta.astro";
 import TempleShorts from "./TempleShorts.astro";
 
 type Props = {
@@ -21,8 +20,6 @@ const socialChannels = channels.filter((channel) =>
 ---
 
 <section id="temple-shorts">
-  <SectionHeader eyebrow="Short Temple Walks" title="잠깐, 사찰 한 바퀴">
-    <SocialFollowCta channels={socialChannels} />
-  </SectionHeader>
-  <TempleShorts shorts={shorts} />
+  <SectionHeader eyebrow="Short Temple Walks" title="잠깐, 사찰 한 바퀴" />
+  <TempleShorts channels={socialChannels} shorts={shorts} />
 </section>

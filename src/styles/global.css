@@ -16,8 +16,8 @@
   --radius: 8px;
   --radius-sm: 8px;
   --content: 1080px;
-  --font-display: "Iowan Old Style", "Palatino Linotype", "Book Antiqua", serif;
-  --font-body: "Pretendard", "Apple SD Gothic Neo", "Noto Sans KR", sans-serif;
+  --font-display: "Noto Serif KR", "Noto Serif CJK KR", ui-serif, serif;
+  --font-body: "Pretendard", "Noto Sans KR", "Noto Sans CJK KR", ui-sans-serif, system-ui, sans-serif;
 }
 
 * {
@@ -686,6 +686,7 @@ section {
 }
 
 .section-store-button::after,
+.temple-short-card__buy::after,
 .social-follow-button::after {
   position: absolute;
   inset: -40% auto -40% -55%;
@@ -705,6 +706,7 @@ section {
 }
 
 .section-store-button > span,
+.temple-short-card__buy > span,
 .social-follow-button > span {
   position: relative;
   z-index: 1;
@@ -910,7 +912,22 @@ section {
   display: block;
   width: 100%;
   height: 100%;
+  overflow: hidden;
   border: 0;
+}
+
+.temple-short-card__iframe--tiktok,
+.temple-short-card__iframe--instagram {
+  width: calc(100% + 18px);
+  height: 118%;
+  transform: translateY(-6%);
+  transform-origin: center center;
+}
+
+.temple-short-card__iframe--instagram {
+  width: calc(100% + 22px);
+  height: 124%;
+  transform: translateY(-8%);
 }
 
 .temple-short-card__placeholder {
@@ -970,9 +987,9 @@ section {
 
 .temple-short-card__body {
   display: grid;
-  grid-template-rows: 2rem auto;
+  grid-template-rows: 2rem auto auto;
   align-content: start;
-  gap: 7px;
+  gap: 8px;
   text-align: center;
 }
 
@@ -1008,6 +1025,78 @@ section {
   line-height: 1.28;
   border-radius: 999px;
   background: rgba(10, 74, 48, 0.06);
+}
+
+.temple-short-card__buy,
+.temple-short-card__social .social-follow-button {
+  width: min(100%, 9.5rem);
+  min-height: 40px;
+  padding: 0.58rem 0.9rem;
+  font-weight: 900;
+}
+
+.temple-short-card__buy {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  justify-self: center;
+  gap: 0.36rem;
+  color: #fff8ec;
+  font-size: 0.86rem;
+  line-height: 1.2;
+  text-align: center;
+  border: 1px solid rgba(229, 191, 115, 0.72);
+  border-radius: 999px;
+  background:
+    linear-gradient(135deg, rgba(229, 191, 115, 0.36), transparent 45%),
+    linear-gradient(135deg, var(--green-deep), var(--green-soft));
+  box-shadow: 0 12px 24px rgba(8, 53, 35, 0.18);
+  overflow: hidden;
+  isolation: isolate;
+  transition:
+    border-color 180ms ease,
+    transform 180ms ease,
+    box-shadow 180ms ease;
+}
+
+.temple-short-card__buy:hover,
+.temple-short-card__buy:focus-visible {
+  border-color: rgba(255, 248, 236, 0.86);
+  box-shadow: 0 16px 30px rgba(8, 53, 35, 0.24);
+  transform: translateY(-2px);
+}
+
+.temple-short-card__buy-icon,
+.temple-short-card__buy-icon svg {
+  display: block;
+}
+
+.temple-short-card__buy-icon svg {
+  width: 1rem;
+  height: 1rem;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.temple-short-card__social {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+.temple-short-card__social .social-follow-cta {
+  justify-content: center;
+  width: 100%;
+  margin-left: 0;
+}
+
+.temple-short-card__social .social-follow-button {
+  flex: 0 0 auto;
+  border-color: rgba(229, 191, 115, 0.72);
 }
 
 .social-follow-cta {
@@ -1504,6 +1593,7 @@ section {
   }
 
   .section-store-button::after,
+  .temple-short-card__buy::after,
   .social-follow-button::after {
     animation: none;
   }

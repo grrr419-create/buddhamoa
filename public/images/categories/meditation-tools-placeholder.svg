@@ -5,6 +5,6 @@
   <path d="M280 344C280 286 327 240 385 240H415C473 240 520 286 520 344V376H280V344Z" fill="#C3A26A"/>
   <path d="M382 202C398 182 401 162 392 136" stroke="#9A753E" stroke-width="10" stroke-linecap="round"/>
   <path d="M420 202C438 180 441 156 430 128" stroke="#9A753E" stroke-width="10" stroke-linecap="round"/>
-  <text x="400" y="598" text-anchor="middle" fill="#1E1A16" font-family="Georgia, serif" font-size="52">명상도구</text>
-  <text x="400" y="652" text-anchor="middle" fill="#65584A" font-family="Arial, sans-serif" font-size="24">대표 이미지 업로드 예정</text>
+  <text x="400" y="598" text-anchor="middle" fill="#1E1A16" font-family="Noto Serif KR, Noto Serif CJK KR, serif" font-size="52">명상도구</text>
+  <text x="400" y="652" text-anchor="middle" fill="#65584A" font-family="Noto Sans KR, Noto Sans CJK KR, sans-serif" font-size="24">대표 이미지 업로드 예정</text>
 </svg>

@@ -3,5 +3,5 @@
   <rect x="255" y="230" width="290" height="24" rx="12" fill="#8C6435" transform="rotate(18 255 230)"/>
   <rect x="270" y="280" width="290" height="24" rx="12" fill="#9E7643" transform="rotate(12 270 280)"/>
   <rect x="285" y="330" width="290" height="24" rx="12" fill="#B58B58" transform="rotate(6 285 330)"/>
-  <text x="400" y="560" text-anchor="middle" fill="#5B4B34" font-family="Georgia, serif" font-size="42">백단향 스틱 향 세트</text>
+  <text x="400" y="560" text-anchor="middle" fill="#5B4B34" font-family="Noto Serif KR, Noto Serif CJK KR, serif" font-size="42">백단향 스틱 향 세트</text>
 </svg>

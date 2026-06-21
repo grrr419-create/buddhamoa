@@ -6,6 +6,6 @@
   <path d="M276 440H524" stroke="#9A6A3A" stroke-width="22" stroke-linecap="round"/>
   <path d="M312 502H488" stroke="#C8A879" stroke-width="18" stroke-linecap="round"/>
   <path d="M348 560H452" stroke="#D8C7AC" stroke-width="16" stroke-linecap="round"/>
-  <text x="400" y="648" text-anchor="middle" fill="#2B251F" font-family="Arial, sans-serif" font-size="48" font-weight="700">공지사항</text>
-  <text x="400" y="704" text-anchor="middle" fill="#6F6358" font-family="Arial, sans-serif" font-size="28">새 이미지를 업로드해 주세요</text>
+  <text x="400" y="648" text-anchor="middle" fill="#2B251F" font-family="Noto Sans KR, Noto Sans CJK KR, sans-serif" font-size="48" font-weight="700">공지사항</text>
+  <text x="400" y="704" text-anchor="middle" fill="#6F6358" font-family="Noto Sans KR, Noto Sans CJK KR, sans-serif" font-size="28">새 이미지를 업로드해 주세요</text>
 </svg>

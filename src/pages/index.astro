@@ -2,10 +2,12 @@
 import Layout from "../layouts/Layout.astro";
 import TopNotice from "../components/TopNotice.astro";
 import LandingCategorySection from "../components/LandingCategorySection.astro";
+import ProductShortsSection from "../components/ProductShortsSection.astro";
 import LandingTempleShortsSection from "../components/LandingTempleShortsSection.astro";
 import {
   categories,
   channels,
+  productShorts,
   siteConfig,
   templeShorts,
   topNotices,
@@ -32,6 +34,7 @@ const description =
   <TopNotice notices={topNotices} />
 
   <LandingCategorySection categories={categories} storeUrl={siteConfig.storeUrl} />
+  <ProductShortsSection shorts={productShorts} />
   <LandingTempleShortsSection channels={channels} shorts={templeShorts} />
 
 </Layout>

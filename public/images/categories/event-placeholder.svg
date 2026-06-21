@@ -5,6 +5,6 @@
   <circle cx="510" cy="270" r="52" fill="#97743C" fill-opacity="0.25"/>
   <rect x="196" y="404" width="408" height="18" rx="9" fill="#D7C3A1"/>
   <rect x="234" y="452" width="332" height="18" rx="9" fill="#E3D4BC"/>
-  <text x="400" y="598" text-anchor="middle" fill="#1E1A16" font-family="Georgia, serif" font-size="56">이벤트</text>
-  <text x="400" y="652" text-anchor="middle" fill="#65584A" font-family="Arial, sans-serif" font-size="24">대표 이미지 업로드 예정</text>
+  <text x="400" y="598" text-anchor="middle" fill="#1E1A16" font-family="Noto Serif KR, Noto Serif CJK KR, serif" font-size="56">이벤트</text>
+  <text x="400" y="652" text-anchor="middle" fill="#65584A" font-family="Noto Sans KR, Noto Sans CJK KR, sans-serif" font-size="24">대표 이미지 업로드 예정</text>
 </svg>
