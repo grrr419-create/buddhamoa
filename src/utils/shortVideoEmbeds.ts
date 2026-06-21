@@ -6,6 +6,8 @@ export type ShortVideoEmbed = {
   providerLabel: string;
 };
 
+const YOUTUBE_PROFILE_REFRESH = "20260621";
+
 function getYouTubeId(url?: string) {
   if (!url) return "";
 
@@ -81,7 +83,7 @@ export function getShortVideoEmbed(url?: string): ShortVideoEmbed {
 
   if (youtubeId) {
     return {
-      embedUrl: `https://www.youtube.com/embed/${youtubeId}?rel=0&modestbranding=1&playsinline=1`,
+      embedUrl: `https://www.youtube.com/embed/${youtubeId}?rel=0&modestbranding=1&playsinline=1&profile_refresh=${YOUTUBE_PROFILE_REFRESH}`,
       provider: "youtube",
       providerLabel: "유튜브 쇼츠",
     };

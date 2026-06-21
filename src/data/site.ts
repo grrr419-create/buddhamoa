@@ -156,7 +156,8 @@ export const productShorts: ProductShort[] = [
     slug: "little-monk",
     title: "동자승",
     href: "https://youtu.be/gDVtfdCrxKI?si=BVZ61EAaWDTlQKni",
-    embedUrl: "https://www.youtube.com/embed/gDVtfdCrxKI?rel=0&modestbranding=1&playsinline=1",
+    embedUrl:
+      "https://www.youtube.com/embed/gDVtfdCrxKI?rel=0&modestbranding=1&playsinline=1&profile_refresh=20260621",
     tags: ["#동자승", "#아기스님", "#미니불상"],
     storeUrl: "https://mkt.shopping.naver.com/link/685682a922dc33661fca0383",
   },
@@ -164,7 +165,8 @@ export const productShorts: ProductShort[] = [
     slug: "buddhist-frog",
     title: "불교개구리",
     href: "https://youtu.be/WNiT1ImP5eM?si=gxkaVtpgmaVojGcy",
-    embedUrl: "https://www.youtube.com/embed/WNiT1ImP5eM?rel=0&modestbranding=1&playsinline=1",
+    embedUrl:
+      "https://www.youtube.com/embed/WNiT1ImP5eM?rel=0&modestbranding=1&playsinline=1&profile_refresh=20260621",
     tags: ["#불교굿즈", "#불교박람회굿즈", "#불상"],
     storeUrl: "https://mkt.shopping.naver.com/link/69bdf8fcfc2fa7235761439e",
   },
@@ -172,7 +174,8 @@ export const productShorts: ProductShort[] = [
     slug: "three-buddhas",
     title: "삼존불",
     href: "https://youtu.be/QwL_rB425cc?si=6NBfBEToXzZxLj7L",
-    embedUrl: "https://www.youtube.com/embed/QwL_rB425cc?rel=0&modestbranding=1&playsinline=1",
+    embedUrl:
+      "https://www.youtube.com/embed/QwL_rB425cc?rel=0&modestbranding=1&playsinline=1&profile_refresh=20260621",
     tags: ["#지장보살", "#석가모니", "#관세음보살"],
     storeUrl: "https://mkt.shopping.naver.com/link/687392211cb140447c418a97",
   },
@@ -222,7 +225,7 @@ export const channels: ChannelLink[] = [
   },
   {
     label: "유튜브",
-    href: "https://youtube.com/@buddha-moa?si=OhePAHTcPUNL7lcg",
+    href: "https://www.youtube.com/@buddha-moa?sub_confirmation=1",
     handle: "@buddha-moa",
     description: "상품 소개와 분위기 있는 짧은 영상을 연결할 수 있습니다.",
     icon: "youtube",
