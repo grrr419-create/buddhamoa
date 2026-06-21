@@ -1,0 +1,19 @@
+---
+import type { ChannelLink } from "../types";
+
+type Props = {
+  channels: ChannelLink[];
+};
+
+const { channels } = Astro.props;
+---
+
+<div class="channel-grid">
+  {channels.map((channel) => (
+    <a class="channel-card" href={channel.href} data-track={`channel_${channel.label}`}>
+      <span class="channel-card__label">{channel.label}</span>
+      <strong>{channel.handle}</strong>
+      <p>{channel.description}</p>
+    </a>
+  ))}
+</div>

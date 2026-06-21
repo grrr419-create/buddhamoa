@@ -1,0 +1,165 @@
+---
+import type { TopNotice } from "../types";
+
+type Props = {
+  notices: TopNotice[];
+};
+
+const { notices } = Astro.props;
+---
+
+{notices.length > 0 && (
+<section class="notice-section">
+  <div class="panel notice-carousel" data-notice-carousel data-notice-count={notices.length}>
+    <div class="notice-carousel__viewport">
+      <div class="notice-carousel__track" data-notice-track>
+        {notices.map((notice, index) => (
+          <article
+            class="notice-banner"
+            data-notice-slide
+            data-notice-slug={notice.slug}
+            aria-hidden={index === 0 ? "false" : "true"}
+          >
+            <div class="notice-banner__media">
+              {
+                notice.href ? (
+                  <a
+                    class="notice-banner__link"
+                    href={notice.href}
+                    aria-label={`${notice.imageAlt} - 붓다모아 바로가기`}
+                    data-track={`top_notice_${notice.slug}`}
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    <img
+                      class="notice-banner__image"
+                      src={notice.image}
+                      alt={notice.imageAlt}
+                      width="1254"
+                      height="1254"
+                      loading={index === 0 ? "eager" : "lazy"}
+                    />
+                  </a>
+                ) : (
+                  <img
+                    class="notice-banner__image"
+                    src={notice.image}
+                    alt={notice.imageAlt}
+                    width="1254"
+                    height="1254"
+                    loading={index === 0 ? "eager" : "lazy"}
+                  />
+                )
+              }
+            </div>
+          </article>
+        ))}
+      </div>
+    </div>
+
+    <div class="notice-carousel__controls" aria-label="공지사항 선택">
+      <button class="notice-carousel__arrow" type="button" aria-label="이전 공지 보기" data-notice-prev>
+        <span aria-hidden="true">‹</span>
+      </button>
+
+      <div class="notice-carousel__selectors" role="tablist" aria-label="공지사항 목록">
+        {notices.map((notice, index) => (
+          <button
+            class={`notice-carousel__selector${index === 0 ? " is-active" : ""}`}
+            type="button"
+            role="tab"
+            aria-selected={index === 0 ? "true" : "false"}
+            aria-label={`${index + 1}번째 공지 이미지 보기`}
+            data-notice-target={index}
+          >
+            <span>{index + 1}</span>
+          </button>
+        ))}
+      </div>
+
+      <button class="notice-carousel__arrow" type="button" aria-label="다음 공지 보기" data-notice-next>
+        <span aria-hidden="true">›</span>
+      </button>
+    </div>
+  </div>
+</section>
+)}
+
+<script is:inline>
+  (() => {
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const carousels = document.querySelectorAll("[data-notice-carousel]");
+
+    carousels.forEach((carousel) => {
+      const track = carousel.querySelector("[data-notice-track]");
+      const slides = Array.from(carousel.querySelectorAll("[data-notice-slide]"));
+      const selectors = Array.from(carousel.querySelectorAll("[data-notice-target]"));
+      const prevButton = carousel.querySelector("[data-notice-prev]");
+      const nextButton = carousel.querySelector("[data-notice-next]");
+
+      if (!(track instanceof HTMLElement) || slides.length === 0) return;
+
+      let currentIndex = 0;
+      let intervalId = 0;
+
+      const sync = (nextIndex) => {
+        currentIndex = (nextIndex + slides.length) % slides.length;
+        track.style.transform = `translateX(-${currentIndex * 100}%)`;
+
+        slides.forEach((slide, index) => {
+          slide.setAttribute("aria-hidden", index === currentIndex ? "false" : "true");
+        });
+
+        selectors.forEach((selector, index) => {
+          if (!(selector instanceof HTMLButtonElement)) return;
+          const isActive = index === currentIndex;
+          selector.classList.toggle("is-active", isActive);
+          selector.setAttribute("aria-selected", isActive ? "true" : "false");
+        });
+      };
+
+      const stop = () => {
+        if (intervalId) {
+          window.clearInterval(intervalId);
+          intervalId = 0;
+        }
+      };
+
+      const start = () => {
+        if (reduceMotion || slides.length < 2) return;
+        stop();
+        intervalId = window.setInterval(() => sync(currentIndex + 1), 3000);
+      };
+
+      selectors.forEach((selector, index) => {
+        if (!(selector instanceof HTMLButtonElement)) return;
+        selector.addEventListener("click", () => {
+          sync(index);
+          start();
+        });
+      });
+
+      if (prevButton instanceof HTMLButtonElement) {
+        prevButton.addEventListener("click", () => {
+          sync(currentIndex - 1);
+          start();
+        });
+      }
+
+      if (nextButton instanceof HTMLButtonElement) {
+        nextButton.addEventListener("click", () => {
+          sync(currentIndex + 1);
+          start();
+        });
+      }
+
+      carousel.addEventListener("mouseenter", stop);
+      carousel.addEventListener("mouseleave", start);
+      carousel.addEventListener("focusin", stop);
+      carousel.addEventListener("focusout", start);
+
+      sync(0);
+      start();
+    });
+  })();
+</script>

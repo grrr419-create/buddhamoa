@@ -1,0 +1,12 @@
+<svg width="800" height="640" viewBox="0 0 800 640" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="800" height="640" rx="28" fill="#F3E9D8"/>
+  <g fill="#BE9860">
+    <path d="M230 390C230 348 264 314 306 314H334C376 314 410 348 410 390H230Z"/>
+    <path d="M390 390C390 348 424 314 466 314H494C536 314 570 348 570 390H390Z"/>
+  </g>
+  <g fill="#8B6635">
+    <rect x="260" y="390" width="120" height="18" rx="9"/>
+    <rect x="420" y="390" width="120" height="18" rx="9"/>
+  </g>
+  <text x="400" y="560" text-anchor="middle" fill="#5B4B34" font-family="Georgia, serif" font-size="42">연꽃 문양 공양기 세트</text>
+</svg>

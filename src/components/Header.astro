@@ -1,0 +1,27 @@
+---
+import HeaderChannelNav from "./HeaderChannelNav.astro";
+import { channels, siteConfig } from "../data/site";
+---
+
+<header class="site-header">
+  <a class="brand-mark" href="/" aria-label={`${siteConfig.brandName} 홈으로 이동`}>
+    <span class="brand-mark__icon-frame" aria-hidden="true">
+      <img
+        class="brand-mark__icon"
+        src={siteConfig.brandAssetPath}
+        alt=""
+        width="58"
+        height="58"
+        loading="eager"
+        onerror="this.style.display='none'; this.nextElementSibling.style.display='grid';"
+      />
+      <span class="brand-mark__sigil">연</span>
+    </span>
+    <span class="brand-mark__copy">
+      <strong>{siteConfig.brandName}</strong>
+      <span>{siteConfig.shortDescription}</span>
+    </span>
+  </a>
+
+  <HeaderChannelNav channels={channels} />
+</header>

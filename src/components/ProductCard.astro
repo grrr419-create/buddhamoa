@@ -1,0 +1,22 @@
+---
+import type { Product } from "../types";
+
+type Props = {
+  product: Product;
+};
+
+const { product } = Astro.props;
+---
+
+<article class="product-card">
+  <a class="product-card__image" href={`/products/${product.slug}/`}>
+    <img src={product.image} alt={product.imageAlt} loading="lazy" />
+  </a>
+  <p class="product-card__category">{product.category}</p>
+  <h3>
+    <a href={`/products/${product.slug}/`}>{product.name}</a>
+  </h3>
+  <a class="product-card__link" href={product.storeUrl} data-track={`product_card_${product.slug}`}>
+    스마트스토어 보기
+  </a>
+</article>

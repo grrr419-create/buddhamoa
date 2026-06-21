@@ -1,0 +1,51 @@
+---
+import type { CategoryLink } from "../types";
+
+type Props = {
+  categories: CategoryLink[];
+};
+
+const { categories } = Astro.props;
+---
+
+<div class="category-link-grid">
+  {categories.map((category) =>
+    category.href ? (
+      <a
+        class="category-link-card"
+        href={category.href}
+        data-track={`category_${category.slug}`}
+      >
+        <div class="category-link-card__image-wrap">
+          <img
+            class="category-link-card__image"
+            src={category.image}
+            alt={category.imageAlt}
+            width="720"
+            height="720"
+            loading="lazy"
+          />
+        </div>
+        <div class="category-link-card__tags" aria-label={`${category.name} 관련 해시태그`}>
+          {category.tags.map((tag) => <span>{tag}</span>)}
+        </div>
+      </a>
+    ) : (
+      <article class="category-link-card">
+        <div class="category-link-card__image-wrap">
+          <img
+            class="category-link-card__image"
+            src={category.image}
+            alt={category.imageAlt}
+            width="720"
+            height="720"
+            loading="lazy"
+          />
+        </div>
+        <div class="category-link-card__tags" aria-label={`${category.name} 관련 해시태그`}>
+          {category.tags.map((tag) => <span>{tag}</span>)}
+        </div>
+      </article>
+    ),
+  )}
+</div>

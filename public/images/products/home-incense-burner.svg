@@ -1,0 +1,8 @@
+<svg width="800" height="640" viewBox="0 0 800 640" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="800" height="640" rx="28" fill="#EFE0C5"/>
+  <ellipse cx="400" cy="380" rx="140" ry="34" fill="#99713E"/>
+  <path d="M300 360C300 310 340 270 390 270H410C460 270 500 310 500 360V380H300V360Z" fill="#B99457"/>
+  <path d="M380 210C395 192 398 171 390 150" stroke="#856134" stroke-width="10" stroke-linecap="round"/>
+  <path d="M420 210C438 190 442 166 432 140" stroke="#856134" stroke-width="10" stroke-linecap="round"/>
+  <text x="400" y="560" text-anchor="middle" fill="#5B4B34" font-family="Georgia, serif" font-size="42">가정 예불용 미니 향로</text>
+</svg>

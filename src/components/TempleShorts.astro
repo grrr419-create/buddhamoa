@@ -1,0 +1,91 @@
+---
+import type { TempleShort } from "../types";
+
+type Props = {
+  shorts: TempleShort[];
+};
+
+const { shorts } = Astro.props;
+
+const playIcon =
+  '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.6v12.8L18.2 12 8 5.6Z"/></svg>';
+
+function getYouTubeId(url?: string) {
+  if (!url) return "";
+
+  try {
+    const parsedUrl = new URL(url);
+    const host = parsedUrl.hostname.replace(/^www\./, "");
+    const parts = parsedUrl.pathname.split("/").filter(Boolean);
+
+    if (host === "youtu.be") {
+      return parts[0] ?? "";
+    }
+
+    if (host.endsWith("youtube.com")) {
+      if (parts[0] === "shorts" || parts[0] === "embed") {
+        return parts[1] ?? "";
+      }
+
+      return parsedUrl.searchParams.get("v") ?? "";
+    }
+  } catch {
+    const match = url.match(/(?:shorts\/|youtu\.be\/|v=)([A-Za-z0-9_-]+)/);
+    return match?.[1] ?? "";
+  }
+
+  return "";
+}
+
+function getEmbedUrl(url?: string) {
+  const id = getYouTubeId(url);
+
+  return id
+    ? `https://www.youtube.com/embed/${id}?rel=0&modestbranding=1&playsinline=1`
+    : "";
+}
+
+const preparedShorts = shorts.map((short) => ({
+  ...short,
+  embedUrl: getEmbedUrl(short.youtubeUrl),
+}));
+---
+
+<div class="temple-shorts-grid">
+  {
+    preparedShorts.map((short, index) => (
+      <article class="temple-short-card">
+        <div class="temple-short-card__media">
+          {short.embedUrl ? (
+            <iframe
+              src={short.embedUrl}
+              title={`${short.title} 유튜브 쇼츠`}
+              loading="lazy"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              referrerpolicy="strict-origin-when-cross-origin"
+              allowfullscreen
+            />
+          ) : (
+            <div class="temple-short-card__placeholder">
+              <span class="temple-short-card__number">
+                {String(index + 1).padStart(2, "0")}
+              </span>
+              <span class="temple-short-card__temple">{short.templeName}</span>
+              <button class="temple-short-card__play" type="button" disabled>
+                <span class="temple-short-card__play-icon" set:html={playIcon} />
+                <span>재생</span>
+              </button>
+            </div>
+          )}
+        </div>
+
+        <div class="temple-short-card__body">
+          <h3>{short.templeName}</h3>
+          <div class="temple-short-card__tags" aria-label={`${short.templeName} 관련 해시태그`}>
+            {short.tags.map((tag) => <span>{tag}</span>)}
+          </div>
+        </div>
+      </article>
+    ))
+  }
+</div>

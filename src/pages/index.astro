@@ -1,11 +1,75 @@
 ---
-import Welcome from '../components/Welcome.astro';
-import Layout from '../layouts/Layout.astro';
+import Layout from "../layouts/Layout.astro";
+import TopNotice from "../components/TopNotice.astro";
+import CategoryGrid from "../components/CategoryGrid.astro";
+import TempleShorts from "../components/TempleShorts.astro";
+import SocialFollowCta from "../components/SocialFollowCta.astro";
+import {
+  categories,
+  channels,
+  siteConfig,
+  templeShorts,
+  topNotices,
+} from "../data/site";
+import {
+  organizationSchema,
+  websiteSchema,
+} from "../utils/seo";
 
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
+const title = "불교용품은 역시, 붓다모아";
+const description =
+  "불상, 염주, 목탁, 싱잉볼, 불자수첩, 불교굿즈까지 일상 속 신행과 명상에 필요한 불교용품을 정성껏 소개하는 붓다모아 랜딩 페이지입니다.";
+const socialChannels = channels.filter((channel) =>
+  ["youtube", "instagram", "tiktok"].includes(channel.icon),
+);
 ---
 
-<Layout>
-	<Welcome />
+<Layout
+  title={title}
+  description={description}
+  pathname="/"
+  structuredData={[
+    organizationSchema(),
+    websiteSchema(),
+  ]}
+>
+  <TopNotice notices={topNotices} />
+
+  <section id="category-links">
+    <div class="section-head">
+      <div>
+        <p class="eyebrow">Themes</p>
+        <h2>테마별 둘러보기</h2>
+      </div>
+      <a
+        class="section-store-button"
+        href={siteConfig.storeUrl}
+        data-track="category_store"
+        target="_blank"
+        rel="noreferrer"
+      >
+        <span class="section-store-button__icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24">
+            <path d="M7.2 8.2V6.9a4.8 4.8 0 0 1 9.6 0v1.3" />
+            <path d="M5.4 8.2h13.2l-.8 11.1a2 2 0 0 1-2 1.8H8.2a2 2 0 0 1-2-1.8L5.4 8.2Z" />
+            <path d="M8.6 11.5c.8 1.2 1.9 1.9 3.4 1.9s2.6-.7 3.4-1.9" />
+          </svg>
+        </span>
+        <span>붓다모아 바로가기</span>
+      </a>
+    </div>
+    <CategoryGrid categories={categories} />
+  </section>
+
+  <section id="temple-shorts">
+    <div class="section-head">
+      <div>
+        <p class="eyebrow">Short Temple Walks</p>
+        <h2>잠깐, 사찰 한 바퀴</h2>
+      </div>
+      <SocialFollowCta channels={socialChannels} />
+    </div>
+    <TempleShorts shorts={templeShorts} />
+  </section>
+
 </Layout>

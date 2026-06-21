@@ -1,0 +1,54 @@
+export type ChannelLink = {
+  label: string;
+  href: string;
+  handle: string;
+  description: string;
+  icon: "store" | "blog" | "youtube" | "instagram" | "tiktok";
+};
+
+export type FAQItem = {
+  question: string;
+  answer: string;
+};
+
+export type TopNotice = {
+  slug: string;
+  image: string;
+  imageAlt: string;
+  href?: string;
+};
+
+export type CategoryLink = {
+  slug: string;
+  name: string;
+  description: string;
+  image: string;
+  imageAlt: string;
+  tags: string[];
+  href?: string;
+  hrefLabel: string;
+};
+
+export type TempleShort = {
+  slug: string;
+  title: string;
+  location: string;
+  templeName: string;
+  tags: string[];
+  youtubeUrl?: string;
+};
+
+export type Product = {
+  slug: string;
+  name: string;
+  summary: string;
+  description: string[];
+  category: string;
+  image: string;
+  imageAlt: string;
+  storeUrl: string;
+  highlights: string[];
+  targetUse: string;
+  featured: boolean;
+  keywords: string[];
+};

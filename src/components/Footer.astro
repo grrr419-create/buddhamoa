@@ -1,0 +1,20 @@
+---
+import { sellerInfo } from "../data/site";
+---
+
+<footer class="site-footer">
+  <div class="footer-head">
+    <strong>판매자 정보</strong>
+    <a href="/privacy/">개인정보 안내</a>
+  </div>
+
+  <div class="footer-seller-info" aria-label="판매자 정보">
+    <p>
+      판매자 유형 {sellerInfo.sellerType} · 상호 {sellerInfo.businessName} · 대표자{" "}
+      {sellerInfo.representativeName} · 사업자번호 {sellerInfo.businessNumber} · 사업장 소재지
+      (우: {sellerInfo.postalCode}) {sellerInfo.address} · 사업자 구분{" "}
+      {sellerInfo.businessEntityType} · 업태 {sellerInfo.businessCategory} · 업종 {sellerInfo.businessSector} ·
+      통신판매업 신고번호 {sellerInfo.onlineSalesReportNumber}
+    </p>
+  </div>
+</footer>

@@ -1,0 +1,10 @@
+<svg width="800" height="800" viewBox="0 0 800 800" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="800" height="800" rx="36" fill="#F3E9DA"/>
+  <rect x="64" y="64" width="672" height="672" rx="28" fill="#FFF8EE" stroke="#D7C3A1" stroke-width="4"/>
+  <circle cx="400" cy="348" r="124" fill="#F4EADB" stroke="#9A753E" stroke-width="18"/>
+  <path d="M400 224C468 224 524 280 524 348C524 416 468 472 400 472V224Z" fill="#C7A46D"/>
+  <circle cx="400" cy="304" r="24" fill="#F4EADB"/>
+  <circle cx="400" cy="392" r="24" fill="#9A753E"/>
+  <text x="400" y="598" text-anchor="middle" fill="#1E1A16" font-family="Georgia, serif" font-size="52">풍수용품</text>
+  <text x="400" y="652" text-anchor="middle" fill="#65584A" font-family="Arial, sans-serif" font-size="24">대표 이미지 업로드 예정</text>
+</svg>

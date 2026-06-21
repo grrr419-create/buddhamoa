@@ -1,0 +1,88 @@
+---
+import Layout from "../layouts/Layout.astro";
+import { channels, sellerInfo, siteConfig } from "../data/site";
+import { organizationSchema } from "../utils/seo";
+
+const title = "문의 안내 | 붓다모아";
+const description =
+  "붓다모아 문의 안내와 스마트스토어, 블로그, SNS 채널 정보를 확인하세요.";
+---
+
+<Layout
+  title={title}
+  description={description}
+  pathname="/contact/"
+  structuredData={[organizationSchema()]}
+>
+  <section class="detail-grid">
+    <div class="panel detail-copy">
+      <div>
+        <p class="eyebrow">Contact</p>
+        <h1>문의와 채널 안내</h1>
+      </div>
+      <p class="body-copy">
+        상품 옵션, 재고, 배송과 같은 실제 주문 관련 내용은 스마트스토어 상세 페이지에서 가장
+        정확하게 확인할 수 있습니다. 불교용품의 의미, 선물용 추천, 브랜드 운영 관련 문의는 아래
+        정보를 기준으로 정리해 둘 수 있습니다.
+      </p>
+
+      <dl class="meta-list">
+        <dt>이메일</dt>
+        <dd>{siteConfig.contactEmail}</dd>
+        <dt>연락처</dt>
+        <dd>{siteConfig.contactPhone}</dd>
+        <dt>운영시간</dt>
+        <dd>{siteConfig.contactHours}</dd>
+      </dl>
+
+      <div class="stack-inline">
+        <a class="button" href={siteConfig.storeUrl} data-track="contact_smartstore">
+          스마트스토어 바로가기
+        </a>
+      </div>
+    </div>
+
+    <aside class="detail-sidebar">
+      <div class="detail-card">
+        <p class="meta-chip">판매자 정보</p>
+        <dl class="meta-list">
+          <dt>판매자 유형</dt>
+          <dd>{sellerInfo.sellerType}</dd>
+          <dt>상호</dt>
+          <dd>{sellerInfo.businessName}</dd>
+          <dt>대표자</dt>
+          <dd>{sellerInfo.representativeName}</dd>
+          <dt>사업자번호</dt>
+          <dd>{sellerInfo.businessNumber}</dd>
+          <dt>사업자 구분</dt>
+          <dd>{sellerInfo.businessEntityType}</dd>
+          <dt>업태</dt>
+          <dd>{sellerInfo.businessCategory}</dd>
+          <dt>업종</dt>
+          <dd>{sellerInfo.businessSector}</dd>
+          <dt>통신판매업 신고번호</dt>
+          <dd>{sellerInfo.onlineSalesReportNumber}</dd>
+          <dt>사업장 소재지</dt>
+          <dd>
+            (우: {sellerInfo.postalCode}) {sellerInfo.address}
+          </dd>
+        </dl>
+      </div>
+
+      <div class="detail-card">
+        <p class="meta-chip">연결 채널</p>
+        <ul class="highlight-list">
+          {channels.map((channel) => (
+            <li>
+              <strong>{channel.label}</strong>
+              <br />
+              <a href={channel.href} data-track={`contact_${channel.label}`}>
+                {channel.handle}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </aside>
+  </section>
+</Layout>

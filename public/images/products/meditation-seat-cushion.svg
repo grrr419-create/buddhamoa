@@ -1,0 +1,7 @@
+<svg width="800" height="640" viewBox="0 0 800 640" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="800" height="640" rx="28" fill="#EFE4D3"/>
+  <ellipse cx="400" cy="340" rx="190" ry="98" fill="#9C4F39"/>
+  <ellipse cx="400" cy="320" rx="190" ry="88" fill="#B15F46"/>
+  <ellipse cx="400" cy="320" rx="140" ry="58" stroke="#E6CBA7" stroke-width="12"/>
+  <text x="400" y="560" text-anchor="middle" fill="#5B4B34" font-family="Georgia, serif" font-size="42">전통 톤 수행 좌복</text>
+</svg>

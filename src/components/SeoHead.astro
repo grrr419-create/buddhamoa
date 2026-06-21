@@ -1,0 +1,53 @@
+---
+import { absoluteUrl } from "../utils/seo";
+
+type Props = {
+  title: string;
+  description: string;
+  pathname: string;
+  image?: string;
+  structuredData?: Record<string, unknown>[];
+};
+
+const {
+  title,
+  description,
+  pathname,
+  image = "/images/brand/반전버전.png",
+  structuredData = [],
+} = Astro.props;
+
+const canonical = absoluteUrl(pathname);
+const imageUrl = absoluteUrl(image);
+---
+
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="generator" content={Astro.generator} />
+<meta name="description" content={description} />
+<meta name="keywords" content="불교용품, 법당용품, 기도용품, 선물용 불교용품, 붓다모아" />
+<meta name="robots" content="index,follow,max-image-preview:large" />
+<link rel="icon" type="image/png" href="/images/brand/%ED%8C%8C%EB%B9%84%EC%BD%98.png" />
+<link rel="apple-touch-icon" href="/images/brand/%ED%8C%8C%EB%B9%84%EC%BD%98.png" />
+<link rel="alternate icon" type="image/svg+xml" href="/favicon.svg" />
+<link rel="canonical" href={canonical} />
+<title>{title}</title>
+
+<meta property="og:type" content="website" />
+<meta property="og:locale" content="ko_KR" />
+<meta property="og:title" content={title} />
+<meta property="og:description" content={description} />
+<meta property="og:url" content={canonical} />
+<meta property="og:image" content={imageUrl} />
+<meta property="og:site_name" content="붓다모아" />
+
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content={title} />
+<meta name="twitter:description" content={description} />
+<meta name="twitter:image" content={imageUrl} />
+
+{
+  structuredData.map((item) => (
+    <script type="application/ld+json" set:html={JSON.stringify(item)} />
+  ))
+}

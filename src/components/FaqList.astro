@@ -1,0 +1,18 @@
+---
+import type { FAQItem } from "../types";
+
+type Props = {
+  items: FAQItem[];
+};
+
+const { items } = Astro.props;
+---
+
+<div class="faq-list">
+  {items.map((item) => (
+    <details class="faq-item">
+      <summary>{item.question}</summary>
+      <p>{item.answer}</p>
+    </details>
+  ))}
+</div>
