@@ -97,6 +97,16 @@ const showMessage = (text: string, tone: "info" | "error" = "info") => {
   message.hidden = false;
 };
 
+const getErrorMessage = (error: unknown) => {
+  if (!error || typeof error !== "object") return "";
+
+  if ("message" in error && typeof error.message === "string") {
+    return error.message;
+  }
+
+  return "";
+};
+
 const hideMessage = () => {
   if (!message) return;
 
@@ -206,7 +216,12 @@ const loadStats = async () => {
   setLoading(false);
 
   if (error) {
-    showMessage("통계를 불러올 권한이 없거나 Supabase 설정이 아직 완료되지 않았습니다.", "error");
+    const detail = getErrorMessage(error);
+    console.error("Failed to load private stats", error);
+    showMessage(
+      `통계를 불러올 수 없습니다.${detail ? ` Supabase 응답: ${detail}` : ""}`,
+      "error",
+    );
     return;
   }
 
@@ -243,15 +258,22 @@ loginForm?.addEventListener("submit", async (event) => {
   const email = emailInput.value.trim().toLowerCase();
 
   hideMessage();
+  setLoading(true);
   const { error } = await supabase.auth.signInWithOtp({
     email,
     options: {
       emailRedirectTo: redirectTo,
     },
   });
+  setLoading(false);
 
   if (error) {
-    showMessage("로그인 링크를 보낼 수 없습니다. 이메일과 Supabase Auth 설정을 확인해 주세요.", "error");
+    const detail = getErrorMessage(error);
+    console.error("Failed to send stats login link", error);
+    showMessage(
+      `로그인 링크를 보낼 수 없습니다.${detail ? ` Supabase 응답: ${detail}` : ""}`,
+      "error",
+    );
     return;
   }
 
