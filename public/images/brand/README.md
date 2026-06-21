@@ -12,7 +12,7 @@ Current live assets in this project:
 - Header logo: `/images/brand/앱 아이콘.png`
 - Hero image: `/images/brand/가로형 bi.png`
 - Favicon: `/images/brand/파비콘.png`
-- OG image: `/images/brand/반전버전.png`
+- OG image: `/images/brand/og-cover-1200x630.png`
 
 If you want different filenames or extensions, update `src/data/site.ts`.
 브랜드 BI 이미지는 예외적으로 자유 비율을 사용할 수 있습니다.
