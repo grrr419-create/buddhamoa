@@ -1,0 +1,30 @@
+---
+type Props = {
+  href: string;
+  label?: string;
+  track?: string;
+};
+
+const {
+  href,
+  label = "붓다모아 바로가기",
+  track = "store_cta",
+} = Astro.props;
+---
+
+<a
+  class="section-store-button"
+  href={href}
+  data-track={track}
+  target="_blank"
+  rel="noreferrer"
+>
+  <span class="section-store-button__icon" aria-hidden="true">
+    <svg viewBox="0 0 24 24">
+      <path d="M7.2 8.2V6.9a4.8 4.8 0 0 1 9.6 0v1.3" />
+      <path d="M5.4 8.2h13.2l-.8 11.1a2 2 0 0 1-2 1.8H8.2a2 2 0 0 1-2-1.8L5.4 8.2Z" />
+      <path d="M8.6 11.5c.8 1.2 1.9 1.9 3.4 1.9s2.6-.7 3.4-1.9" />
+    </svg>
+  </span>
+  <span>{label}</span>
+</a>

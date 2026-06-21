@@ -7,11 +7,11 @@ import type {
 } from "../types";
 
 export const siteUrl =
-  import.meta.env.PUBLIC_SITE_URL || "https://buddhamoa.example";
+  import.meta.env.PUBLIC_SITE_URL || "https://grrr419-create.github.io";
 
 export const siteConfig = {
   brandName: "붓다모아",
-  siteName: "불교용품은 역시, 붓다모아",
+  siteName: "불교용품은 역시 붓다모아",
   brandAssetPath: "/images/brand/앱 아이콘.png",
   brandAssetAlt: "붓다모아 BI 로고",
   description:

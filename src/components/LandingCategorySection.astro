@@ -1,0 +1,20 @@
+---
+import type { CategoryLink } from "../types";
+import CategoryGrid from "./CategoryGrid.astro";
+import SectionHeader from "./SectionHeader.astro";
+import StoreCtaButton from "./StoreCtaButton.astro";
+
+type Props = {
+  categories: CategoryLink[];
+  storeUrl: string;
+};
+
+const { categories, storeUrl } = Astro.props;
+---
+
+<section id="category-links">
+  <SectionHeader eyebrow="Themes" title="테마별 둘러보기">
+    <StoreCtaButton href={storeUrl} track="category_store" />
+  </SectionHeader>
+  <CategoryGrid categories={categories} />
+</section>
