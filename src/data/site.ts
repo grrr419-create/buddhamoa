@@ -5,9 +5,11 @@ import type {
   TempleShort,
   TopNotice,
 } from "../types";
+import { withBase } from "../utils/paths";
 
-export const siteUrl =
+export const siteOrigin =
   import.meta.env.PUBLIC_SITE_URL || "https://grrr419-create.github.io";
+export const siteUrl = new URL(withBase("/"), siteOrigin).toString().replace(/\/$/, "");
 
 export const siteConfig = {
   brandName: "붓다모아",

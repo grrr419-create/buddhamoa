@@ -1,8 +1,13 @@
 import { channels, faqs, sellerInfo, siteConfig, siteUrl } from "../data/site";
 import type { FAQItem, Product } from "../types";
+import { withBase } from "./paths";
 
 export function absoluteUrl(pathname: string) {
-  return new URL(pathname, siteUrl).toString();
+  if (/^(?:[a-z][a-z\d+\-.]*:)?\/\//i.test(pathname)) return pathname;
+
+  const origin = new URL(siteUrl).origin;
+
+  return new URL(withBase(pathname), origin).toString();
 }
 
 export function organizationSchema() {

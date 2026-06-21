@@ -1,11 +1,12 @@
 ---
 import { sellerInfo } from "../data/site";
+import { withBase } from "../utils/paths";
 ---
 
 <footer class="site-footer">
   <div class="footer-head">
     <strong>판매자 정보</strong>
-    <a href="/privacy/">개인정보 안내</a>
+    <a href={withBase("/privacy/")}>개인정보 안내</a>
   </div>
 
   <div class="footer-seller-info" aria-label="판매자 정보">

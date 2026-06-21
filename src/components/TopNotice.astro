@@ -1,5 +1,6 @@
 ---
 import type { TopNotice } from "../types";
+import { withBase } from "../utils/paths";
 
 type Props = {
   notices: TopNotice[];
@@ -33,7 +34,7 @@ const { notices } = Astro.props;
                   >
                     <img
                       class="notice-banner__image"
-                      src={notice.image}
+                      src={withBase(notice.image)}
                       alt={notice.imageAlt}
                       width="1254"
                       height="1254"
@@ -43,7 +44,7 @@ const { notices } = Astro.props;
                 ) : (
                   <img
                     class="notice-banner__image"
-                    src={notice.image}
+                    src={withBase(notice.image)}
                     alt={notice.imageAlt}
                     width="1254"
                     height="1254"

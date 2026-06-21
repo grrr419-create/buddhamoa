@@ -1,5 +1,6 @@
 ---
 import type { CategoryLink } from "../types";
+import { withBase } from "../utils/paths";
 
 type Props = {
   categories: CategoryLink[];
@@ -19,7 +20,7 @@ const { categories } = Astro.props;
         <div class="category-link-card__image-wrap">
           <img
             class="category-link-card__image"
-            src={category.image}
+            src={withBase(category.image)}
             alt={category.imageAlt}
             width="720"
             height="720"
@@ -35,7 +36,7 @@ const { categories } = Astro.props;
         <div class="category-link-card__image-wrap">
           <img
             class="category-link-card__image"
-            src={category.image}
+            src={withBase(category.image)}
             alt={category.imageAlt}
             width="720"
             height="720"

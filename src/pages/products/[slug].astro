@@ -3,6 +3,7 @@ import Layout from "../../layouts/Layout.astro";
 import ProductCard from "../../components/ProductCard.astro";
 import { products } from "../../data/products";
 import { siteConfig } from "../../data/site";
+import { withBase } from "../../utils/paths";
 import { productSchema } from "../../utils/seo";
 
 export function getStaticPaths() {
@@ -33,7 +34,7 @@ const description = `${product.summary} ${product.description[0]}`;
 >
   <section class="detail-grid">
     <div class="panel detail-copy">
-      <img src={product.image} alt={product.imageAlt} />
+      <img src={withBase(product.image)} alt={product.imageAlt} />
       <span class="meta-chip">{product.category}</span>
       <h1>{product.name}</h1>
       {product.description.map((paragraph) => <p>{paragraph}</p>)}
@@ -42,7 +43,7 @@ const description = `${product.summary} ${product.description[0]}`;
         <a class="button" href={product.storeUrl} data-track={`product_detail_${product.slug}`}>
           스마트스토어에서 보기
         </a>
-        <a class="button-secondary" href="/">홈으로 돌아가기</a>
+        <a class="button-secondary" href={withBase("/")}>홈으로 돌아가기</a>
       </div>
     </div>
 
