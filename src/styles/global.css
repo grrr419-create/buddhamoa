@@ -1499,6 +1499,27 @@ section {
     height: 1.12rem;
   }
 
+  #category-links {
+    display: grid;
+    gap: 12px;
+  }
+
+  #category-links .section-head {
+    display: contents;
+  }
+
+  #category-links .section-head > div {
+    order: 1;
+  }
+
+  #category-links .category-link-grid {
+    order: 2;
+  }
+
+  #category-links .section-store-button {
+    order: 3;
+  }
+
   .category-link-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 10px;
@@ -1514,9 +1535,10 @@ section {
   }
 
   .category-link-card__tags span {
-    padding: 5px 6px;
-    font-size: 0.7rem;
+    padding: 4px 5px;
+    font-size: 0.62rem;
     line-height: 1.22;
+    white-space: nowrap;
   }
 
   .temple-shorts-grid {
