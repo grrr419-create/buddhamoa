@@ -27,6 +27,17 @@ const { title, description, pathname, image, robots, structuredData = [] } = Ast
       robots={robots}
       structuredData={structuredData}
     />
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-B0W8ZHEDM8"></script>
+    <script is:inline>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag("js", new Date());
+
+      gtag("config", "G-B0W8ZHEDM8");
+    </script>
   </head>
   <body>
     <div class="site-shell">
