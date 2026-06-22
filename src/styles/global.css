@@ -1543,17 +1543,27 @@ section {
   }
 
   .temple-shorts-grid {
+    --shorts-card-peek: 34px;
+    --shorts-card-gap: 14px;
+
     display: flex;
     grid-template-columns: none;
-    gap: 14px;
+    gap: var(--shorts-card-gap);
     overflow-x: auto;
     overscroll-behavior-x: contain;
-    scroll-padding-inline: 0;
+    scroll-padding-inline: 0 calc(var(--shorts-card-peek) + var(--shorts-card-gap));
     scroll-snap-type: x mandatory;
     scroll-behavior: smooth;
-    padding: 0 0 12px;
+    padding: 0 calc(var(--shorts-card-peek) + var(--shorts-card-gap)) 12px 0;
     -webkit-overflow-scrolling: touch;
     scrollbar-width: thin;
+    -webkit-mask-image: linear-gradient(
+      90deg,
+      #000 0,
+      #000 calc(100% - 28px),
+      transparent 100%
+    );
+    mask-image: linear-gradient(90deg, #000 0, #000 calc(100% - 28px), transparent 100%);
   }
 
   .temple-shorts-grid::-webkit-scrollbar {
@@ -1566,8 +1576,8 @@ section {
   }
 
   .temple-short-card {
-    flex: 0 0 100%;
-    max-width: 100%;
+    flex: 0 0 calc(100% - var(--shorts-card-peek) - var(--shorts-card-gap));
+    max-width: calc(100% - var(--shorts-card-peek) - var(--shorts-card-gap));
     scroll-snap-align: start;
     scroll-snap-stop: always;
     gap: 12px;
