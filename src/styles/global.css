@@ -1587,17 +1587,17 @@ section {
   }
 
   .category-link-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 10px;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 8px;
   }
 
   .category-link-card {
-    gap: 9px;
-    padding: 9px;
+    gap: 7px;
+    padding: 7px;
   }
 
   .category-link-card__tags {
-    flex-wrap: nowrap;
+    flex-wrap: wrap;
     gap: 3px;
   }
 
