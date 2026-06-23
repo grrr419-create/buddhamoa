@@ -1,5 +1,5 @@
 import { faqs, sellerInfo, siteConfig, siteUrl } from "../data/site";
-import type { FAQItem, Product } from "../types";
+import type { FAQItem, Product, ProductCuration } from "../types";
 import { withBase } from "./paths";
 
 export function absoluteUrl(pathname: string) {
@@ -61,6 +61,36 @@ export function itemListSchema(items: Product[]) {
       image: absoluteUrl(product.image),
     })),
   };
+}
+
+export function productCurationItemListSchemas(curations: ProductCuration[]) {
+  return curations.map((curation) => ({
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    name: `${siteConfig.brandName} ${curation.name}`,
+    description: `${curation.name} 큐레이션 상품 목록`,
+    url: absoluteUrl(`/#product-curation-${curation.slug}`),
+    itemListOrder: "https://schema.org/ItemListOrderAscending",
+    numberOfItems: curation.items.length,
+    itemListElement: curation.items.map((item, index) => ({
+      "@type": "ListItem",
+      position: index + 1,
+      url: item.href,
+      name: item.name,
+      item: {
+        "@type": "Product",
+        name: item.name,
+        image: [absoluteUrl(item.image)],
+        description: item.imageAlt,
+        category: curation.name,
+        url: item.href,
+        brand: {
+          "@type": "Brand",
+          name: siteConfig.brandName,
+        },
+      },
+    })),
+  }));
 }
 
 export function faqSchema(items: FAQItem[] = faqs) {

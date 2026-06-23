@@ -15,6 +15,7 @@ import {
 } from "../data/site";
 import {
   organizationSchema,
+  productCurationItemListSchemas,
   websiteSchema,
 } from "../utils/seo";
 
@@ -30,6 +31,7 @@ const description =
   structuredData={[
     organizationSchema(),
     websiteSchema(),
+    ...productCurationItemListSchemas(productCurations),
   ]}
 >
   <TopNotice notices={topNotices} />
