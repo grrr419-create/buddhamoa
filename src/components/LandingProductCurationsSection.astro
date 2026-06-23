@@ -77,3 +77,146 @@ const { curations } = Astro.props;
     ))}
   </section>
 )}
+
+<script>
+  const mobileCurationQuery = window.matchMedia("(max-width: 767px)");
+  const reducedMotionCurationQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
+  const activeCurationScrollers = new Map();
+
+  const getCurationLoopWidth = (viewport) => {
+    const group = viewport.querySelector(".product-curation__group");
+
+    if (!(group instanceof HTMLElement)) {
+      return 0;
+    }
+
+    return group.getBoundingClientRect().width;
+  };
+
+  const createCurationScroller = (viewport) => {
+    const section = viewport.closest(".product-curation");
+    const direction = section?.classList.contains("product-curation--reverse") ? -1 : 1;
+    const speed = 24;
+    let loopWidth = 0;
+    let frameId = 0;
+    let resumeTimer = 0;
+    let lastTime = 0;
+    let isPaused = false;
+
+    const measure = () => {
+      loopWidth = getCurationLoopWidth(viewport);
+
+      if (direction < 0 && loopWidth > 0 && viewport.scrollLeft < 1) {
+        viewport.scrollLeft = loopWidth;
+      }
+    };
+
+    const normalize = () => {
+      if (loopWidth <= 0) {
+        return;
+      }
+
+      if (viewport.scrollLeft >= loopWidth) {
+        viewport.scrollLeft -= loopWidth;
+      } else if (viewport.scrollLeft <= 0) {
+        viewport.scrollLeft += loopWidth;
+      }
+    };
+
+    const pause = () => {
+      isPaused = true;
+      window.clearTimeout(resumeTimer);
+    };
+
+    const resumeSoon = () => {
+      window.clearTimeout(resumeTimer);
+      resumeTimer = window.setTimeout(() => {
+        isPaused = false;
+        lastTime = 0;
+      }, 1800);
+    };
+
+    const pauseTemporarily = () => {
+      pause();
+      resumeSoon();
+    };
+
+    const tick = (now) => {
+      if (!mobileCurationQuery.matches || reducedMotionCurationQuery.matches) {
+        frameId = 0;
+        return;
+      }
+
+      if (!lastTime) {
+        lastTime = now;
+      }
+
+      const delta = (now - lastTime) / 1000;
+      lastTime = now;
+
+      if (!isPaused && loopWidth > 0) {
+        viewport.scrollLeft += direction * speed * delta;
+        normalize();
+      }
+
+      frameId = window.requestAnimationFrame(tick);
+    };
+
+    const start = () => {
+      measure();
+
+      if (!frameId && !reducedMotionCurationQuery.matches) {
+        frameId = window.requestAnimationFrame(tick);
+      }
+    };
+
+    const stop = () => {
+      window.clearTimeout(resumeTimer);
+
+      if (frameId) {
+        window.cancelAnimationFrame(frameId);
+        frameId = 0;
+      }
+    };
+
+    viewport.addEventListener("pointerdown", pause, { passive: true });
+    viewport.addEventListener("pointerup", resumeSoon, { passive: true });
+    viewport.addEventListener("pointercancel", resumeSoon, { passive: true });
+    viewport.addEventListener("pointerleave", resumeSoon, { passive: true });
+    viewport.addEventListener("focusin", pauseTemporarily);
+    window.addEventListener("resize", measure);
+    start();
+
+    return () => {
+      stop();
+      viewport.removeEventListener("pointerdown", pause);
+      viewport.removeEventListener("pointerup", resumeSoon);
+      viewport.removeEventListener("pointercancel", resumeSoon);
+      viewport.removeEventListener("pointerleave", resumeSoon);
+      viewport.removeEventListener("focusin", pauseTemporarily);
+      window.removeEventListener("resize", measure);
+    };
+  };
+
+  const syncCurationScrollers = () => {
+    document.querySelectorAll(".product-curation__viewport").forEach((viewport) => {
+      if (!(viewport instanceof HTMLElement)) {
+        return;
+      }
+
+      const shouldRun = mobileCurationQuery.matches && !reducedMotionCurationQuery.matches;
+      const destroy = activeCurationScrollers.get(viewport);
+
+      if (shouldRun && !destroy) {
+        activeCurationScrollers.set(viewport, createCurationScroller(viewport));
+      } else if (!shouldRun && destroy) {
+        destroy();
+        activeCurationScrollers.delete(viewport);
+      }
+    });
+  };
+
+  syncCurationScrollers();
+  mobileCurationQuery.addEventListener("change", syncCurationScrollers);
+  reducedMotionCurationQuery.addEventListener("change", syncCurationScrollers);
+</script>

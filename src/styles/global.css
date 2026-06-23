@@ -1679,7 +1679,13 @@ section {
   }
 
   .product-curation__viewport {
-    overflow: hidden;
+    overflow-x: auto;
+    overflow-y: hidden;
+    overscroll-behavior-x: contain;
+    scroll-behavior: smooth;
+    scroll-snap-type: x proximity;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
     -webkit-mask-image: linear-gradient(
       90deg,
       #000 0,
@@ -1689,20 +1695,15 @@ section {
     mask-image: linear-gradient(90deg, #000 0, #000 calc(100% - 30px), transparent 100%);
   }
 
+  .product-curation__viewport::-webkit-scrollbar {
+    display: none;
+  }
+
   .product-curation__track {
     display: flex;
     width: max-content;
-    animation: product-curation-slide 26s linear infinite;
-    will-change: transform;
-  }
-
-  .product-curation--reverse .product-curation__track {
-    animation-name: product-curation-slide-reverse;
-  }
-
-  .product-curation__viewport:hover .product-curation__track,
-  .product-curation__viewport:focus-within .product-curation__track {
-    animation-play-state: paused;
+    transform: none;
+    will-change: scroll-position;
   }
 
   .product-curation__group,
@@ -1720,6 +1721,7 @@ section {
     flex: 0 0 var(--curation-card-width);
     width: var(--curation-card-width);
     gap: 7px;
+    scroll-snap-align: start;
   }
 
   .product-curation-card__name {
