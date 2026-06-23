@@ -509,6 +509,14 @@ section {
   line-height: 1.18;
 }
 
+#category-links .section-head h2,
+#product-shorts .section-head h2,
+#temple-shorts .section-head h2 {
+  color: var(--green-deep);
+  font-size: clamp(1.38rem, 2.4vw, 1.72rem);
+  line-height: 1.25;
+}
+
 .section-store-button {
   position: relative;
   display: inline-flex;
@@ -726,6 +734,92 @@ section {
   color: var(--gold);
   font-size: 0.92rem;
   font-weight: 600;
+}
+
+.product-curations {
+  display: grid;
+  gap: clamp(1.45rem, 3vw, 2.35rem);
+  margin: 28px 0;
+}
+
+.product-curation {
+  display: grid;
+  gap: 13px;
+  min-width: 0;
+}
+
+.product-curation__title {
+  margin: 0;
+  color: var(--green-deep);
+  font-size: clamp(1.38rem, 2.4vw, 1.72rem);
+  line-height: 1.25;
+}
+
+.product-curation__viewport {
+  min-width: 0;
+}
+
+.product-curation__track {
+  min-width: 0;
+}
+
+.product-curation__group {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.product-curation__group[aria-hidden="true"] {
+  display: none;
+}
+
+.product-curation-card {
+  display: grid;
+  gap: 8px;
+  min-width: 0;
+  color: var(--text);
+  transition: transform 180ms ease;
+}
+
+.product-curation-card:hover,
+.product-curation-card:focus-visible {
+  transform: translateY(-2px);
+}
+
+.product-curation-card__image-wrap {
+  display: block;
+  overflow: hidden;
+  aspect-ratio: 1;
+  border: 1px solid rgba(10, 74, 48, 0.12);
+  border-radius: var(--radius);
+  background: linear-gradient(180deg, #eff4ea, #e4ebe0);
+  box-shadow: 0 14px 30px rgba(8, 53, 35, 0.08);
+}
+
+.product-curation-card__image {
+  width: 100%;
+  height: 100%;
+  aspect-ratio: 1;
+  object-fit: cover;
+  transition: transform 240ms ease;
+}
+
+.product-curation-card:hover .product-curation-card__image,
+.product-curation-card:focus-visible .product-curation-card__image {
+  transform: scale(1.035);
+}
+
+.product-curation-card__name {
+  display: block;
+  min-width: 0;
+  overflow: hidden;
+  color: var(--green-deep);
+  font-size: 0.95rem;
+  font-weight: 800;
+  line-height: 1.35;
+  text-align: center;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .is-disabled {
@@ -1552,6 +1646,13 @@ section {
     line-height: 1.18;
   }
 
+  #category-links .section-head h2,
+  #product-shorts .section-head h2,
+  #temple-shorts .section-head h2 {
+    font-size: 1.24rem;
+    line-height: 1.28;
+  }
+
   .section-store-button {
     width: 100%;
     min-height: 52px;
@@ -1584,6 +1685,68 @@ section {
 
   #category-links .section-store-button {
     order: 3;
+  }
+
+  .product-curations {
+    gap: 28px;
+    margin: 26px 0;
+  }
+
+  .product-curation {
+    gap: 10px;
+  }
+
+  .product-curation__title {
+    font-size: 1.24rem;
+    line-height: 1.28;
+  }
+
+  .product-curation__viewport {
+    overflow: hidden;
+    -webkit-mask-image: linear-gradient(
+      90deg,
+      #000 0,
+      #000 calc(100% - 30px),
+      transparent 100%
+    );
+    mask-image: linear-gradient(90deg, #000 0, #000 calc(100% - 30px), transparent 100%);
+  }
+
+  .product-curation__track {
+    display: flex;
+    width: max-content;
+    animation: product-curation-slide 26s linear infinite;
+    will-change: transform;
+  }
+
+  .product-curation--reverse .product-curation__track {
+    animation-name: product-curation-slide-reverse;
+  }
+
+  .product-curation__viewport:hover .product-curation__track,
+  .product-curation__viewport:focus-within .product-curation__track {
+    animation-play-state: paused;
+  }
+
+  .product-curation__group,
+  .product-curation__group[aria-hidden="true"] {
+    --curation-card-gap: 10px;
+    --curation-card-width: calc((100vw - 28px - (var(--curation-card-gap) * 2)) / 2.5);
+
+    display: flex;
+    flex: 0 0 auto;
+    gap: var(--curation-card-gap);
+    padding-right: var(--curation-card-gap);
+  }
+
+  .product-curation-card {
+    flex: 0 0 var(--curation-card-width);
+    width: var(--curation-card-width);
+    gap: 7px;
+  }
+
+  .product-curation-card__name {
+    font-size: 0.82rem;
   }
 
   .category-link-grid {
@@ -1723,5 +1886,35 @@ section {
   .temple-short-card__buy::after,
   .social-follow-button::after {
     animation: none;
+  }
+
+  .product-curation__track {
+    animation: none;
+    transform: none !important;
+  }
+
+  .product-curation-card,
+  .product-curation-card__image {
+    transition: none;
+  }
+}
+
+@keyframes product-curation-slide {
+  from {
+    transform: translateX(0);
+  }
+
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@keyframes product-curation-slide-reverse {
+  from {
+    transform: translateX(-50%);
+  }
+
+  to {
+    transform: translateX(0);
   }
 }

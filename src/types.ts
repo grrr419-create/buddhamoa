@@ -21,6 +21,20 @@ export type CategoryLink = {
   hrefLabel: string;
 };
 
+export type ProductCurationItem = {
+  slug: string;
+  name: string;
+  image: string;
+  imageAlt: string;
+  href: string;
+};
+
+export type ProductCuration = {
+  slug: string;
+  name: string;
+  items: ProductCurationItem[];
+};
+
 export type TempleShort = {
   slug: string;
   title: string;

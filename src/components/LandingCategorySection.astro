@@ -13,7 +13,7 @@ const { categories, storeUrl } = Astro.props;
 ---
 
 <section id="category-links">
-  <SectionHeader eyebrow="Themes" title="테마별 둘러보기">
+  <SectionHeader title="테마별 둘러보기">
     <StoreCtaButton href={storeUrl} track="category_store" />
   </SectionHeader>
   <CategoryGrid categories={categories} />

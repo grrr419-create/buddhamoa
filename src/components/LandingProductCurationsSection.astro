@@ -1,0 +1,79 @@
+---
+import type { ProductCuration } from "../types";
+import { withBase } from "../utils/paths";
+
+type Props = {
+  curations: ProductCuration[];
+};
+
+const { curations } = Astro.props;
+---
+
+{curations.length > 0 && (
+  <section class="product-curations" aria-label="붓다모아 상품 큐레이션">
+    {curations.map((curation, curationIndex) => (
+      <section
+        class={`product-curation${curationIndex % 2 === 1 ? " product-curation--reverse" : ""}`}
+        aria-labelledby={`product-curation-${curation.slug}`}
+      >
+        <h2 class="product-curation__title" id={`product-curation-${curation.slug}`}>
+          {curation.name}
+        </h2>
+
+        <div class="product-curation__viewport">
+          <div class="product-curation__track">
+            <div class="product-curation__group">
+              {curation.items.map((item, itemIndex) => (
+                <a
+                  class="product-curation-card"
+                  href={item.href}
+                  aria-label={`${item.name} 상품 보러가기`}
+                  data-track={`product_curation_${curation.slug}_${item.slug}`}
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  <span class="product-curation-card__image-wrap">
+                    <img
+                      class="product-curation-card__image"
+                      src={withBase(item.image)}
+                      alt={item.imageAlt}
+                      width="720"
+                      height="720"
+                      loading={curationIndex === 0 && itemIndex === 0 ? "eager" : "lazy"}
+                    />
+                  </span>
+                  <span class="product-curation-card__name">{item.name}</span>
+                </a>
+              ))}
+            </div>
+            <div class="product-curation__group" aria-hidden="true">
+              {curation.items.map((item) => (
+                <a
+                  class="product-curation-card"
+                  href={item.href}
+                  aria-label={`${item.name} 상품 보러가기`}
+                  data-track={`product_curation_${curation.slug}_${item.slug}`}
+                  target="_blank"
+                  rel="noreferrer"
+                  tabindex="-1"
+                >
+                  <span class="product-curation-card__image-wrap">
+                    <img
+                      class="product-curation-card__image"
+                      src={withBase(item.image)}
+                      alt={item.imageAlt}
+                      width="720"
+                      height="720"
+                      loading="lazy"
+                    />
+                  </span>
+                  <span class="product-curation-card__name">{item.name}</span>
+                </a>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+    ))}
+  </section>
+)}
