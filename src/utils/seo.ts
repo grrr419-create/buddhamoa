@@ -21,6 +21,7 @@ export function organizationSchema() {
     email: siteConfig.contactEmail,
     telephone: siteConfig.contactPhone,
     taxID: sellerInfo.businessNumber,
+    keywords: siteConfig.keywords.join(", "),
     address: {
       "@type": "PostalAddress",
       postalCode: sellerInfo.postalCode,
@@ -39,6 +40,7 @@ export function websiteSchema() {
     url: siteUrl,
     description: siteConfig.description,
     inLanguage: "ko-KR",
+    keywords: siteConfig.keywords.join(", "),
     publisher: {
       "@type": "Organization",
       name: siteConfig.brandName,

@@ -1,6 +1,7 @@
 ---
 import { absoluteUrl } from "../utils/seo";
 import { withBase } from "../utils/paths";
+import { siteConfig } from "../data/site";
 
 type Props = {
   title: string;
@@ -29,7 +30,7 @@ const faviconPath = withBase("/images/brand/파비콘.png");
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <meta name="generator" content={Astro.generator} />
 <meta name="description" content={description} />
-<meta name="keywords" content="불교용품, 법당용품, 기도용품, 선물용 불교용품, 붓다모아" />
+<meta name="keywords" content={siteConfig.keywords.join(", ")} />
 <meta name="robots" content={robots} />
 <link rel="icon" type="image/png" href={faviconPath} />
 <link rel="shortcut icon" type="image/png" href={faviconPath} />
