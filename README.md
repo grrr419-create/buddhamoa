@@ -17,7 +17,7 @@ npm run dev
 `PUBLIC_SITE_URL` 환경변수에 실제 배포 도메인을 넣어 주세요.
 
 ```sh
-PUBLIC_SITE_URL=https://buddhamo.com npm run build
+PUBLIC_SITE_URL=https://buddhamoa.com npm run build
 ```
 
 이 값은 다음 항목에 사용됩니다.
@@ -28,8 +28,8 @@ PUBLIC_SITE_URL=https://buddhamo.com npm run build
 - `sitemap-index.xml`
 - `robots.txt`의 사이트맵 주소
 
-GitHub Pages에서 `buddhamo.com`을 루트 도메인으로 사용할 때는 Pages 설정의 Custom domain에
-`buddhamo.com`을 저장하고, DNS에는 아래 값을 연결합니다.
+GitHub Pages에서 `buddhamoa.com`을 루트 도메인으로 사용할 때는 Pages 설정의 Custom domain에
+`buddhamoa.com`을 저장하고, DNS에는 아래 값을 연결합니다.
 
 ```text
 @    A      185.199.108.153

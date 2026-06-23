@@ -3,7 +3,7 @@ import { defineConfig } from 'astro/config';
 import sitemap from '@astrojs/sitemap';
 
 const isDev = process.env.npm_lifecycle_event === 'dev' || process.argv.includes('dev');
-const site = process.env.PUBLIC_SITE_URL || 'https://buddhamo.com';
+const site = process.env.PUBLIC_SITE_URL || 'https://buddhamoa.com';
 const productionBase = process.env.SITE_BASE_PATH || '/';
 
 // https://astro.build/config
