@@ -129,10 +129,11 @@ const normalizeBasePath = (value: string) => {
   return path.endsWith("/") ? path : `${path}/`;
 };
 
-const getStatsRedirectUrl = () => {
-  const statsPath = `${normalizeBasePath(basePath)}stats/`.replace(/\/{2,}/g, "/");
+const getAuthRedirectUrl = () => {
+  const normalizedBasePath = normalizeBasePath(basePath);
+  if (normalizedBasePath === "/") return window.location.origin;
 
-  return new URL(statsPath, window.location.origin).toString();
+  return new URL(normalizedBasePath, window.location.origin).toString();
 };
 
 const rememberStatsLoginIntent = () => {
@@ -303,7 +304,7 @@ loginForm?.addEventListener("submit", async (event) => {
   event.preventDefault();
   if (!supabase || !emailInput?.value) return;
 
-  const redirectTo = getStatsRedirectUrl();
+  const redirectTo = getAuthRedirectUrl();
   const email = emailInput.value.trim().toLowerCase();
 
   hideMessage();
