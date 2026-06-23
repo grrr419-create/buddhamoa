@@ -12,6 +12,12 @@ type ReferrerRow = {
   views?: CountValue;
 };
 
+type DailyReferrerRow = {
+  date?: string;
+  source?: string;
+  views?: CountValue;
+};
+
 type PathRow = {
   path?: string;
   views?: CountValue;
@@ -34,6 +40,7 @@ type StatsResponse = {
   today_count?: CountValue;
   total_count?: CountValue;
   daily?: DailyRow[];
+  daily_referrers?: DailyReferrerRow[];
   top_referrers?: ReferrerRow[];
   top_paths?: PathRow[];
   utm_sources?: UtmRow[];
@@ -137,13 +144,14 @@ const renderRows = (
   target: Element | null,
   rows: string[],
   emptyLabel = "데이터가 없습니다.",
+  columnCount = 2,
 ) => {
   if (!target) return;
 
   target.innerHTML =
     rows.length > 0
       ? rows.join("")
-      : `<tr><td colspan="2" class="stats-table__empty">${emptyLabel}</td></tr>`;
+      : `<tr><td colspan="${columnCount}" class="stats-table__empty">${emptyLabel}</td></tr>`;
 };
 
 const renderStats = (stats: StatsResponse) => {
@@ -156,6 +164,16 @@ const renderStats = (stats: StatsResponse) => {
       (row) =>
         `<tr><td>${escapeHtml(formatDate(row.date))}</td><td>${formatCount(row.views)}</td></tr>`,
     ),
+  );
+
+  renderRows(
+    document.querySelector("[data-stats-daily-referrers]"),
+    (stats.daily_referrers || []).map(
+      (row) =>
+        `<tr><td>${escapeHtml(formatDate(row.date))}</td><td>${escapeHtml(row.source || "direct")}</td><td>${formatCount(row.views)}</td></tr>`,
+    ),
+    "데이터가 없습니다.",
+    3,
   );
 
   renderRows(

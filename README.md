@@ -41,8 +41,9 @@ PUBLIC_VIEW_COUNTER_SITE_KEY=buddhamoa
 
 Supabase 환경변수가 없으면 조회수 영역은 대시(`—`) 상태로 표시되고 방문 기록을 전송하지 않습니다.
 
-비공개 통계 페이지는 `/stats/`에 있으며 Supabase Auth 이메일 로그인으로 보호됩니다. Supabase
-SQL Editor에서 관리자 이메일을 소문자로 허용 목록에 추가해 주세요.
+비공개 통계 페이지는 `/stats/`에 있으며 Supabase Auth 이메일 로그인으로 보호됩니다. 최근 일별
+조회수, 전체 유입 도메인, 일별 유입 도메인, 인기 페이지, UTM 캠페인, 기기 구분을 확인할 수
+있습니다. Supabase SQL Editor에서 관리자 이메일을 소문자로 허용 목록에 추가해 주세요.
 
 ```sql
 insert into public.stats_admins (email)
