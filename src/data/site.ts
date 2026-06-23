@@ -364,6 +364,43 @@ const curationProductItems: Record<string, ProductCuration["items"]> = {
       href: "https://mkt.shopping.naver.com/link/6a3a7f4bcaf98b0660e68816",
     },
   ],
+  "home-buddha-statues": [
+    {
+      slug: "pensive-bodhisattva",
+      name: "반가사유상",
+      image: "/images/curations/home-buddha-statues/pensive-bodhisattva.png",
+      imageAlt: "반가사유상 우리 집 분위기를 바꾸는 불상 상품 이미지",
+      href: "https://mkt.shopping.naver.com/link/69c6702ef015fb66fad32e80",
+    },
+    {
+      slug: "home-buddha-statue",
+      name: "가정용 불상",
+      image: "/images/curations/home-buddha-statues/home-buddha-statue.png",
+      imageAlt: "가정용 불상 상품 이미지",
+      href: "https://mkt.shopping.naver.com/link/68628393f2b4da4b4aa74ff6",
+    },
+    {
+      slug: "medium-buddha-statue",
+      name: "중형 불상",
+      image: "/images/curations/home-buddha-statues/medium-buddha-statue.png",
+      imageAlt: "중형 불상 상품 이미지",
+      href: "https://mkt.shopping.naver.com/link/68c5de227d07384e3ec22c86",
+    },
+    {
+      slug: "interior-buddha-statue",
+      name: "인테리어 불상",
+      image: "/images/curations/home-buddha-statues/interior-buddha-statue.png",
+      imageAlt: "인테리어 불상 상품 이미지",
+      href: "https://mkt.shopping.naver.com/link/68b43638d657ac14f4a3a5b3",
+    },
+    {
+      slug: "buddha-object",
+      name: "불상 오브제",
+      image: "/images/curations/home-buddha-statues/buddha-object.png",
+      imageAlt: "불상 오브제 상품 이미지",
+      href: "https://mkt.shopping.naver.com/link/688f0191f6028f0734cd8327",
+    },
+  ],
 };
 
 export const productCurations: ProductCuration[] = curationNames.flatMap(([slug, name]) => {
