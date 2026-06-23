@@ -678,10 +678,8 @@ section {
 
 .category-link-card {
   display: grid;
-  grid-template-rows: auto auto;
   align-content: start;
-  gap: 12px;
-  padding: 16px;
+  padding: 10px;
   border-radius: var(--radius);
   border: 1px solid var(--line);
   background: rgba(249, 250, 245, 0.88);
@@ -701,27 +699,6 @@ section {
   height: 100%;
   aspect-ratio: 1;
   object-fit: cover;
-}
-
-.category-link-card__tags {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 7px;
-  min-width: 0;
-  text-align: center;
-}
-
-.category-link-card__tags span {
-  display: inline-flex;
-  max-width: 100%;
-  padding: 6px 9px;
-  border-radius: 999px;
-  color: var(--gold);
-  font-size: 0.82rem;
-  font-weight: 700;
-  line-height: 1.28;
-  background: rgba(10, 74, 48, 0.08);
 }
 
 .category-link-card:hover {
@@ -1755,20 +1732,7 @@ section {
   }
 
   .category-link-card {
-    gap: 7px;
-    padding: 7px;
-  }
-
-  .category-link-card__tags {
-    flex-wrap: wrap;
-    gap: 3px;
-  }
-
-  .category-link-card__tags span {
-    padding: 3px;
-    font-size: clamp(0.46rem, 1.95vw, 0.56rem);
-    line-height: 1.22;
-    white-space: nowrap;
+    padding: 4px;
   }
 
   .temple-shorts-grid {

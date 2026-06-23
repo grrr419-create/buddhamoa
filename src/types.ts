@@ -16,7 +16,6 @@ export type CategoryLink = {
   description: string;
   image: string;
   imageAlt: string;
-  tags: string[];
   href?: string;
   hrefLabel: string;
 };

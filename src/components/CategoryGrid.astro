@@ -15,6 +15,7 @@ const { categories } = Astro.props;
       <a
         class="category-link-card"
         href={category.href}
+        aria-label={`${category.name} 카테고리 보러가기`}
         data-track={`category_${category.slug}`}
       >
         <div class="category-link-card__image-wrap">
@@ -26,9 +27,6 @@ const { categories } = Astro.props;
             height="720"
             loading="lazy"
           />
-        </div>
-        <div class="category-link-card__tags" aria-label={`${category.name} 관련 해시태그`}>
-          {category.tags.map((tag) => <span>{tag}</span>)}
         </div>
       </a>
     ) : (
@@ -42,9 +40,6 @@ const { categories } = Astro.props;
             height="720"
             loading="lazy"
           />
-        </div>
-        <div class="category-link-card__tags" aria-label={`${category.name} 관련 해시태그`}>
-          {category.tags.map((tag) => <span>{tag}</span>)}
         </div>
       </article>
     ),
