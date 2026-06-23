@@ -8,7 +8,7 @@ import type {
 import { withBase } from "../utils/paths";
 
 export const siteOrigin =
-  import.meta.env.PUBLIC_SITE_URL || "https://grrr419-create.github.io";
+  import.meta.env.PUBLIC_SITE_URL || "https://buddhamo.com";
 export const siteUrl = new URL(withBase("/"), siteOrigin).toString().replace(/\/$/, "");
 
 export const siteConfig = {

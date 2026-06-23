@@ -18,7 +18,8 @@ jobs:
   build:
     runs-on: ubuntu-latest
     env:
-      PUBLIC_SITE_URL: https://grrr419-create.github.io
+      PUBLIC_SITE_URL: https://buddhamo.com
+      SITE_BASE_PATH: /
       PUBLIC_SUPABASE_URL: ${{ secrets.PUBLIC_SUPABASE_URL }}
       PUBLIC_SUPABASE_ANON_KEY: ${{ secrets.PUBLIC_SUPABASE_ANON_KEY }}
       PUBLIC_VIEW_COUNTER_SITE_KEY: buddhamoa
