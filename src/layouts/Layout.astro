@@ -72,6 +72,10 @@ const { title, description, pathname, image, robots, structuredData = [] } = Ast
       <MobileShareButton />
     </div>
 
+    <script>
+      import "../scripts/statsAuthRedirect.ts";
+    </script>
+
     <script is:inline>
       (() => {
         window.__buddhamoaAnalytics = window.__buddhamoaAnalytics || [];

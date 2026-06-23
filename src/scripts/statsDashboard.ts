@@ -50,6 +50,8 @@ type StatsResponse = {
 const supabaseUrl = import.meta.env.PUBLIC_SUPABASE_URL || "";
 const supabaseAnonKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY || "";
 const siteKey = import.meta.env.PUBLIC_VIEW_COUNTER_SITE_KEY || "buddhamoa";
+const basePath = import.meta.env.BASE_URL || "/";
+const statsLoginIntentKey = "buddhamoa:stats-login-intent";
 
 const root = document.querySelector<HTMLElement>("[data-stats-dashboard]");
 const loginForm = document.querySelector<HTMLFormElement>("[data-stats-login]");
@@ -119,6 +121,34 @@ const hideMessage = () => {
 
   message.hidden = true;
   message.textContent = "";
+};
+
+const normalizeBasePath = (value: string) => {
+  const path = value.startsWith("/") ? value : `/${value}`;
+
+  return path.endsWith("/") ? path : `${path}/`;
+};
+
+const getStatsRedirectUrl = () => {
+  const statsPath = `${normalizeBasePath(basePath)}stats/`.replace(/\/{2,}/g, "/");
+
+  return new URL(statsPath, window.location.origin).toString();
+};
+
+const rememberStatsLoginIntent = () => {
+  try {
+    window.localStorage.setItem(statsLoginIntentKey, String(Date.now()));
+  } catch {
+    // Some privacy modes disable localStorage. The explicit redirect URL still handles normal flows.
+  }
+};
+
+const clearStatsLoginIntent = () => {
+  try {
+    window.localStorage.removeItem(statsLoginIntentKey);
+  } catch {
+    // Ignore unavailable storage.
+  }
 };
 
 const setSignedOutView = () => {
@@ -265,6 +295,7 @@ const init = async () => {
   }
 
   setSignedInView(email);
+  clearStatsLoginIntent();
   await loadStats();
 };
 
@@ -272,11 +303,12 @@ loginForm?.addEventListener("submit", async (event) => {
   event.preventDefault();
   if (!supabase || !emailInput?.value) return;
 
-  const redirectTo = window.location.href.split("#")[0].split("?")[0];
+  const redirectTo = getStatsRedirectUrl();
   const email = emailInput.value.trim().toLowerCase();
 
   hideMessage();
   setLoading(true);
+  rememberStatsLoginIntent();
   const { error } = await supabase.auth.signInWithOtp({
     email,
     options: {
@@ -306,6 +338,7 @@ logoutButton?.addEventListener("click", async () => {
   if (!supabase) return;
 
   await supabase.auth.signOut();
+  clearStatsLoginIntent();
   setSignedOutView();
   showMessage("로그아웃되었습니다.");
 });
