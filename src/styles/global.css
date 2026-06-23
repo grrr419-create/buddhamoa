@@ -715,13 +715,13 @@ section {
 
 .product-curations {
   display: grid;
-  gap: 18px;
-  margin: 24px 0;
+  gap: 4px;
+  margin: 14px 0;
 }
 
 .product-curation {
   display: grid;
-  gap: 13px;
+  gap: 10px;
   min-width: 0;
 }
 
@@ -1665,12 +1665,12 @@ section {
   }
 
   .product-curations {
-    gap: 16px;
-    margin: 22px 0;
+    gap: 4px;
+    margin: 12px 0;
   }
 
   .product-curation {
-    gap: 10px;
+    gap: 8px;
   }
 
   .product-curation__title {

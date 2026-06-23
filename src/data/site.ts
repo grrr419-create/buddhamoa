@@ -290,6 +290,80 @@ const curationProductItems: Record<string, ProductCuration["items"]> = {
       href: "https://mkt.shopping.naver.com/link/6a3a7a22caf98b0660e68814",
     },
   ],
+  "bold-prayer-beads": [
+    {
+      slug: "zodiac-prayer-beads",
+      name: "12지신 염주",
+      image: "/images/curations/bold-prayer-beads/zodiac-prayer-beads.png",
+      imageAlt: "12지신 염주 굵은염주 상품 이미지",
+      href: "https://mkt.shopping.naver.com/link/686283f814cd9006fa2e5b1f",
+    },
+    {
+      slug: "diamond-sutra-prayer-beads",
+      name: "금강경 염주",
+      image: "/images/curations/bold-prayer-beads/diamond-sutra-prayer-beads.png",
+      imageAlt: "금강경 염주 굵은염주 상품 이미지",
+      href: "https://mkt.shopping.naver.com/link/6a3a7bb0bb1d367cca332734",
+    },
+    {
+      slug: "car-prayer-beads",
+      name: "자동차 염주",
+      image: "/images/curations/bold-prayer-beads/car-prayer-beads.png",
+      imageAlt: "자동차 염주 굵은염주 상품 이미지",
+      href: "https://mkt.shopping.naver.com/link/6a3a7bdbb7315c7538218ac3",
+    },
+    {
+      slug: "chunky-prayer-beads",
+      name: "굵은 염주",
+      image: "/images/curations/bold-prayer-beads/chunky-prayer-beads.png",
+      imageAlt: "굵은 염주 상품 이미지",
+      href: "https://mkt.shopping.naver.com/link/6a3a7bfbb7315c7538218ac4",
+    },
+    {
+      slug: "large-prayer-beads",
+      name: "큰 염주",
+      image: "/images/curations/bold-prayer-beads/large-prayer-beads.png",
+      imageAlt: "큰 염주 상품 이미지",
+      href: "https://mkt.shopping.naver.com/link/6a3a7ce832efe67a65f5d2fd",
+    },
+  ],
+  "desk-buddha": [
+    {
+      slug: "vairocana-buddha",
+      name: "비로자나불",
+      image: "/images/curations/desk-buddha/vairocana-buddha.png",
+      imageAlt: "비로자나불 책상 위 작은 부처님 상품 이미지",
+      href: "https://mkt.shopping.naver.com/link/688f00c0815d200271efe0a4",
+    },
+    {
+      slug: "baby-buddha",
+      name: "아기 부처",
+      image: "/images/curations/desk-buddha/baby-buddha.png",
+      imageAlt: "아기 부처 작은 불상 상품 이미지",
+      href: "https://mkt.shopping.naver.com/link/68b435334d569c2314bf3cd7",
+    },
+    {
+      slug: "mini-buddha-statue",
+      name: "미니 불상",
+      image: "/images/curations/desk-buddha/mini-buddha-statue.png",
+      imageAlt: "미니 불상 상품 이미지",
+      href: "https://mkt.shopping.naver.com/link/6a3a7e708f2a366044c3922e",
+    },
+    {
+      slug: "small-buddha-statue",
+      name: "소형 불상",
+      image: "/images/curations/desk-buddha/small-buddha-statue.png",
+      imageAlt: "소형 불상 상품 이미지",
+      href: "https://mkt.shopping.naver.com/link/688efe7ff6028f0734cd8324",
+    },
+    {
+      slug: "buddha-goods",
+      name: "불상 굿즈",
+      image: "/images/curations/desk-buddha/buddha-goods.png",
+      imageAlt: "불상 굿즈 상품 이미지",
+      href: "https://mkt.shopping.naver.com/link/6a3a7f4bcaf98b0660e68816",
+    },
+  ],
 };
 
 export const productCurations: ProductCuration[] = curationNames.flatMap(([slug, name]) => {
