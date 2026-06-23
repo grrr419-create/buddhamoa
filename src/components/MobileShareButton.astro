@@ -1,0 +1,113 @@
+---
+import { siteConfig, siteUrl } from "../data/site";
+
+const shareTitle = siteConfig.brandName;
+const shareText = siteConfig.siteName;
+const shareUrl = siteUrl;
+---
+
+<div
+  class="mobile-share"
+  data-mobile-share
+  data-share-title={shareTitle}
+  data-share-text={shareText}
+  data-share-url={shareUrl}
+>
+  <button class="mobile-share__button" type="button" aria-label={`${shareTitle} 링크 공유`}>
+    <svg class="mobile-share__icon" viewBox="0 0 24 24" aria-hidden="true">
+      <path d="M16 5.5 12 1.8 8 5.5"></path>
+      <path d="M12 2v12"></path>
+      <path d="M6.5 9.5H5.2a2 2 0 0 0-2 2v7.3a2 2 0 0 0 2 2h13.6a2 2 0 0 0 2-2v-7.3a2 2 0 0 0-2-2h-1.3"></path>
+    </svg>
+  </button>
+  <span class="mobile-share__toast" role="status" aria-live="polite" data-mobile-share-toast hidden>
+    링크를 복사했어요
+  </span>
+</div>
+
+<script>
+  const shareRoot = document.querySelector<HTMLElement>("[data-mobile-share]");
+  const shareButton = shareRoot?.querySelector<HTMLButtonElement>(".mobile-share__button");
+  const shareToast = shareRoot?.querySelector<HTMLElement>("[data-mobile-share-toast]");
+  let toastTimer: ReturnType<typeof window.setTimeout> | undefined;
+
+  const showShareToast = (message: string) => {
+    if (!shareToast) return;
+
+    shareToast.textContent = message;
+    shareToast.hidden = false;
+    shareRoot?.setAttribute("data-mobile-share-state", "visible");
+
+    if (toastTimer) {
+      window.clearTimeout(toastTimer);
+    }
+
+    toastTimer = window.setTimeout(() => {
+      shareRoot?.removeAttribute("data-mobile-share-state");
+      shareToast.hidden = true;
+    }, 2200);
+  };
+
+  const copyShareUrl = async (url: string) => {
+    if (navigator.clipboard && window.isSecureContext) {
+      await navigator.clipboard.writeText(url);
+      return;
+    }
+
+    const field = document.createElement("textarea");
+    field.value = url;
+    field.setAttribute("readonly", "");
+    field.style.position = "fixed";
+    field.style.top = "-999px";
+    document.body.appendChild(field);
+    field.select();
+    document.execCommand("copy");
+    field.remove();
+  };
+
+  const trackShare = (method: "native" | "copy") => {
+    const detail = {
+      event: "buddhamoa_share",
+      method,
+      href: shareRoot?.dataset.shareUrl || "",
+      timestamp: new Date().toISOString(),
+    };
+
+    window.__buddhamoaAnalytics = window.__buddhamoaAnalytics || [];
+    window.__buddhamoaAnalytics.push(detail);
+    window.dataLayer?.push(detail);
+
+    if (typeof window.gtag === "function") {
+      window.gtag("event", "share", {
+        event_category: "site_share",
+        method,
+        link_url: detail.href,
+      });
+    }
+  };
+
+  shareButton?.addEventListener("click", async () => {
+    if (!shareRoot) return;
+
+    const title = shareRoot.dataset.shareTitle || document.title;
+    const text = shareRoot.dataset.shareText || "";
+    const url = shareRoot.dataset.shareUrl || window.location.origin;
+    const shareData = { title, text, url };
+
+    try {
+      if (navigator.share && (!navigator.canShare || navigator.canShare(shareData))) {
+        await navigator.share(shareData);
+        trackShare("native");
+        return;
+      }
+
+      await copyShareUrl(url);
+      trackShare("copy");
+      showShareToast("링크를 복사했어요");
+    } catch (error) {
+      if (error instanceof DOMException && error.name === "AbortError") return;
+
+      showShareToast("복사하지 못했어요");
+    }
+  });
+</script>
