@@ -10,7 +10,7 @@ const { curations } = Astro.props;
 ---
 
 {curations.length > 0 && (
-  <section class="product-curations" aria-label="붓다모아 상품 큐레이션">
+  <section id="product-curations" class="product-curations" aria-label="붓다모아 상품 큐레이션">
     {curations.map((curation, curationIndex) => (
       <section
         class={`product-curation${curationIndex % 2 === 1 ? " product-curation--reverse" : ""}`}
@@ -19,6 +19,7 @@ const { curations } = Astro.props;
         <h2 class="product-curation__title" id={`product-curation-${curation.slug}`}>
           {curation.name}
         </h2>
+        <p class="product-curation__description">{curation.description}</p>
 
         <div class="product-curation__viewport">
           <div class="product-curation__track">
@@ -30,7 +31,7 @@ const { curations } = Astro.props;
                   aria-label={`${item.name} 상품 보러가기`}
                   data-track={`product_curation_${curation.slug}_${item.slug}`}
                   target="_blank"
-                  rel="noreferrer"
+                  rel="nofollow noopener noreferrer"
                 >
                   <span class="product-curation-card__image-wrap">
                     <img
@@ -48,14 +49,9 @@ const { curations } = Astro.props;
             </div>
             <div class="product-curation__group" aria-hidden="true">
               {curation.items.map((item) => (
-                <a
+                <article
                   class="product-curation-card"
-                  href={item.href}
-                  aria-label={`${item.name} 상품 보러가기`}
                   data-track={`product_curation_${curation.slug}_${item.slug}`}
-                  target="_blank"
-                  rel="noreferrer"
-                  tabindex="-1"
                 >
                   <span class="product-curation-card__image-wrap">
                     <img
@@ -68,7 +64,7 @@ const { curations } = Astro.props;
                     />
                   </span>
                   <span class="product-curation-card__name">{item.name}</span>
-                </a>
+                </article>
               ))}
             </div>
           </div>

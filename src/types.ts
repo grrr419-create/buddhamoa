@@ -31,6 +31,7 @@ export type ProductCurationItem = {
 export type ProductCuration = {
   slug: string;
   name: string;
+  description: string;
   items: ProductCurationItem[];
 };
 

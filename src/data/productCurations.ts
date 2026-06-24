@@ -1,19 +1,71 @@
 import type { ProductCuration } from "../types";
 
 const curationNames = [
-  ["emotional-buddhist-goods", "요즘 찾는 감성 불교굿즈"],
-  ["daily-wrist-prayer-beads", "매일 차기 좋은 손목염주"],
-  ["finger-prayer-beads", "가볍게 돌리는 손가락염주"],
-  ["bold-prayer-beads", "묵직한 멋의 굵은염주"],
-  ["daily-buddhist-keyrings", "매일 함께하는 불교키링"],
-  ["desk-buddha", "책상 위 작은 부처님"],
-  ["home-buddha-statues", "우리 집 분위기를 바꾸는 불상"],
-  ["practice-space-buddha", "신행 공간의 중심, 부처님불상"],
-  ["compassion-symbols", "마음을 어루만지는 자비의 상징"],
-  ["prayer-gifts", "소중한 이를 위한 기도용품"],
-  ["luck-and-smile-props", "복과 웃음을 함께 담은 소품"],
-  ["cozy-buddhist-interior", "귀엽고 편안한 불교 인테리어"],
-  ["feng-shui-props", "좋은 기운을 들이는 풍수소품"],
+  [
+    "emotional-buddhist-goods",
+    "요즘 찾는 감성 불교굿즈",
+    "불교 개구리·미니 목탁·박람회 굿즈로 공간에 따뜻한 감성을 더해보세요.",
+  ],
+  [
+    "daily-wrist-prayer-beads",
+    "매일 차기 좋은 손목염주",
+    "손목에 가볍게 차기 좋아 일상에서도 부담 없는 염주를 골라보세요.",
+  ],
+  [
+    "finger-prayer-beads",
+    "가볍게 돌리는 손가락염주",
+    "기도나 이동 중 손끝으로 마음을 가다듬는 작은 염주를 만나보세요.",
+  ],
+  [
+    "bold-prayer-beads",
+    "묵직한 멋의 굵은염주",
+    "존재감 있는 알 크기와 상징적인 디자인의 굵은 염주를 골라보세요.",
+  ],
+  [
+    "daily-buddhist-keyrings",
+    "매일 함께하는 불교키링",
+    "가방과 열쇠에 걸어 가까이 두는 작은 불교 상징 소품을 소개합니다.",
+  ],
+  [
+    "desk-buddha",
+    "책상 위 작은 부처님",
+    "책상·선반·침실에 편안한 불교 감성을 더할 작은 부처님을 만나보세요.",
+  ],
+  [
+    "home-buddha-statues",
+    "우리 집 분위기를 바꾸는 불상",
+    "가정 불단·명상 공간·선반에 어울리는 불상을 골라보세요.",
+  ],
+  [
+    "practice-space-buddha",
+    "신행 공간의 중심, 부처님불상",
+    "기도와 명상의 중심이 되는 불상류를 신행 공간의 용도에 맞춰 살펴봅니다.",
+  ],
+  [
+    "compassion-symbols",
+    "마음을 어루만지는 자비의 상징",
+    "관음, 지장, 연꽃처럼 자비와 평온의 의미가 담긴 상징 소품을 안내합니다.",
+  ],
+  [
+    "prayer-gifts",
+    "소중한 이를 위한 기도용품",
+    "부모님, 지인, 초심자에게 선물하기 좋은 기도용품과 수행 소품을 모았습니다.",
+  ],
+  [
+    "luck-and-smile-props",
+    "복과 웃음을 함께 담은 소품",
+    "공간에 밝은 기운을 더하는 장식 소품과 선물용 불교굿즈를 소개합니다.",
+  ],
+  [
+    "cozy-buddhist-interior",
+    "귀엽고 편안한 불교 인테리어",
+    "부담스럽지 않은 크기와 표정으로 일상 공간에 잘 스며드는 불교 인테리어 소품입니다.",
+  ],
+  [
+    "feng-shui-props",
+    "좋은 기운을 들이는 풍수소품",
+    "상징성과 배치감을 함께 고려하는 풍수 소품을 공간별로 살펴볼 수 있습니다.",
+  ],
 ] as const;
 
 type CurationSlug = (typeof curationNames)[number][0];
@@ -243,8 +295,8 @@ const curationProductItems: Partial<Record<CurationSlug, ProductCuration["items"
   ],
 };
 
-export const productCurations: ProductCuration[] = curationNames.flatMap(([slug, name]) => {
+export const productCurations: ProductCuration[] = curationNames.flatMap(([slug, name, description]) => {
   const items = curationProductItems[slug];
 
-  return items ? [{ slug, name, items }] : [];
+  return items ? [{ slug, name, description, items }] : [];
 });
