@@ -1467,8 +1467,46 @@ section {
   font-weight: 700;
 }
 
+.stats-visual-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.65fr) minmax(260px, 0.85fr);
+  gap: 16px;
+  align-items: stretch;
+}
+
 .stats-chart {
   min-height: 260px;
+}
+
+.stats-share-chart {
+  display: grid;
+  align-content: start;
+  gap: 12px;
+  min-width: 0;
+  padding: 14px;
+  border: 1px solid rgba(10, 74, 48, 0.1);
+  border-radius: var(--radius);
+  background: rgba(244, 245, 238, 0.48);
+}
+
+.stats-share-chart__head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.stats-share-chart__head h3 {
+  margin: 0;
+  color: var(--green-deep);
+  font-size: 0.98rem;
+}
+
+.stats-share-chart__head span {
+  color: var(--muted);
+  font-size: 0.78rem;
+  font-weight: 700;
+  white-space: nowrap;
 }
 
 .stats-line-chart {
@@ -1543,6 +1581,63 @@ section {
 .stats-bars {
   display: grid;
   gap: 10px;
+}
+
+.stats-stack-bars {
+  display: grid;
+  gap: 12px;
+}
+
+.stats-stack-bar {
+  display: grid;
+  gap: 6px;
+}
+
+.stats-stack-bar__head,
+.stats-stack-bar__meta {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 10px;
+  min-width: 0;
+}
+
+.stats-stack-bar__head span,
+.stats-stack-bar__meta span:first-child {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.stats-stack-bar__head span {
+  color: var(--text);
+  font-size: 0.84rem;
+  font-weight: 800;
+}
+
+.stats-stack-bar__head strong {
+  color: var(--green-deep);
+  font-size: 0.84rem;
+}
+
+.stats-stack-bar__track {
+  display: flex;
+  height: 12px;
+  overflow: hidden;
+  border-radius: 999px;
+  background: rgba(10, 74, 48, 0.08);
+}
+
+.stats-stack-bar__track span {
+  display: block;
+  height: 100%;
+}
+
+.stats-stack-bar__meta {
+  color: var(--muted);
+  font-size: 0.76rem;
+  font-weight: 700;
 }
 
 .stats-bar {
@@ -2133,6 +2228,14 @@ section {
 
   .stats-card strong {
     font-size: 1.72rem;
+  }
+
+  .stats-visual-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .stats-share-chart {
+    padding: 12px;
   }
 
   .product-grid,

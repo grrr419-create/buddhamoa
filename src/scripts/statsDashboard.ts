@@ -50,6 +50,21 @@ type TrendPoint = {
   views: number;
 };
 
+type ReferrerShare = {
+  color: string;
+  percentage: number;
+  source: string;
+  views: number;
+};
+
+type ReferrerPeriod = {
+  key: string;
+  label: string;
+  shortLabel: string;
+  shares: ReferrerShare[];
+  total: number;
+};
+
 type StatsResponse = {
   generated_at?: string;
   today_count?: CountValue;
@@ -89,10 +104,14 @@ const updatedLabel = document.querySelector<HTMLElement>("[data-stats-updated]")
 const trendTitle = document.querySelector<HTMLElement>("[data-stats-trend-title]");
 const trendMeta = document.querySelector<HTMLElement>("[data-stats-trend-meta]");
 const trendChart = document.querySelector<HTMLElement>("[data-stats-trend-chart]");
+const referrerShareMeta = document.querySelector<HTMLElement>("[data-stats-referrer-share-meta]");
+const referrerStack = document.querySelector<HTMLElement>("[data-stats-referrer-stack]");
 const referrerBars = document.querySelector<HTMLElement>("[data-stats-referrer-bars]");
 const pathBars = document.querySelector<HTMLElement>("[data-stats-path-bars]");
 
 let latestStats: StatsResponse | null = null;
+
+const referrerPalette = ["#0a4a30", "#c78b34", "#1f6c49", "#7d6a33", "#61706a"];
 
 const supabase =
   supabaseUrl && supabaseAnonKey
@@ -204,6 +223,30 @@ const getMonthKey = (value: string) => {
   if (!parts) return value;
 
   return `${parts.year}-${String(parts.month).padStart(2, "0")}`;
+};
+
+const getPeriodKey = (value: string, granularity: Granularity) => {
+  if (granularity === "week") return getWeekKey(value);
+  if (granularity === "month") return getMonthKey(value);
+
+  return value;
+};
+
+const getPeriodLabel = (key: string, granularity: Granularity) => {
+  if (granularity === "week") return `${formatLongDate(key)} 시작 주`;
+  if (granularity === "month") return `${key.replace("-", ".")} 월`;
+
+  return formatLongDate(key);
+};
+
+const getPeriodShortLabel = (key: string, granularity: Granularity) => {
+  if (granularity === "week") return `${formatShortDate(key)}주`;
+  if (granularity === "month") {
+    const parts = key.split("-").map(Number);
+    return parts[1] ? `${parts[1]}월` : key;
+  }
+
+  return formatShortDate(key);
 };
 
 const getRangeLabel = (dayCount: number) => `최근 ${dayCount}일`;
@@ -343,8 +386,7 @@ const aggregateTrend = (series: DailyPoint[], granularity: Granularity) => {
   const grouped = new Map<string, TrendPoint>();
 
   series.forEach((point) => {
-    const key = granularity === "week" ? getWeekKey(point.date) : getMonthKey(point.date);
-    const parts = parseDateParts(point.date);
+    const key = getPeriodKey(point.date, granularity);
     const existing = grouped.get(key);
 
     if (existing) {
@@ -354,16 +396,8 @@ const aggregateTrend = (series: DailyPoint[], granularity: Granularity) => {
 
     grouped.set(key, {
       key,
-      label:
-        granularity === "week"
-          ? `${formatLongDate(key)} 시작 주`
-          : `${key.replace("-", ".")} 월`,
-      shortLabel:
-        granularity === "week"
-          ? `${formatShortDate(key)}주`
-          : parts
-            ? `${parts.month}월`
-            : key,
+      label: getPeriodLabel(key, granularity),
+      shortLabel: getPeriodShortLabel(key, granularity),
       views: point.views,
     });
   });
@@ -468,6 +502,100 @@ const aggregateDailyReferrers = (rows: DailyReferrerRow[]) => {
     .slice(0, 6);
 };
 
+const aggregateReferrerSharePeriods = (
+  rows: DailyReferrerRow[],
+  series: DailyPoint[],
+  granularity: Granularity,
+) => {
+  const periodOrder = aggregateTrend(series, granularity).map((point) => point.key);
+  const periodRows = new Map<string, Map<string, number>>();
+  const allowedDates = new Set(series.map((point) => point.date));
+
+  periodOrder.forEach((key) => {
+    periodRows.set(key, new Map());
+  });
+
+  rows.forEach((row) => {
+    if (!row.date || !allowedDates.has(row.date)) return;
+
+    const key = getPeriodKey(row.date, granularity);
+    const sources = periodRows.get(key);
+    if (!sources) return;
+
+    const source = row.source || "direct";
+    sources.set(source, (sources.get(source) || 0) + toCount(row.views));
+  });
+
+  return periodOrder
+    .map((key) => {
+      const sourceRows = Array.from(periodRows.get(key) || [], ([source, views]) => ({
+        source,
+        views,
+      }))
+        .filter((row) => row.views > 0)
+        .sort((left, right) => right.views - left.views || left.source.localeCompare(right.source));
+      const primaryRows = sourceRows.slice(0, 4);
+      const otherViews = sourceRows.slice(4).reduce((sum, row) => sum + row.views, 0);
+      const rowsWithOther =
+        otherViews > 0 ? [...primaryRows, { source: "기타", views: otherViews }] : primaryRows;
+      const total = rowsWithOther.reduce((sum, row) => sum + row.views, 0);
+
+      return {
+        key,
+        label: getPeriodLabel(key, granularity),
+        shortLabel: getPeriodShortLabel(key, granularity),
+        shares: rowsWithOther.map((row, index) => ({
+          color: referrerPalette[index % referrerPalette.length],
+          percentage: total > 0 ? Math.round((row.views / total) * 1000) / 10 : 0,
+          source: row.source,
+          views: row.views,
+        })),
+        total,
+      };
+    })
+    .filter((period) => period.total > 0);
+};
+
+const renderReferrerStack = (target: HTMLElement | null, periods: ReferrerPeriod[]) => {
+  if (!target) return;
+
+  if (periods.length === 0) {
+    target.innerHTML = '<div class="stats-bars__empty">유입 데이터가 없습니다.</div>';
+    return;
+  }
+
+  const visiblePeriods = periods.slice(-8);
+  target.innerHTML = visiblePeriods
+    .map((period) => {
+      const topSource = period.shares[0];
+      return `
+        <div class="stats-stack-bar">
+          <div class="stats-stack-bar__head">
+            <span>${escapeHtml(period.shortLabel)}</span>
+            <strong>${formatCount(period.total)}</strong>
+          </div>
+          <div class="stats-stack-bar__track" aria-label="${escapeHtml(period.label)} 유입 비중">
+            ${period.shares
+              .map(
+                (share) => `
+                  <span
+                    title="${escapeHtml(share.source)} ${share.percentage}% (${formatCount(share.views)})"
+                    style="width: ${share.percentage}%; background: ${share.color};"
+                  ></span>
+                `,
+              )
+              .join("")}
+          </div>
+          <div class="stats-stack-bar__meta">
+            <span>${escapeHtml(topSource?.source || "-")}</span>
+            <span>${topSource ? `${topSource.percentage}%` : "-"}</span>
+          </div>
+        </div>
+      `;
+    })
+    .join("");
+};
+
 const renderBars = (
   target: HTMLElement | null,
   rows: { label: string; views: number }[],
@@ -516,6 +644,16 @@ const renderStats = (stats: StatsResponse) => {
     trendMeta.textContent = `${getRangeLabel(dayCount)} · ${trendPoints.length}개 구간`;
   }
   renderTrendChart(trendChart, trendPoints);
+  const referrerSharePeriods = aggregateReferrerSharePeriods(
+    stats.daily_referrers || [],
+    dailySeries,
+    granularity,
+  );
+  if (referrerShareMeta) {
+    referrerShareMeta.textContent =
+      referrerSharePeriods.length > 0 ? `${referrerSharePeriods.length}개 구간` : "";
+  }
+  renderReferrerStack(referrerStack, referrerSharePeriods);
   renderBars(referrerBars, aggregateDailyReferrers(stats.daily_referrers || []));
   renderBars(
     pathBars,
@@ -529,6 +667,7 @@ const renderStats = (stats: StatsResponse) => {
     document.querySelector("[data-stats-daily]"),
     dailySeries
       .slice()
+      .filter((row) => row.views > 0)
       .reverse()
       .map(
       (row) =>

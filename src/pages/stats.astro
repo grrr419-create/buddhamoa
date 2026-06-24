@@ -99,7 +99,16 @@ const description = "붓다모아 관리자용 비공개 조회수 통계 페이
           <h2 data-stats-trend-title>일별 조회수 추이</h2>
           <span data-stats-trend-meta></span>
         </div>
-        <div class="stats-chart" data-stats-trend-chart></div>
+        <div class="stats-visual-grid">
+          <div class="stats-chart" data-stats-trend-chart></div>
+          <div class="stats-share-chart">
+            <div class="stats-share-chart__head">
+              <h3>유입 비중</h3>
+              <span data-stats-referrer-share-meta></span>
+            </div>
+            <div class="stats-stack-bars" data-stats-referrer-stack></div>
+          </div>
+        </div>
       </section>
 
       <div class="stats-grid">
