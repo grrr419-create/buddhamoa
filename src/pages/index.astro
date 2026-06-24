@@ -5,8 +5,11 @@ import LandingProductCurationsSection from "../components/LandingProductCuration
 import LandingCategorySection from "../components/LandingCategorySection.astro";
 import ProductShortsSection from "../components/ProductShortsSection.astro";
 import LandingTempleShortsSection from "../components/LandingTempleShortsSection.astro";
+import FaqList from "../components/FaqList.astro";
+import SectionHeader from "../components/SectionHeader.astro";
 import {
   categories,
+  faqs,
   productCurations,
   productShorts,
   siteConfig,
@@ -14,6 +17,7 @@ import {
   topNotices,
 } from "../data/site";
 import {
+  faqSchema,
   organizationSchema,
   productCurationItemListSchemas,
   websiteSchema,
@@ -32,6 +36,7 @@ const description =
     organizationSchema(),
     websiteSchema(),
     ...productCurationItemListSchemas(productCurations),
+    faqSchema(),
   ]}
 >
   <TopNotice notices={topNotices} />
@@ -40,5 +45,10 @@ const description =
   <LandingProductCurationsSection curations={productCurations} />
   <ProductShortsSection shorts={productShorts} />
   <LandingTempleShortsSection shorts={templeShorts} />
+
+  <section id="guide-faq">
+    <SectionHeader title="붓다모아 이용 안내" />
+    <FaqList items={faqs} />
+  </section>
 
 </Layout>
