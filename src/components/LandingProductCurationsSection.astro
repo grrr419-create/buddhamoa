@@ -4,13 +4,14 @@ import { withBase } from "../utils/paths";
 
 type Props = {
   curations: ProductCuration[];
+  sectionId?: string;
 };
 
-const { curations } = Astro.props;
+const { curations, sectionId } = Astro.props;
 ---
 
 {curations.length > 0 && (
-  <section id="product-curations" class="product-curations" aria-label="붓다모아 상품 큐레이션">
+  <section id={sectionId} class="product-curations" aria-label="붓다모아 상품 큐레이션">
     {curations.map((curation, curationIndex) => (
       <section
         class={`product-curation${curationIndex % 2 === 1 ? " product-curation--reverse" : ""}`}

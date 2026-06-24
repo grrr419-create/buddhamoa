@@ -10,7 +10,7 @@ const { shorts } = Astro.props;
 ---
 
 <section id="product-shorts">
-  <SectionHeader title="짧게보는 붓다모아" />
+  <SectionHeader title="쇼츠로 보는 붓다모아 Pick" />
   <div class="temple-shorts-grid">
     {
       shorts.map((short) => (
@@ -18,7 +18,7 @@ const { shorts } = Astro.props;
           <div class="temple-short-card__media">
             <iframe
               src={short.embedUrl}
-              title={`${short.title} 짧게보는 붓다모아 영상`}
+              title={`${short.title} 쇼츠로 보는 붓다모아 Pick 영상`}
               loading="lazy"
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
               referrerpolicy="strict-origin-when-cross-origin"

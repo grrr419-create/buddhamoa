@@ -2115,6 +2115,7 @@ section {
 
   .section-head h2 {
     font-size: 1.78rem;
+    font-weight: 800;
     line-height: 1.18;
   }
 
@@ -2172,6 +2173,7 @@ section {
 
   .product-curation__title {
     font-size: 1.24rem;
+    font-weight: 800;
     line-height: 1.28;
   }
 
