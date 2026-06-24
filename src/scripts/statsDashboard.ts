@@ -35,6 +35,21 @@ type DeviceRow = {
   views?: CountValue;
 };
 
+type Granularity = "day" | "week" | "month";
+
+type DailyPoint = {
+  date: string;
+  label: string;
+  views: number;
+};
+
+type TrendPoint = {
+  key: string;
+  label: string;
+  shortLabel: string;
+  views: number;
+};
+
 type StatsResponse = {
   generated_at?: string;
   today_count?: CountValue;
@@ -62,9 +77,22 @@ const content = document.querySelector<HTMLElement>("[data-stats-content]");
 const message = document.querySelector<HTMLElement>("[data-stats-message]");
 const refreshButton = document.querySelector<HTMLButtonElement>("[data-stats-refresh]");
 const logoutButton = document.querySelector<HTMLButtonElement>("[data-stats-logout]");
+const rangeSelect = document.querySelector<HTMLSelectElement>("[data-stats-range]");
+const granularityInputs = Array.from(
+  document.querySelectorAll<HTMLInputElement>('input[name="stats-granularity"]'),
+);
 const todayTotal = document.querySelector<HTMLElement>('[data-stats-total="today"]');
 const allTimeTotal = document.querySelector<HTMLElement>('[data-stats-total="total"]');
+const selectedTotal = document.querySelector<HTMLElement>('[data-stats-total="selected"]');
+const averageTotal = document.querySelector<HTMLElement>('[data-stats-total="average"]');
 const updatedLabel = document.querySelector<HTMLElement>("[data-stats-updated]");
+const trendTitle = document.querySelector<HTMLElement>("[data-stats-trend-title]");
+const trendMeta = document.querySelector<HTMLElement>("[data-stats-trend-meta]");
+const trendChart = document.querySelector<HTMLElement>("[data-stats-trend-chart]");
+const referrerBars = document.querySelector<HTMLElement>("[data-stats-referrer-bars]");
+const pathBars = document.querySelector<HTMLElement>("[data-stats-path-bars]");
+
+let latestStats: StatsResponse | null = null;
 
 const supabase =
   supabaseUrl && supabaseAnonKey
@@ -89,6 +117,96 @@ const formatDate = (value: string | undefined) => {
 
   return value;
 };
+
+const toCount = (value: CountValue) => {
+  const count = Number(value);
+  if (!Number.isFinite(count) || count < 0) return 0;
+
+  return count;
+};
+
+const getSelectedRange = () => {
+  const range = Number(rangeSelect?.value || 30);
+  if ([7, 14, 30, 90].includes(range)) return range;
+
+  return 30;
+};
+
+const getSelectedGranularity = (): Granularity => {
+  const selected = granularityInputs.find((input) => input.checked)?.value;
+  if (selected === "week" || selected === "month") return selected;
+
+  return "day";
+};
+
+const parseDateParts = (value: string) => {
+  const [year, month, day] = value.split("-").map(Number);
+  if (!year || !month || !day) return null;
+
+  return { year, month, day };
+};
+
+const dateFromIsoDate = (value: string) => {
+  const parts = parseDateParts(value);
+  if (!parts) return null;
+
+  return new Date(Date.UTC(parts.year, parts.month - 1, parts.day));
+};
+
+const toIsoDate = (date: Date) => date.toISOString().slice(0, 10);
+
+const addDays = (value: string, days: number) => {
+  const date = dateFromIsoDate(value);
+  if (!date) return value;
+
+  date.setUTCDate(date.getUTCDate() + days);
+  return toIsoDate(date);
+};
+
+const getKoreaToday = () => {
+  const parts = new Intl.DateTimeFormat("en-US", {
+    day: "2-digit",
+    month: "2-digit",
+    timeZone: "Asia/Seoul",
+    year: "numeric",
+  }).formatToParts(new Date());
+  const partValue = (type: string) => parts.find((part) => part.type === type)?.value || "";
+
+  return `${partValue("year")}-${partValue("month")}-${partValue("day")}`;
+};
+
+const formatShortDate = (value: string) => {
+  const parts = parseDateParts(value);
+  if (!parts) return value;
+
+  return `${parts.month}/${parts.day}`;
+};
+
+const formatLongDate = (value: string) => {
+  const parts = parseDateParts(value);
+  if (!parts) return value;
+
+  return `${parts.year}.${String(parts.month).padStart(2, "0")}.${String(parts.day).padStart(2, "0")}`;
+};
+
+const getWeekKey = (value: string) => {
+  const date = dateFromIsoDate(value);
+  if (!date) return value;
+
+  const day = date.getUTCDay();
+  const mondayOffset = (day + 6) % 7;
+  date.setUTCDate(date.getUTCDate() - mondayOffset);
+  return toIsoDate(date);
+};
+
+const getMonthKey = (value: string) => {
+  const parts = parseDateParts(value);
+  if (!parts) return value;
+
+  return `${parts.year}-${String(parts.month).padStart(2, "0")}`;
+};
+
+const getRangeLabel = (dayCount: number) => `최근 ${dayCount}일`;
 
 const escapeHtml = (value: string) =>
   value
@@ -169,6 +287,10 @@ const setSignedInView = (email: string) => {
 const setLoading = (isLoading: boolean) => {
   if (refreshButton) refreshButton.disabled = isLoading;
   if (logoutButton) logoutButton.disabled = isLoading;
+  if (rangeSelect) rangeSelect.disabled = isLoading;
+  granularityInputs.forEach((input) => {
+    input.disabled = isLoading;
+  });
 };
 
 const renderRows = (
@@ -185,16 +307,233 @@ const renderRows = (
       : `<tr><td colspan="${columnCount}" class="stats-table__empty">${emptyLabel}</td></tr>`;
 };
 
+const getDailySeries = (rows: DailyRow[], dayCount: number) => {
+  const viewsByDate = new Map<string, number>();
+  rows.forEach((row) => {
+    if (!row.date) return;
+    viewsByDate.set(row.date, toCount(row.views));
+  });
+
+  const endDate = getKoreaToday();
+  const startDate = addDays(endDate, -(dayCount - 1));
+  const series: DailyPoint[] = [];
+
+  for (let offset = 0; offset < dayCount; offset += 1) {
+    const date = addDays(startDate, offset);
+    series.push({
+      date,
+      label: formatLongDate(date),
+      views: viewsByDate.get(date) || 0,
+    });
+  }
+
+  return series;
+};
+
+const aggregateTrend = (series: DailyPoint[], granularity: Granularity) => {
+  if (granularity === "day") {
+    return series.map((point) => ({
+      key: point.date,
+      label: point.label,
+      shortLabel: formatShortDate(point.date),
+      views: point.views,
+    }));
+  }
+
+  const grouped = new Map<string, TrendPoint>();
+
+  series.forEach((point) => {
+    const key = granularity === "week" ? getWeekKey(point.date) : getMonthKey(point.date);
+    const parts = parseDateParts(point.date);
+    const existing = grouped.get(key);
+
+    if (existing) {
+      existing.views += point.views;
+      return;
+    }
+
+    grouped.set(key, {
+      key,
+      label:
+        granularity === "week"
+          ? `${formatLongDate(key)} 시작 주`
+          : `${key.replace("-", ".")} 월`,
+      shortLabel:
+        granularity === "week"
+          ? `${formatShortDate(key)}주`
+          : parts
+            ? `${parts.month}월`
+            : key,
+      views: point.views,
+    });
+  });
+
+  return Array.from(grouped.values());
+};
+
+const getGranularityLabel = (granularity: Granularity) => {
+  if (granularity === "week") return "주간";
+  if (granularity === "month") return "월간";
+
+  return "일별";
+};
+
+const renderTrendChart = (target: HTMLElement | null, points: TrendPoint[]) => {
+  if (!target) return;
+
+  if (points.length === 0) {
+    target.innerHTML = '<div class="stats-chart__empty">표시할 데이터가 없습니다.</div>';
+    return;
+  }
+
+  const width = 720;
+  const height = 260;
+  const padding = { bottom: 38, left: 44, right: 18, top: 22 };
+  const chartWidth = width - padding.left - padding.right;
+  const chartHeight = height - padding.top - padding.bottom;
+  const maxViews = Math.max(...points.map((point) => point.views), 1);
+  const xStep = points.length > 1 ? chartWidth / (points.length - 1) : chartWidth;
+
+  const coordinates = points.map((point, index) => {
+    const x = padding.left + (points.length > 1 ? index * xStep : chartWidth / 2);
+    const y = padding.top + chartHeight - (point.views / maxViews) * chartHeight;
+    return { ...point, x, y };
+  });
+  const linePath = coordinates
+    .map((point, index) => `${index === 0 ? "M" : "L"} ${point.x.toFixed(2)} ${point.y.toFixed(2)}`)
+    .join(" ");
+  const areaPath = `${linePath} L ${coordinates.at(-1)?.x.toFixed(2)} ${padding.top + chartHeight} L ${coordinates[0]?.x.toFixed(2)} ${padding.top + chartHeight} Z`;
+  const labelInterval = Math.max(1, Math.ceil(points.length / 6));
+  const yTicks = [0, Math.ceil(maxViews / 2), maxViews];
+  const total = points.reduce((sum, point) => sum + point.views, 0);
+  const peak = coordinates.reduce((currentPeak, point) =>
+    point.views > currentPeak.views ? point : currentPeak,
+  coordinates[0]);
+
+  target.innerHTML = `
+    <svg class="stats-line-chart" viewBox="0 0 ${width} ${height}" role="img" aria-label="조회수 추이 그래프">
+      <defs>
+        <linearGradient id="stats-line-fill" x1="0" x2="0" y1="0" y2="1">
+          <stop offset="0%" stop-color="#1f6c49" stop-opacity="0.24"></stop>
+          <stop offset="100%" stop-color="#1f6c49" stop-opacity="0.03"></stop>
+        </linearGradient>
+      </defs>
+      <rect class="stats-line-chart__plot" x="${padding.left}" y="${padding.top}" width="${chartWidth}" height="${chartHeight}"></rect>
+      ${yTicks
+        .map((tick) => {
+          const y = padding.top + chartHeight - (tick / maxViews) * chartHeight;
+          return `
+            <line class="stats-line-chart__grid" x1="${padding.left}" x2="${width - padding.right}" y1="${y.toFixed(2)}" y2="${y.toFixed(2)}"></line>
+            <text class="stats-line-chart__y-label" x="${padding.left - 10}" y="${(y + 4).toFixed(2)}">${formatCount(tick)}</text>
+          `;
+        })
+        .join("")}
+      <path class="stats-line-chart__area" d="${areaPath}"></path>
+      <path class="stats-line-chart__line" d="${linePath}"></path>
+      ${coordinates
+        .map(
+          (point) => `
+            <circle class="stats-line-chart__point" cx="${point.x.toFixed(2)}" cy="${point.y.toFixed(2)}" r="${point === peak ? 4.6 : 3.2}">
+              <title>${escapeHtml(point.label)}: ${formatCount(point.views)}</title>
+            </circle>
+          `,
+        )
+        .join("")}
+      ${coordinates
+        .filter((_, index) => index % labelInterval === 0 || index === coordinates.length - 1)
+        .map(
+          (point) => `
+            <text class="stats-line-chart__x-label" x="${point.x.toFixed(2)}" y="${height - 10}">${escapeHtml(point.shortLabel)}</text>
+          `,
+        )
+        .join("")}
+    </svg>
+    <div class="stats-chart__caption">
+      <span>합계 ${formatCount(total)}</span>
+      <span>최고 ${escapeHtml(peak.label)} ${formatCount(peak.views)}</span>
+    </div>
+  `;
+};
+
+const aggregateDailyReferrers = (rows: DailyReferrerRow[]) => {
+  const grouped = new Map<string, number>();
+
+  rows.forEach((row) => {
+    const source = row.source || "direct";
+    grouped.set(source, (grouped.get(source) || 0) + toCount(row.views));
+  });
+
+  return Array.from(grouped, ([label, views]) => ({ label, views }))
+    .sort((left, right) => right.views - left.views || left.label.localeCompare(right.label))
+    .slice(0, 6);
+};
+
+const renderBars = (
+  target: HTMLElement | null,
+  rows: { label: string; views: number }[],
+  emptyLabel = "표시할 데이터가 없습니다.",
+) => {
+  if (!target) return;
+
+  if (rows.length === 0) {
+    target.innerHTML = `<div class="stats-bars__empty">${emptyLabel}</div>`;
+    return;
+  }
+
+  const maxViews = Math.max(...rows.map((row) => row.views), 1);
+  target.innerHTML = rows
+    .map((row) => {
+      const width = Math.max(4, Math.round((row.views / maxViews) * 100));
+      return `
+        <div class="stats-bar">
+          <div class="stats-bar__head">
+            <span>${escapeHtml(row.label)}</span>
+            <strong>${formatCount(row.views)}</strong>
+          </div>
+          <div class="stats-bar__track">
+            <span style="width: ${width}%"></span>
+          </div>
+        </div>
+      `;
+    })
+    .join("");
+};
+
 const renderStats = (stats: StatsResponse) => {
+  const dayCount = getSelectedRange();
+  const granularity = getSelectedGranularity();
+  const dailySeries = getDailySeries(stats.daily || [], dayCount);
+  const trendPoints = aggregateTrend(dailySeries, granularity);
+  const selectedViews = dailySeries.reduce((sum, point) => sum + point.views, 0);
+  const averageViews = trendPoints.length > 0 ? Math.round(selectedViews / trendPoints.length) : 0;
+
   if (todayTotal) todayTotal.textContent = formatCount(stats.today_count);
   if (allTimeTotal) allTimeTotal.textContent = formatCount(stats.total_count);
+  if (selectedTotal) selectedTotal.textContent = formatCount(selectedViews);
+  if (averageTotal) averageTotal.textContent = formatCount(averageViews);
+  if (trendTitle) trendTitle.textContent = `${getGranularityLabel(granularity)} 조회수 추이`;
+  if (trendMeta) {
+    trendMeta.textContent = `${getRangeLabel(dayCount)} · ${trendPoints.length}개 구간`;
+  }
+  renderTrendChart(trendChart, trendPoints);
+  renderBars(referrerBars, aggregateDailyReferrers(stats.daily_referrers || []));
+  renderBars(
+    pathBars,
+    (stats.top_paths || []).map((row) => ({
+      label: row.path || "-",
+      views: toCount(row.views),
+    })),
+  );
 
   renderRows(
     document.querySelector("[data-stats-daily]"),
-    (stats.daily || []).map(
+    dailySeries
+      .slice()
+      .reverse()
+      .map(
       (row) =>
         `<tr><td>${escapeHtml(formatDate(row.date))}</td><td>${formatCount(row.views)}</td></tr>`,
-    ),
+      ),
   );
 
   renderRows(
@@ -258,7 +597,7 @@ const loadStats = async () => {
   hideMessage();
 
   const { data, error } = await supabase.rpc("get_site_stats", {
-    day_limit: 30,
+    day_limit: getSelectedRange(),
     target_site_key: siteKey,
   });
 
@@ -274,7 +613,8 @@ const loadStats = async () => {
     return;
   }
 
-  renderStats((data || {}) as StatsResponse);
+  latestStats = (data || {}) as StatsResponse;
+  renderStats(latestStats);
 };
 
 const init = async () => {
@@ -333,6 +673,18 @@ loginForm?.addEventListener("submit", async (event) => {
 
 refreshButton?.addEventListener("click", () => {
   loadStats();
+});
+
+rangeSelect?.addEventListener("change", () => {
+  loadStats();
+});
+
+granularityInputs.forEach((input) => {
+  input.addEventListener("change", () => {
+    if (!latestStats) return;
+
+    renderStats(latestStats);
+  });
 });
 
 logoutButton?.addEventListener("click", async () => {

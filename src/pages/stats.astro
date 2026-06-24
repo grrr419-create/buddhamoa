@@ -47,6 +47,34 @@ const description = "붓다모아 관리자용 비공개 조회수 통계 페이
     </form>
 
     <div class="stats-content" data-stats-content hidden>
+      <div class="stats-toolbar" aria-label="통계 조회 옵션">
+        <label class="stats-control">
+          <span>기간</span>
+          <select data-stats-range>
+            <option value="7">최근 7일</option>
+            <option value="14">최근 14일</option>
+            <option value="30" selected>최근 30일</option>
+            <option value="90">최근 90일</option>
+          </select>
+        </label>
+
+        <fieldset class="stats-segmented" data-stats-granularity>
+          <legend>집계 단위</legend>
+          <label>
+            <input type="radio" name="stats-granularity" value="day" checked />
+            <span>일별</span>
+          </label>
+          <label>
+            <input type="radio" name="stats-granularity" value="week" />
+            <span>주간</span>
+          </label>
+          <label>
+            <input type="radio" name="stats-granularity" value="month" />
+            <span>월간</span>
+          </label>
+        </fieldset>
+      </div>
+
       <div class="stats-summary">
         <article class="stats-card">
           <span>Today</span>
@@ -56,7 +84,23 @@ const description = "붓다모아 관리자용 비공개 조회수 통계 페이
           <span>Total</span>
           <strong data-stats-total="total">—</strong>
         </article>
+        <article class="stats-card">
+          <span>Selected</span>
+          <strong data-stats-total="selected">—</strong>
+        </article>
+        <article class="stats-card">
+          <span>Average</span>
+          <strong data-stats-total="average">—</strong>
+        </article>
       </div>
+
+      <section class="stats-panel stats-panel--wide">
+        <div class="stats-panel__head">
+          <h2 data-stats-trend-title>일별 조회수 추이</h2>
+          <span data-stats-trend-meta></span>
+        </div>
+        <div class="stats-chart" data-stats-trend-chart></div>
+      </section>
 
       <div class="stats-grid">
         <section class="stats-panel">
@@ -76,6 +120,7 @@ const description = "붓다모아 관리자용 비공개 조회수 통계 페이
 
         <section class="stats-panel">
           <h2>유입 도메인</h2>
+          <div class="stats-bars" data-stats-referrer-bars></div>
           <div class="stats-table-wrap">
             <table class="stats-table">
               <thead>
@@ -107,6 +152,7 @@ const description = "붓다모아 관리자용 비공개 조회수 통계 페이
 
         <section class="stats-panel">
           <h2>인기 페이지</h2>
+          <div class="stats-bars" data-stats-path-bars></div>
           <div class="stats-table-wrap">
             <table class="stats-table">
               <thead>
