@@ -1640,6 +1640,44 @@ section {
   font-weight: 700;
 }
 
+.stats-stack-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 10px;
+  padding-top: 2px;
+  border-top: 1px solid rgba(10, 74, 48, 0.1);
+}
+
+.stats-stack-legend__item {
+  display: inline-flex;
+  min-width: 0;
+  align-items: center;
+  gap: 5px;
+  color: var(--muted);
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+
+.stats-stack-legend__swatch {
+  width: 10px;
+  height: 10px;
+  flex: 0 0 auto;
+  border-radius: 2px;
+}
+
+.stats-stack-legend__label {
+  max-width: 96px;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.stats-stack-legend__item strong {
+  color: var(--green-deep);
+  font-size: 0.72rem;
+}
+
 .stats-bar {
   display: grid;
   gap: 6px;

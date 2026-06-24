@@ -65,6 +65,11 @@ type ReferrerPeriod = {
   total: number;
 };
 
+type ReferrerShareData = {
+  legend: ReferrerShare[];
+  periods: ReferrerPeriod[];
+};
+
 type StatsResponse = {
   generated_at?: string;
   today_count?: CountValue;
@@ -111,7 +116,8 @@ const pathBars = document.querySelector<HTMLElement>("[data-stats-path-bars]");
 
 let latestStats: StatsResponse | null = null;
 
-const referrerPalette = ["#0a4a30", "#c78b34", "#1f6c49", "#7d6a33", "#61706a"];
+const referrerPalette = ["#0a4a30", "#c78b34", "#2563eb", "#7c3aed", "#c2410c", "#0f766e"];
+const otherReferrerColor = "#6b7280";
 
 const supabase =
   supabaseUrl && supabaseAnonKey
@@ -509,6 +515,7 @@ const aggregateReferrerSharePeriods = (
 ) => {
   const periodOrder = aggregateTrend(series, granularity).map((point) => point.key);
   const periodRows = new Map<string, Map<string, number>>();
+  const sourceTotals = new Map<string, number>();
   const allowedDates = new Set(series.map((point) => point.date));
 
   periodOrder.forEach((key) => {
@@ -523,29 +530,64 @@ const aggregateReferrerSharePeriods = (
     if (!sources) return;
 
     const source = row.source || "direct";
-    sources.set(source, (sources.get(source) || 0) + toCount(row.views));
+    const views = toCount(row.views);
+    sources.set(source, (sources.get(source) || 0) + views);
+    sourceTotals.set(source, (sourceTotals.get(source) || 0) + views);
   });
 
-  return periodOrder
+  const rankedSources = Array.from(sourceTotals, ([source, views]) => ({ source, views }))
+    .filter((row) => row.views > 0)
+    .sort((left, right) => right.views - left.views || left.source.localeCompare(right.source));
+  const primarySources = rankedSources.slice(0, 5).map((row) => row.source);
+  const sourceColorMap = new Map(
+    primarySources.map((source, index) => [source, referrerPalette[index % referrerPalette.length]]),
+  );
+  const otherViews = rankedSources
+    .slice(primarySources.length)
+    .reduce((sum, row) => sum + row.views, 0);
+  const legendRows = [
+    ...primarySources.map((source) => ({
+      color: sourceColorMap.get(source) || referrerPalette[0],
+      source,
+      views: sourceTotals.get(source) || 0,
+    })),
+    ...(otherViews > 0 ? [{ color: otherReferrerColor, source: "기타", views: otherViews }] : []),
+  ];
+  const legendTotal = legendRows.reduce((sum, row) => sum + row.views, 0);
+  const legend = legendRows.map((row) => ({
+    ...row,
+    percentage: legendTotal > 0 ? Math.round((row.views / legendTotal) * 1000) / 10 : 0,
+  }));
+
+  const periods = periodOrder
     .map((key) => {
-      const sourceRows = Array.from(periodRows.get(key) || [], ([source, views]) => ({
+      const sourceRows = Array.from(periodRows.get(key) || new Map(), ([source, views]) => ({
         source,
         views,
       }))
         .filter((row) => row.views > 0)
         .sort((left, right) => right.views - left.views || left.source.localeCompare(right.source));
-      const primaryRows = sourceRows.slice(0, 4);
-      const otherViews = sourceRows.slice(4).reduce((sum, row) => sum + row.views, 0);
+      const primaryRows = primarySources
+        .map((source) => ({
+          source,
+          views: periodRows.get(key)?.get(source) || 0,
+        }))
+        .filter((row) => row.views > 0);
+      const otherPeriodViews = sourceRows
+        .filter((row) => !sourceColorMap.has(row.source))
+        .reduce((sum, row) => sum + row.views, 0);
       const rowsWithOther =
-        otherViews > 0 ? [...primaryRows, { source: "기타", views: otherViews }] : primaryRows;
+        otherPeriodViews > 0
+          ? [...primaryRows, { source: "기타", views: otherPeriodViews }]
+          : primaryRows;
       const total = rowsWithOther.reduce((sum, row) => sum + row.views, 0);
 
       return {
         key,
         label: getPeriodLabel(key, granularity),
         shortLabel: getPeriodShortLabel(key, granularity),
-        shares: rowsWithOther.map((row, index) => ({
-          color: referrerPalette[index % referrerPalette.length],
+        shares: rowsWithOther.map((row) => ({
+          color: sourceColorMap.get(row.source) || otherReferrerColor,
           percentage: total > 0 ? Math.round((row.views / total) * 1000) / 10 : 0,
           source: row.source,
           views: row.views,
@@ -554,10 +596,14 @@ const aggregateReferrerSharePeriods = (
       };
     })
     .filter((period) => period.total > 0);
+
+  return { legend, periods };
 };
 
-const renderReferrerStack = (target: HTMLElement | null, periods: ReferrerPeriod[]) => {
+const renderReferrerStack = (target: HTMLElement | null, data: ReferrerShareData) => {
   if (!target) return;
+
+  const { legend, periods } = data;
 
   if (periods.length === 0) {
     target.innerHTML = '<div class="stats-bars__empty">유입 데이터가 없습니다.</div>';
@@ -565,7 +611,26 @@ const renderReferrerStack = (target: HTMLElement | null, periods: ReferrerPeriod
   }
 
   const visiblePeriods = periods.slice(-8);
-  target.innerHTML = visiblePeriods
+  const legendHtml =
+    legend.length > 0
+      ? `
+        <div class="stats-stack-legend" aria-label="유입 색상 범례">
+          ${legend
+            .map(
+              (item) => `
+                <span class="stats-stack-legend__item" title="${escapeHtml(item.source)} ${item.percentage}% (${formatCount(item.views)})">
+                  <span class="stats-stack-legend__swatch" style="background: ${item.color};"></span>
+                  <span class="stats-stack-legend__label">${escapeHtml(item.source)}</span>
+                  <strong>${item.percentage}%</strong>
+                </span>
+              `,
+            )
+            .join("")}
+        </div>
+      `
+      : "";
+
+  target.innerHTML = `${visiblePeriods
     .map((period) => {
       const topSource = period.shares[0];
       return `
@@ -593,7 +658,7 @@ const renderReferrerStack = (target: HTMLElement | null, periods: ReferrerPeriod
         </div>
       `;
     })
-    .join("");
+    .join("")}${legendHtml}`;
 };
 
 const renderBars = (
@@ -644,16 +709,18 @@ const renderStats = (stats: StatsResponse) => {
     trendMeta.textContent = `${getRangeLabel(dayCount)} · ${trendPoints.length}개 구간`;
   }
   renderTrendChart(trendChart, trendPoints);
-  const referrerSharePeriods = aggregateReferrerSharePeriods(
+  const referrerShareData = aggregateReferrerSharePeriods(
     stats.daily_referrers || [],
     dailySeries,
     granularity,
   );
   if (referrerShareMeta) {
     referrerShareMeta.textContent =
-      referrerSharePeriods.length > 0 ? `${referrerSharePeriods.length}개 구간` : "";
+      referrerShareData.periods.length > 0
+        ? `${referrerShareData.periods.length}개 구간 · ${referrerShareData.legend.length}개 유입원`
+        : "";
   }
-  renderReferrerStack(referrerStack, referrerSharePeriods);
+  renderReferrerStack(referrerStack, referrerShareData);
   renderBars(referrerBars, aggregateDailyReferrers(stats.daily_referrers || []));
   renderBars(
     pathBars,
