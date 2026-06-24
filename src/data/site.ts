@@ -105,61 +105,61 @@ export const categories: CategoryLink[] = [
     slug: "event",
     name: "이벤트",
     description:
-      "프로모션, 시즌 기획전, 한정 구성처럼 먼저 보여주고 싶은 혜택형 카테고리 자리입니다.",
+      "신제품을 초도물량 한정 50% 할인으로 만나보세요. 소진 후 정상가로 전환됩니다.",
     image: "/images/categories/이벤트.png",
     imageAlt: "이벤트 카테고리 대표 이미지",
     href: "https://mkt.shopping.naver.com/link/6a35002585ab1823972bfa71",
-    hrefLabel: "카테고리 이동",
+    hrefLabel: "",
   },
   {
     slug: "buddhist-interior",
     name: "불교인테리어",
     description:
-      "불단 주변 소품이나 공간 분위기를 정돈하는 품목을 연결할 수 있는 카테고리 자리입니다.",
+      "집, 사무실, 불단에 차분함을 더하는 불상과 불교 소품을 모았습니다.",
     image: "/images/categories/불교인테리어.png",
     imageAlt: "불교인테리어 카테고리 대표 이미지",
     href: "https://mkt.shopping.naver.com/link/68c5d8e1caef4528fc1bb5b6",
-    hrefLabel: "카테고리 이동",
+    hrefLabel: "",
   },
   {
     slug: "buddhist-accessories",
     name: "불교액세서리",
     description:
-      "염주, 팔찌, 목걸이 등 일상 가까이 두는 액세서리형 불교용품 카테고리 자리입니다.",
+      "손목염주와 손가락염주, 불교 키링처럼 가볍게 지니는 선물용 소품입니다.",
     image: "/images/categories/불교액세서리.png",
     imageAlt: "불교액세서리 카테고리 대표 이미지",
     href: "https://mkt.shopping.naver.com/link/68c5d8fb7d07384e3ec22c85",
-    hrefLabel: "카테고리 이동",
+    hrefLabel: "",
   },
   {
     slug: "meditation-tools",
     name: "명상도구",
     description:
-      "명상과 수행 흐름에 맞는 싱잉볼, 목탁, 좌복 등 도구를 연결할 수 있는 카테고리 자리입니다.",
+      "금강저, 미니목탁, 싱잉볼처럼 마음을 차분히 가다듬는 도구입니다.",
     image: "/images/categories/명상도구.png",
     imageAlt: "명상도구 카테고리 대표 이미지",
     href: "https://mkt.shopping.naver.com/link/68cf9de1156a0e2f1d6064e3",
-    hrefLabel: "카테고리 이동",
+    hrefLabel: "",
   },
   {
     slug: "buddhist-scriptures",
     name: "불교경전",
     description:
-      "경전, 불자수첩, 필사 관련 품목처럼 읽고 적으며 가까이 두는 카테고리 자리입니다.",
+      "사경노트와 불자수첩, 선물용 경전처럼 읽고 기록하는 불교용품입니다.",
     image: "/images/categories/불교경전.png",
     imageAlt: "불교경전 카테고리 대표 이미지",
     href: "https://mkt.shopping.naver.com/link/6a3501b74e58f1369596f38a",
-    hrefLabel: "카테고리 이동",
+    hrefLabel: "",
   },
   {
     slug: "feng-shui",
     name: "풍수용품",
     description:
-      "공간의 기운과 상징성을 고려한 소품과 장식류를 묶어 보여줄 수 있는 카테고리 자리입니다.",
+      "공간의 기운과 상징을 생각한 풍수 소품입니다. 집들이와 개업식 선물로 좋습니다.",
     image: "/images/categories/풍수용품.png",
     imageAlt: "풍수용품 카테고리 대표 이미지",
     href: "https://mkt.shopping.naver.com/link/68c013e10bc8f811b15f75e9",
-    hrefLabel: "카테고리 이동",
+    hrefLabel: "",
   },
 ];
 

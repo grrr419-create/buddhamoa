@@ -738,6 +738,7 @@ section {
 .category-link-card {
   display: grid;
   align-content: start;
+  gap: 12px;
   padding: 10px;
   border-radius: var(--radius);
   border: 1px solid var(--line);
@@ -765,7 +766,30 @@ section {
   border-color: rgba(10, 74, 48, 0.24);
 }
 
-.category-link-card__meta,
+.category-link-card__meta {
+  display: grid;
+  gap: 6px;
+}
+
+.category-link-card__meta h3,
+.category-link-card__meta p {
+  margin: 0;
+}
+
+.category-link-card__meta h3 {
+  color: var(--green-deep);
+  font-size: 1.12rem;
+  line-height: 1.25;
+}
+
+.category-link-card__meta p {
+  color: var(--muted);
+  font-size: 0.92rem;
+  line-height: 1.6;
+  text-align: left;
+}
+
+.category-link-card__meta span,
 .product-card__link {
   color: var(--gold);
   font-size: 0.92rem;

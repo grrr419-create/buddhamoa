@@ -7,6 +7,9 @@ type Props = {
 };
 
 const { categories } = Astro.props;
+
+const isExternalHref = (href: string) =>
+  /^(?:[a-z][a-z\d+\-.]*:)?\/\//i.test(href);
 ---
 
 <div class="category-link-grid">
@@ -14,9 +17,11 @@ const { categories } = Astro.props;
     category.href ? (
       <a
         class="category-link-card"
-        href={category.href}
-        aria-label={`${category.name} 카테고리 보러가기`}
+        href={isExternalHref(category.href) ? category.href : withBase(category.href)}
+        aria-label={category.hrefLabel ? `${category.name} ${category.hrefLabel}` : `${category.name} 보기`}
         data-track={`category_${category.slug}`}
+        target={isExternalHref(category.href) ? "_blank" : undefined}
+        rel={isExternalHref(category.href) ? "nofollow noopener noreferrer" : undefined}
       >
         <div class="category-link-card__image-wrap">
           <img
@@ -27,6 +32,11 @@ const { categories } = Astro.props;
             height="720"
             loading="lazy"
           />
+        </div>
+        <div class="category-link-card__meta">
+          <h3>{category.name}</h3>
+          <p>{category.description}</p>
+          {category.hrefLabel && <span>{category.hrefLabel}</span>}
         </div>
       </a>
     ) : (
@@ -40,6 +50,10 @@ const { categories } = Astro.props;
             height="720"
             loading="lazy"
           />
+        </div>
+        <div class="category-link-card__meta">
+          <h3>{category.name}</h3>
+          <p>{category.description}</p>
         </div>
       </article>
     ),
