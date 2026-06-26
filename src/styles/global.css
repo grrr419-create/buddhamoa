@@ -1565,8 +1565,35 @@ section {
   align-items: stretch;
 }
 
+.stats-combined-chart {
+  display: grid;
+  gap: 14px;
+}
+
 .stats-chart {
   min-height: 260px;
+}
+
+.stats-combined-chart__share {
+  display: grid;
+  gap: 10px;
+  padding-top: 14px;
+  border-top: 1px solid rgba(10, 74, 48, 0.1);
+}
+
+.stats-combined-chart__share-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 8px 14px;
+  color: var(--muted);
+  font-size: 0.82rem;
+  font-weight: 800;
+}
+
+.stats-combined-chart__share-head span:first-child {
+  color: var(--green-deep);
 }
 
 .stats-share-chart {
@@ -1684,6 +1711,10 @@ section {
   gap: 6px;
 }
 
+.stats-stack-bar--combined {
+  gap: 8px;
+}
+
 .stats-stack-bar__head,
 .stats-stack-bar__meta {
   display: flex;
@@ -1718,6 +1749,10 @@ section {
   overflow: hidden;
   border-radius: 999px;
   background: rgba(10, 74, 48, 0.08);
+}
+
+.stats-stack-bar--combined .stats-stack-bar__track {
+  height: 16px;
 }
 
 .stats-stack-bar__track span {

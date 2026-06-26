@@ -601,7 +601,7 @@ const renderReferrerStack = (target: HTMLElement | null, data: ReferrerShareData
     return;
   }
 
-  const visiblePeriods = periods.slice(-8);
+  const visiblePeriods = periods.slice(-1);
   const legendHtml =
     legend.length > 0
       ? `
@@ -625,9 +625,9 @@ const renderReferrerStack = (target: HTMLElement | null, data: ReferrerShareData
     .map((period) => {
       const topSource = period.shares[0];
       return `
-        <div class="stats-stack-bar">
+        <div class="stats-stack-bar stats-stack-bar--combined">
           <div class="stats-stack-bar__head">
-            <span>${escapeHtml(period.shortLabel)}</span>
+            <span>${escapeHtml(period.label)}</span>
             <strong>${formatCount(period.total)}</strong>
           </div>
           <div class="stats-stack-bar__track" aria-label="${escapeHtml(period.label)} 유입 비중">
@@ -698,7 +698,7 @@ const renderStats = (stats: StatsResponse) => {
   if (allTimeTotal) allTimeTotal.textContent = formatCount(stats.total_count);
   if (selectedTotal) selectedTotal.textContent = formatCount(selectedViews);
   if (averageTotal) averageTotal.textContent = formatCount(averageViews);
-  if (trendTitle) trendTitle.textContent = `${getGranularityLabel(granularity)} 조회수 추이`;
+  if (trendTitle) trendTitle.textContent = `${getGranularityLabel(granularity)} 조회수와 유입 비중`;
   if (trendMeta) {
     trendMeta.textContent = `${periodLabel} · ${period.dayCount}일`;
   }
