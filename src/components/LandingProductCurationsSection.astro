@@ -1,5 +1,9 @@
 ---
 import type { ProductCuration } from "../types";
+import {
+  getCurationProductDetailPath,
+  hasCurationProductDetail,
+} from "../data/curationProductDetails";
 import { withBase } from "../utils/paths";
 
 type Props = {
@@ -8,6 +12,11 @@ type Props = {
 };
 
 const { curations, sectionId } = Astro.props;
+
+const getItemHref = (curation: ProductCuration, item: ProductCuration["items"][number]) =>
+  hasCurationProductDetail(curation.slug, item.slug)
+    ? withBase(getCurationProductDetailPath(curation.slug, item.slug))
+    : item.href;
 ---
 
 {curations.length > 0 && (
@@ -28,11 +37,19 @@ const { curations, sectionId } = Astro.props;
               {curation.items.map((item, itemIndex) => (
                 <a
                   class="product-curation-card"
-                  href={item.href}
-                  aria-label={`${item.name} 상품 보러가기`}
+                  href={getItemHref(curation, item)}
+                  aria-label={
+                    hasCurationProductDetail(curation.slug, item.slug)
+                      ? `${item.name} 상세 설명 보기`
+                      : `${item.name} 상품 보러가기`
+                  }
                   data-track={`product_curation_${curation.slug}_${item.slug}`}
-                  target="_blank"
-                  rel="nofollow noopener noreferrer"
+                  target={hasCurationProductDetail(curation.slug, item.slug) ? undefined : "_blank"}
+                  rel={
+                    hasCurationProductDetail(curation.slug, item.slug)
+                      ? undefined
+                      : "nofollow noopener noreferrer"
+                  }
                 >
                   <span class="product-curation-card__image-wrap">
                     <img

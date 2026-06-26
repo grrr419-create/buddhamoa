@@ -35,6 +35,35 @@ export type ProductCuration = {
   items: ProductCurationItem[];
 };
 
+export type ProductCurationDetailImage = {
+  src: string;
+  alt: string;
+};
+
+export type ProductCurationDetailSection = {
+  title: string;
+  body: string[];
+  images?: ProductCurationDetailImage[];
+  imageGroups?: {
+    images: ProductCurationDetailImage[];
+  }[];
+  items?: string[];
+};
+
+export type ProductCurationDetail = {
+  curationSlug: string;
+  curationName: string;
+  productSlug: string;
+  name: string;
+  subtitle?: string;
+  summary: string;
+  introBody?: string[];
+  image: string;
+  imageAlt: string;
+  storeUrl: string;
+  sections: ProductCurationDetailSection[];
+};
+
 export type TempleShort = {
   slug: string;
   title: string;

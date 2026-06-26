@@ -1,4 +1,8 @@
 import { faqs, sellerInfo, siteConfig, siteUrl } from "../data/site";
+import {
+  getCurationProductDetailPath,
+  hasCurationProductDetail,
+} from "../data/curationProductDetails";
 import type { FAQItem, Product, ProductCuration } from "../types";
 import { withBase } from "./paths";
 
@@ -72,24 +76,35 @@ export function productCurationItemListSchemas(curations: ProductCuration[]) {
     url: absoluteUrl(`/#product-curation-${curation.slug}`),
     itemListOrder: "https://schema.org/ItemListOrderAscending",
     numberOfItems: curation.items.length,
-    itemListElement: curation.items.map((item, index) => ({
-      "@type": "ListItem",
-      position: index + 1,
-      url: item.href,
-      name: item.name,
-      item: {
-        "@type": "Product",
+    itemListElement: curation.items.map((item, index) => {
+      const pageUrl = hasCurationProductDetail(curation.slug, item.slug)
+        ? absoluteUrl(getCurationProductDetailPath(curation.slug, item.slug))
+        : item.href;
+
+      return {
+        "@type": "ListItem",
+        position: index + 1,
+        url: pageUrl,
         name: item.name,
-        image: [absoluteUrl(item.image)],
-        description: item.imageAlt,
-        category: curation.name,
-        url: item.href,
-        brand: {
-          "@type": "Brand",
-          name: siteConfig.brandName,
+        item: {
+          "@type": "Product",
+          name: item.name,
+          image: [absoluteUrl(item.image)],
+          description: item.imageAlt,
+          category: curation.name,
+          url: pageUrl,
+          offers: {
+            "@type": "Offer",
+            url: item.href,
+            availability: "https://schema.org/InStock",
+          },
+          brand: {
+            "@type": "Brand",
+            name: siteConfig.brandName,
+          },
         },
-      },
-    })),
+      };
+    }),
   }));
 }
 

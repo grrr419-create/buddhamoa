@@ -1,0 +1,113 @@
+---
+import Layout from "../../../layouts/Layout.astro";
+import {
+  curationProductDetails,
+  getCurationProductDetailPath,
+} from "../../../data/curationProductDetails";
+import { siteConfig } from "../../../data/site";
+import { withBase } from "../../../utils/paths";
+
+export function getStaticPaths() {
+  return curationProductDetails.map((detail) => ({
+    params: {
+      curation: detail.curationSlug,
+      product: detail.productSlug,
+    },
+    props: { detail },
+  }));
+}
+
+const { detail } = Astro.props;
+const detailPath = getCurationProductDetailPath(detail.curationSlug, detail.productSlug);
+const title = `${detail.name} | ${detail.curationName} | ${siteConfig.brandName}`;
+const description = detail.summary;
+const optionSectionTitles = new Set(["목탁 고양이", "목탁 황구", "목탁 흑구", "목탁 수달", "목탁 돼지"]);
+
+const getSectionImageGroups = (section: (typeof detail.sections)[number]) =>
+  section.imageGroups ?? (section.images ? [{ images: section.images }] : []);
+---
+
+<Layout title={title} description={description} pathname={detailPath} image={detail.image}>
+  <section class="curation-detail" aria-labelledby="curation-detail-title">
+    <nav class="curation-detail__breadcrumb" aria-label="현재 위치">
+      <a href={withBase("/")}>홈</a>
+      <span aria-hidden="true">/</span>
+      <a href={withBase(`/#product-curation-${detail.curationSlug}`)}>{detail.curationName}</a>
+      <span aria-hidden="true">/</span>
+      <span>{detail.name}</span>
+    </nav>
+
+    <article class="curation-detail__article" aria-label={`${detail.name} 상세 설명`}>
+      <header class="curation-detail__header">
+        <h1 id="curation-detail-title">{detail.name}</h1>
+        {detail.subtitle && <p class="curation-detail__subtitle">{detail.subtitle}</p>}
+        <img
+          class="curation-detail__hero-image"
+          src={withBase(detail.image)}
+          alt={detail.imageAlt}
+          width="1100"
+          height="1100"
+          loading="eager"
+        />
+        <p class="curation-detail__summary">{detail.summary}</p>
+        {detail.introBody?.map((paragraph) => <p>{paragraph}</p>)}
+      </header>
+
+      {detail.sections.map((section, sectionIndex) => (
+        <section
+          class:list={[
+            "curation-detail-section",
+            sectionIndex === 0 && "curation-detail-section--with-divider",
+            optionSectionTitles.has(section.title) && "curation-detail-section--option",
+          ]}
+        >
+          <h2>{section.title}</h2>
+          {getSectionImageGroups(section).map((group) => (
+            <div class="curation-detail-section__images">
+              {group.images.map((image) => (
+                <img
+                  src={withBase(image.src)}
+                  alt={image.alt}
+                  width="1100"
+                  height="1100"
+                  loading="lazy"
+                />
+              ))}
+            </div>
+          ))}
+          {section.body.map((paragraph) => <p>{paragraph}</p>)}
+          {section.items && section.items.length > 0 && (
+            <ul class="curation-detail-section__list">
+              {section.items.map((item) => <li>{item}</li>)}
+            </ul>
+          )}
+        </section>
+      ))}
+    </article>
+
+    <aside class="curation-detail__buy-card" aria-label={`${detail.name} 구매하기`}>
+      <img src={withBase(detail.image)} alt={detail.imageAlt} width="220" height="220" loading="lazy" />
+      <strong>{detail.name}</strong>
+      {detail.subtitle && <p>{detail.subtitle}</p>}
+      <a
+        class="button"
+        href={detail.storeUrl}
+        target="_blank"
+        rel="nofollow noopener noreferrer"
+        data-track={`curation_detail_pc_buy_${detail.curationSlug}_${detail.productSlug}`}
+      >
+        구매하러 가기
+      </a>
+    </aside>
+
+    <a
+      class="button curation-detail__mobile-buy"
+      href={detail.storeUrl}
+      target="_blank"
+      rel="nofollow noopener noreferrer"
+      data-track={`curation_detail_mobile_buy_${detail.curationSlug}_${detail.productSlug}`}
+    >
+      구매하러 가기
+    </a>
+  </section>
+</Layout>
