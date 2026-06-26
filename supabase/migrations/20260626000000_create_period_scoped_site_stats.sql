@@ -190,3 +190,5 @@ grant execute on function public.get_site_stats_for_period(text, date, text) to 
 
 comment on function public.get_site_stats_for_period(text, date, text) is
   'Returns site stats scoped to a selected KST date and day/week/month period for authorized stats admins.';
+
+notify pgrst, 'reload schema';
