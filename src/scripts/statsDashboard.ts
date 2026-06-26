@@ -295,6 +295,13 @@ const getPeriodRangeLabel = (
   return `${formatLongDate(period.startDate)} - ${formatLongDate(addDays(period.endDate, -1))}`;
 };
 
+const getLegacyDayLimit = (targetDate: string, granularity: Granularity) => {
+  const period = getFallbackPeriod(targetDate, granularity);
+  const todayEndDate = addDays(getKoreaToday(), 1);
+
+  return Math.min(Math.max(getDayCountBetween(period.startDate, todayEndDate), 1), 90);
+};
+
 const escapeHtml = (value: string) =>
   value
     .replaceAll("&", "&amp;")
@@ -326,6 +333,12 @@ const hideMessage = () => {
 
   message.hidden = true;
   message.textContent = "";
+};
+
+const isMissingPeriodStatsFunctionError = (error: unknown) => {
+  const detail = getErrorMessage(error).toLowerCase();
+
+  return detail.includes("get_site_stats_for_period") && detail.includes("schema cache");
 };
 
 const normalizeBasePath = (value: string) => {
@@ -781,12 +794,30 @@ const loadStats = async () => {
 
   setLoading(true);
   hideMessage();
+  const targetDate = getSelectedDate();
+  const granularity = getSelectedGranularity();
 
-  const { data, error } = await supabase.rpc("get_site_stats_for_period", {
-    period_granularity: getSelectedGranularity(),
-    target_date: getSelectedDate(),
+  let { data, error } = await supabase.rpc("get_site_stats_for_period", {
+    period_granularity: granularity,
+    target_date: targetDate,
     target_site_key: siteKey,
   });
+
+  if (error && isMissingPeriodStatsFunctionError(error)) {
+    console.warn("Period stats RPC is not available yet. Falling back to legacy stats RPC.", error);
+    const fallback = await supabase.rpc("get_site_stats", {
+      day_limit: getLegacyDayLimit(targetDate, granularity),
+      target_site_key: siteKey,
+    });
+    data = fallback.data;
+    error = fallback.error;
+
+    if (!error) {
+      showMessage(
+        "Supabase 기간 통계 함수가 아직 적용되지 않아 기존 통계 기준으로 임시 표시 중입니다.",
+      );
+    }
+  }
 
   setLoading(false);
 
