@@ -1,4 +1,17 @@
-drop function if exists public.get_site_stats_for_period(text, date, text);
+do $$
+declare
+  existing_function regprocedure;
+begin
+  for existing_function in
+    select oid::regprocedure
+    from pg_proc
+    where pronamespace = 'public'::regnamespace
+      and proname = 'get_site_stats_for_period'
+  loop
+    execute format('drop function if exists %s', existing_function);
+  end loop;
+end;
+$$;
 
 create or replace function public.get_site_stats_for_period(
   target_site_key text default 'buddhamoa',
