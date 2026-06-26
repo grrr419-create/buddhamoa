@@ -1404,12 +1404,23 @@ section {
   gap: 10px;
 }
 
-.stats-date-controls,
-.stats-quick-dates {
+.stats-date-controls {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
   gap: 8px;
+}
+
+.stats-date-controls__label,
+.stats-date-controls__separator {
+  color: var(--muted);
+  font-size: 0.78rem;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.stats-date-controls__separator {
+  color: var(--green-deep);
 }
 
 .stats-control span,
@@ -2407,15 +2418,10 @@ section {
 
   .stats-control,
   .stats-date-controls,
-  .stats-quick-dates,
   .stats-control input,
   .stats-control select,
   .stats-segmented {
     width: 100%;
-  }
-
-  .stats-quick-dates .button-secondary {
-    flex: 1;
   }
 
   .stats-control {

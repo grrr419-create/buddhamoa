@@ -1,7 +1,10 @@
+drop function if exists public.get_site_stats_for_period(text, date, text);
+
 create or replace function public.get_site_stats_for_period(
   target_site_key text default 'buddhamoa',
-  target_date date default null,
-  period_granularity text default 'day'
+  start_date date default null,
+  end_date date default null,
+  analysis_granularity text default 'day'
 )
 returns jsonb
 language plpgsql
@@ -11,11 +14,14 @@ as $$
 declare
   requester_email text := lower(coalesce(auth.jwt()->>'email', ''));
   normalized_site_key text := left(coalesce(nullif(trim(target_site_key), ''), 'buddhamoa'), 80);
-  normalized_granularity text := lower(coalesce(nullif(trim(period_granularity), ''), 'day'));
+  normalized_granularity text := lower(coalesce(nullif(trim(analysis_granularity), ''), 'day'));
   today_in_korea date := (now() at time zone 'Asia/Seoul')::date;
-  selected_date date := least(coalesce(target_date, today_in_korea), today_in_korea);
+  requested_start_date date := coalesce(start_date, today_in_korea);
+  requested_end_date date := coalesce(end_date, coalesce(start_date, today_in_korea));
+  swap_date date;
   period_start_date date;
   period_end_date date;
+  period_end_inclusive date;
   period_start_at timestamptz;
   period_end_at timestamptz;
 begin
@@ -33,20 +39,32 @@ begin
     normalized_granularity := 'day';
   end if;
 
-  period_start_date := case normalized_granularity
-    when 'week' then selected_date - 6
-    when 'month' then date_trunc('month', selected_date)::date
-    else selected_date
-  end;
-  period_end_date := selected_date + 1;
+  if requested_end_date < requested_start_date then
+    swap_date := requested_start_date;
+    requested_start_date := requested_end_date;
+    requested_end_date := swap_date;
+  end if;
+
+  period_start_date := least(requested_start_date, today_in_korea);
+  period_end_inclusive := least(requested_end_date, today_in_korea);
+
+  if period_end_inclusive < period_start_date then
+    period_start_date := period_end_inclusive;
+  end if;
+
+  period_end_date := period_end_inclusive + 1;
+
+  if period_end_date - period_start_date > 370 then
+    period_start_date := period_end_date - 370;
+  end if;
+
   period_start_at := period_start_date::timestamp at time zone 'Asia/Seoul';
   period_end_at := period_end_date::timestamp at time zone 'Asia/Seoul';
 
   return jsonb_build_object(
     'generated_at', now(),
     'site_key', normalized_site_key,
-    'target_date', selected_date,
-    'period_granularity', normalized_granularity,
+    'analysis_granularity', normalized_granularity,
     'period', jsonb_build_object(
       'start_date', period_start_date,
       'end_date', period_end_date,
@@ -185,10 +203,10 @@ begin
 end;
 $$;
 
-revoke all on function public.get_site_stats_for_period(text, date, text) from public;
-grant execute on function public.get_site_stats_for_period(text, date, text) to authenticated;
+revoke all on function public.get_site_stats_for_period(text, date, date, text) from public;
+grant execute on function public.get_site_stats_for_period(text, date, date, text) to authenticated;
 
-comment on function public.get_site_stats_for_period(text, date, text) is
-  'Returns site stats scoped to a selected KST date and day/week/month period for authorized stats admins.';
+comment on function public.get_site_stats_for_period(text, date, date, text) is
+  'Returns site stats scoped to a selected KST date range and day/week/month analysis unit for authorized stats admins.';
 
 notify pgrst, 'reload schema';

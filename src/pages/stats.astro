@@ -49,31 +49,31 @@ const description = "붓다모아 관리자용 비공개 조회수 통계 페이
     <div class="stats-content" data-stats-content hidden>
       <div class="stats-toolbar" aria-label="통계 조회 옵션">
         <div class="stats-date-controls">
-          <label class="stats-control" for="stats-date">
-            <span>기준일</span>
-            <input id="stats-date" type="date" data-stats-date />
+          <span class="stats-date-controls__label">조회 기간</span>
+          <label class="stats-control" for="stats-start-date">
+            <span>시작</span>
+            <input id="stats-start-date" type="date" data-stats-start-date />
           </label>
-          <div class="stats-quick-dates" aria-label="빠른 날짜 선택">
-            <button class="button-secondary" type="button" data-stats-quick-date="today">오늘</button>
-            <button class="button-secondary" type="button" data-stats-quick-date="yesterday">
-              어제
-            </button>
-          </div>
+          <span class="stats-date-controls__separator" aria-hidden="true">~</span>
+          <label class="stats-control" for="stats-end-date">
+            <span>종료</span>
+            <input id="stats-end-date" type="date" data-stats-end-date />
+          </label>
         </div>
 
         <fieldset class="stats-segmented" data-stats-granularity>
-          <legend>조회 범위</legend>
+          <legend>분석 단위</legend>
           <label>
             <input type="radio" name="stats-granularity" value="day" checked />
-            <span>일별</span>
+            <span>일</span>
           </label>
           <label>
             <input type="radio" name="stats-granularity" value="week" />
-            <span>주간</span>
+            <span>주</span>
           </label>
           <label>
             <input type="radio" name="stats-granularity" value="month" />
-            <span>월간</span>
+            <span>월</span>
           </label>
         </fieldset>
       </div>
@@ -92,14 +92,14 @@ const description = "붓다모아 관리자용 비공개 조회수 통계 페이
           <strong data-stats-total="selected">—</strong>
         </article>
         <article class="stats-card">
-          <span>일평균</span>
+          <span>단위 평균</span>
           <strong data-stats-total="average">—</strong>
         </article>
       </div>
 
       <section class="stats-panel stats-panel--wide">
         <div class="stats-panel__head">
-          <h2 data-stats-trend-title>일별 조회수 추이</h2>
+          <h2 data-stats-trend-title>조회수 추이</h2>
           <span data-stats-trend-meta></span>
         </div>
         <div class="stats-chart" data-stats-trend-chart></div>
@@ -107,12 +107,12 @@ const description = "붓다모아 관리자용 비공개 조회수 통계 페이
 
       <div class="stats-grid">
         <section class="stats-panel">
-          <h2>선택 범위 일별 조회수</h2>
+          <h2>분석 단위별 조회수</h2>
           <div class="stats-table-wrap">
             <table class="stats-table">
               <thead>
                 <tr>
-                  <th scope="col">날짜</th>
+                  <th scope="col">기간</th>
                   <th scope="col">조회수</th>
                 </tr>
               </thead>
@@ -124,33 +124,6 @@ const description = "붓다모아 관리자용 비공개 조회수 통계 페이
         <section class="stats-panel">
           <h2>유입 도메인</h2>
           <div class="stats-bars" data-stats-referrer-bars></div>
-          <div class="stats-table-wrap">
-            <table class="stats-table">
-              <thead>
-                <tr>
-                  <th scope="col">유입</th>
-                  <th scope="col">조회수 / 비중</th>
-                </tr>
-              </thead>
-              <tbody data-stats-referrers></tbody>
-            </table>
-          </div>
-        </section>
-
-        <section class="stats-panel">
-          <h2>일별 유입 도메인</h2>
-          <div class="stats-table-wrap">
-            <table class="stats-table">
-              <thead>
-                <tr>
-                  <th scope="col">날짜</th>
-                  <th scope="col">유입</th>
-                  <th scope="col">조회수</th>
-                </tr>
-              </thead>
-              <tbody data-stats-daily-referrers></tbody>
-            </table>
-          </div>
         </section>
 
         <section class="stats-panel">
