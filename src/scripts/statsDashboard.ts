@@ -107,6 +107,7 @@ const trendTitle = document.querySelector<HTMLElement>("[data-stats-trend-title]
 const trendMeta = document.querySelector<HTMLElement>("[data-stats-trend-meta]");
 const trendChart = document.querySelector<HTMLElement>("[data-stats-trend-chart]");
 const referrerBars = document.querySelector<HTMLElement>("[data-stats-referrer-bars]");
+const referrerTotal = document.querySelector<HTMLElement>("[data-stats-referrer-total]");
 const pathBars = document.querySelector<HTMLElement>("[data-stats-path-bars]");
 
 let latestStats: StatsResponse | null = null;
@@ -687,7 +688,7 @@ const renderBars = (
         <div class="stats-bar">
           <div class="stats-bar__head">
             <span>${escapeHtml(row.label)}</span>
-            <strong>${formatCount(row.views)}${row.percentage === undefined ? "" : ` · ${row.percentage}%`}</strong>
+            <strong>${formatCount(row.views)}${row.percentage === undefined ? "" : ` (${row.percentage}%)`}</strong>
           </div>
           <div class="stats-bar__track">
             <span style="width: ${width}%"></span>
@@ -721,6 +722,9 @@ const renderStats = (stats: StatsResponse) => {
   const referrerRows = aggregateReferrers(
     stats.daily_referrers?.length ? stats.daily_referrers : stats.top_referrers || [],
   );
+  if (referrerTotal) {
+    referrerTotal.textContent = `조회수 합계 ${formatCount(selectedViews)}`;
+  }
   renderBars(referrerBars, referrerRows.slice(0, 6));
   renderBars(
     pathBars,
