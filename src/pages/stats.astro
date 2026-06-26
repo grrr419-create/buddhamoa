@@ -48,18 +48,21 @@ const description = "붓다모아 관리자용 비공개 조회수 통계 페이
 
     <div class="stats-content" data-stats-content hidden>
       <div class="stats-toolbar" aria-label="통계 조회 옵션">
-        <label class="stats-control">
-          <span>기간</span>
-          <select data-stats-range>
-            <option value="7">최근 7일</option>
-            <option value="14">최근 14일</option>
-            <option value="30" selected>최근 30일</option>
-            <option value="90">최근 90일</option>
-          </select>
-        </label>
+        <div class="stats-date-controls">
+          <label class="stats-control" for="stats-date">
+            <span>기준일</span>
+            <input id="stats-date" type="date" data-stats-date />
+          </label>
+          <div class="stats-quick-dates" aria-label="빠른 날짜 선택">
+            <button class="button-secondary" type="button" data-stats-quick-date="today">오늘</button>
+            <button class="button-secondary" type="button" data-stats-quick-date="yesterday">
+              어제
+            </button>
+          </div>
+        </div>
 
         <fieldset class="stats-segmented" data-stats-granularity>
-          <legend>집계 단위</legend>
+          <legend>조회 범위</legend>
           <label>
             <input type="radio" name="stats-granularity" value="day" checked />
             <span>일별</span>
@@ -77,19 +80,19 @@ const description = "붓다모아 관리자용 비공개 조회수 통계 페이
 
       <div class="stats-summary">
         <article class="stats-card">
-          <span>Today</span>
+          <span>오늘</span>
           <strong data-stats-total="today">—</strong>
         </article>
         <article class="stats-card">
-          <span>Total</span>
+          <span>전체</span>
           <strong data-stats-total="total">—</strong>
         </article>
         <article class="stats-card">
-          <span>Selected</span>
+          <span>선택 범위</span>
           <strong data-stats-total="selected">—</strong>
         </article>
         <article class="stats-card">
-          <span>Average</span>
+          <span>일평균</span>
           <strong data-stats-total="average">—</strong>
         </article>
       </div>
@@ -113,7 +116,7 @@ const description = "붓다모아 관리자용 비공개 조회수 통계 페이
 
       <div class="stats-grid">
         <section class="stats-panel">
-          <h2>최근 일별 조회수</h2>
+          <h2>선택 범위 일별 조회수</h2>
           <div class="stats-table-wrap">
             <table class="stats-table">
               <thead>

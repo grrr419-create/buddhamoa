@@ -70,8 +70,18 @@ type ReferrerShareData = {
   periods: ReferrerPeriod[];
 };
 
+type StatsPeriod = {
+  start_date?: string;
+  end_date?: string;
+  day_count?: CountValue;
+};
+
 type StatsResponse = {
   generated_at?: string;
+  period?: StatsPeriod;
+  period_granularity?: string;
+  selected_count?: CountValue;
+  target_date?: string;
   today_count?: CountValue;
   total_count?: CountValue;
   daily?: DailyRow[];
@@ -97,7 +107,10 @@ const content = document.querySelector<HTMLElement>("[data-stats-content]");
 const message = document.querySelector<HTMLElement>("[data-stats-message]");
 const refreshButton = document.querySelector<HTMLButtonElement>("[data-stats-refresh]");
 const logoutButton = document.querySelector<HTMLButtonElement>("[data-stats-logout]");
-const rangeSelect = document.querySelector<HTMLSelectElement>("[data-stats-range]");
+const dateInput = document.querySelector<HTMLInputElement>("[data-stats-date]");
+const quickDateButtons = Array.from(
+  document.querySelectorAll<HTMLButtonElement>("[data-stats-quick-date]"),
+);
 const granularityInputs = Array.from(
   document.querySelectorAll<HTMLInputElement>('input[name="stats-granularity"]'),
 );
@@ -150,13 +163,6 @@ const toCount = (value: CountValue) => {
   return count;
 };
 
-const getSelectedRange = () => {
-  const range = Number(rangeSelect?.value || 30);
-  if ([7, 14, 30, 90].includes(range)) return range;
-
-  return 30;
-};
-
 const getSelectedGranularity = (): Granularity => {
   const selected = granularityInputs.find((input) => input.checked)?.value;
   if (selected === "week" || selected === "month") return selected;
@@ -200,6 +206,26 @@ const getKoreaToday = () => {
   return `${partValue("year")}-${partValue("month")}-${partValue("day")}`;
 };
 
+const setDefaultDateInput = () => {
+  if (!dateInput) return;
+
+  const today = getKoreaToday();
+  dateInput.max = today;
+  if (!parseDateParts(dateInput.value)) {
+    dateInput.value = today;
+  }
+};
+
+const getSelectedDate = () => {
+  setDefaultDateInput();
+
+  if (dateInput?.value && parseDateParts(dateInput.value)) {
+    return dateInput.value;
+  }
+
+  return getKoreaToday();
+};
+
 const formatShortDate = (value: string) => {
   const parts = parseDateParts(value);
   if (!parts) return value;
@@ -214,48 +240,60 @@ const formatLongDate = (value: string) => {
   return `${parts.year}.${String(parts.month).padStart(2, "0")}.${String(parts.day).padStart(2, "0")}`;
 };
 
-const getWeekKey = (value: string) => {
-  const date = dateFromIsoDate(value);
-  if (!date) return value;
-
-  const day = date.getUTCDay();
-  const mondayOffset = (day + 6) % 7;
-  date.setUTCDate(date.getUTCDate() - mondayOffset);
-  return toIsoDate(date);
-};
-
-const getMonthKey = (value: string) => {
+const getMonthStartDate = (value: string) => {
   const parts = parseDateParts(value);
   if (!parts) return value;
 
-  return `${parts.year}-${String(parts.month).padStart(2, "0")}`;
+  return `${parts.year}-${String(parts.month).padStart(2, "0")}-01`;
 };
 
-const getPeriodKey = (value: string, granularity: Granularity) => {
-  if (granularity === "week") return getWeekKey(value);
-  if (granularity === "month") return getMonthKey(value);
+const getPeriodStartDate = (targetDate: string, granularity: Granularity) => {
+  if (granularity === "week") return addDays(targetDate, -6);
+  if (granularity === "month") return getMonthStartDate(targetDate);
 
-  return value;
+  return targetDate;
 };
 
-const getPeriodLabel = (key: string, granularity: Granularity) => {
-  if (granularity === "week") return `${formatLongDate(key)} 시작 주`;
-  if (granularity === "month") return `${key.replace("-", ".")} 월`;
+const getDayCountBetween = (startDate: string, endDate: string) => {
+  let count = 0;
+  let cursor = startDate;
 
-  return formatLongDate(key);
-};
-
-const getPeriodShortLabel = (key: string, granularity: Granularity) => {
-  if (granularity === "week") return `${formatShortDate(key)}주`;
-  if (granularity === "month") {
-    const parts = key.split("-").map(Number);
-    return parts[1] ? `${parts[1]}월` : key;
+  while (cursor < endDate && count < 370) {
+    count += 1;
+    cursor = addDays(cursor, 1);
   }
 
-  return formatShortDate(key);
+  return Math.max(count, 1);
 };
 
-const getRangeLabel = (dayCount: number) => `최근 ${dayCount}일`;
+const getFallbackPeriod = (targetDate: string, granularity: Granularity) => {
+  const startDate = getPeriodStartDate(targetDate, granularity);
+  const endDate = addDays(targetDate, 1);
+
+  return {
+    dayCount: getDayCountBetween(startDate, endDate),
+    endDate,
+    startDate,
+  };
+};
+
+const getStatsPeriod = (stats: StatsResponse, targetDate: string, granularity: Granularity) => {
+  const fallback = getFallbackPeriod(targetDate, granularity);
+  const startDate = stats.period?.start_date || fallback.startDate;
+  const endDate = stats.period?.end_date || fallback.endDate;
+  const dayCount = toCount(stats.period?.day_count) || getDayCountBetween(startDate, endDate);
+
+  return { dayCount, endDate, startDate };
+};
+
+const getPeriodRangeLabel = (
+  period: { endDate: string; startDate: string },
+  granularity: Granularity,
+) => {
+  if (granularity === "day") return formatLongDate(period.startDate);
+
+  return `${formatLongDate(period.startDate)} - ${formatLongDate(addDays(period.endDate, -1))}`;
+};
 
 const escapeHtml = (value: string) =>
   value
@@ -336,7 +374,10 @@ const setSignedInView = (email: string) => {
 const setLoading = (isLoading: boolean) => {
   if (refreshButton) refreshButton.disabled = isLoading;
   if (logoutButton) logoutButton.disabled = isLoading;
-  if (rangeSelect) rangeSelect.disabled = isLoading;
+  if (dateInput) dateInput.disabled = isLoading;
+  quickDateButtons.forEach((button) => {
+    button.disabled = isLoading;
+  });
   granularityInputs.forEach((input) => {
     input.disabled = isLoading;
   });
@@ -356,15 +397,13 @@ const renderRows = (
       : `<tr><td colspan="${columnCount}" class="stats-table__empty">${emptyLabel}</td></tr>`;
 };
 
-const getDailySeries = (rows: DailyRow[], dayCount: number) => {
+const getDailySeries = (rows: DailyRow[], startDate: string, dayCount: number) => {
   const viewsByDate = new Map<string, number>();
   rows.forEach((row) => {
     if (!row.date) return;
     viewsByDate.set(row.date, toCount(row.views));
   });
 
-  const endDate = getKoreaToday();
-  const startDate = addDays(endDate, -(dayCount - 1));
   const series: DailyPoint[] = [];
 
   for (let offset = 0; offset < dayCount; offset += 1) {
@@ -379,37 +418,13 @@ const getDailySeries = (rows: DailyRow[], dayCount: number) => {
   return series;
 };
 
-const aggregateTrend = (series: DailyPoint[], granularity: Granularity) => {
-  if (granularity === "day") {
-    return series.map((point) => ({
-      key: point.date,
-      label: point.label,
-      shortLabel: formatShortDate(point.date),
-      views: point.views,
-    }));
-  }
-
-  const grouped = new Map<string, TrendPoint>();
-
-  series.forEach((point) => {
-    const key = getPeriodKey(point.date, granularity);
-    const existing = grouped.get(key);
-
-    if (existing) {
-      existing.views += point.views;
-      return;
-    }
-
-    grouped.set(key, {
-      key,
-      label: getPeriodLabel(key, granularity),
-      shortLabel: getPeriodShortLabel(key, granularity),
-      views: point.views,
-    });
-  });
-
-  return Array.from(grouped.values());
-};
+const getDailyTrendPoints = (series: DailyPoint[]) =>
+  series.map((point) => ({
+    key: point.date,
+    label: point.label,
+    shortLabel: formatShortDate(point.date),
+    views: point.views,
+  }));
 
 const getGranularityLabel = (granularity: Granularity) => {
   if (granularity === "week") return "주간";
@@ -508,30 +523,19 @@ const aggregateDailyReferrers = (rows: DailyReferrerRow[]) => {
     .slice(0, 6);
 };
 
-const aggregateReferrerSharePeriods = (
+const aggregateReferrerSharePeriod = (
   rows: DailyReferrerRow[],
   series: DailyPoint[],
-  granularity: Granularity,
+  periodLabel: string,
 ) => {
-  const periodOrder = aggregateTrend(series, granularity).map((point) => point.key);
-  const periodRows = new Map<string, Map<string, number>>();
   const sourceTotals = new Map<string, number>();
   const allowedDates = new Set(series.map((point) => point.date));
-
-  periodOrder.forEach((key) => {
-    periodRows.set(key, new Map());
-  });
 
   rows.forEach((row) => {
     if (!row.date || !allowedDates.has(row.date)) return;
 
-    const key = getPeriodKey(row.date, granularity);
-    const sources = periodRows.get(key);
-    if (!sources) return;
-
     const source = row.source || "direct";
     const views = toCount(row.views);
-    sources.set(source, (sources.get(source) || 0) + views);
     sourceTotals.set(source, (sourceTotals.get(source) || 0) + views);
   });
 
@@ -558,44 +562,18 @@ const aggregateReferrerSharePeriods = (
     ...row,
     percentage: legendTotal > 0 ? Math.round((row.views / legendTotal) * 1000) / 10 : 0,
   }));
-
-  const periods = periodOrder
-    .map((key) => {
-      const sourceRows = Array.from(periodRows.get(key) || new Map(), ([source, views]) => ({
-        source,
-        views,
-      }))
-        .filter((row) => row.views > 0)
-        .sort((left, right) => right.views - left.views || left.source.localeCompare(right.source));
-      const primaryRows = primarySources
-        .map((source) => ({
-          source,
-          views: periodRows.get(key)?.get(source) || 0,
-        }))
-        .filter((row) => row.views > 0);
-      const otherPeriodViews = sourceRows
-        .filter((row) => !sourceColorMap.has(row.source))
-        .reduce((sum, row) => sum + row.views, 0);
-      const rowsWithOther =
-        otherPeriodViews > 0
-          ? [...primaryRows, { source: "기타", views: otherPeriodViews }]
-          : primaryRows;
-      const total = rowsWithOther.reduce((sum, row) => sum + row.views, 0);
-
-      return {
-        key,
-        label: getPeriodLabel(key, granularity),
-        shortLabel: getPeriodShortLabel(key, granularity),
-        shares: rowsWithOther.map((row) => ({
-          color: sourceColorMap.get(row.source) || otherReferrerColor,
-          percentage: total > 0 ? Math.round((row.views / total) * 1000) / 10 : 0,
-          source: row.source,
-          views: row.views,
-        })),
-        total,
-      };
-    })
-    .filter((period) => period.total > 0);
+  const periods =
+    legendTotal > 0
+      ? [
+          {
+            key: "selected",
+            label: periodLabel,
+            shortLabel: "선택 범위",
+            shares: legend,
+            total: legendTotal,
+          },
+        ]
+      : [];
 
   return { legend, periods };
 };
@@ -693,12 +671,15 @@ const renderBars = (
 };
 
 const renderStats = (stats: StatsResponse) => {
-  const dayCount = getSelectedRange();
+  const targetDate = getSelectedDate();
   const granularity = getSelectedGranularity();
-  const dailySeries = getDailySeries(stats.daily || [], dayCount);
-  const trendPoints = aggregateTrend(dailySeries, granularity);
-  const selectedViews = dailySeries.reduce((sum, point) => sum + point.views, 0);
-  const averageViews = trendPoints.length > 0 ? Math.round(selectedViews / trendPoints.length) : 0;
+  const period = getStatsPeriod(stats, targetDate, granularity);
+  const dailySeries = getDailySeries(stats.daily || [], period.startDate, period.dayCount);
+  const trendPoints = getDailyTrendPoints(dailySeries);
+  const dailyViews = dailySeries.reduce((sum, point) => sum + point.views, 0);
+  const selectedViews = stats.selected_count === undefined ? dailyViews : toCount(stats.selected_count);
+  const averageViews = period.dayCount > 0 ? Math.round(selectedViews / period.dayCount) : 0;
+  const periodLabel = getPeriodRangeLabel(period, granularity);
 
   if (todayTotal) todayTotal.textContent = formatCount(stats.today_count);
   if (allTimeTotal) allTimeTotal.textContent = formatCount(stats.total_count);
@@ -706,18 +687,18 @@ const renderStats = (stats: StatsResponse) => {
   if (averageTotal) averageTotal.textContent = formatCount(averageViews);
   if (trendTitle) trendTitle.textContent = `${getGranularityLabel(granularity)} 조회수 추이`;
   if (trendMeta) {
-    trendMeta.textContent = `${getRangeLabel(dayCount)} · ${trendPoints.length}개 구간`;
+    trendMeta.textContent = `${periodLabel} · ${period.dayCount}일`;
   }
   renderTrendChart(trendChart, trendPoints);
-  const referrerShareData = aggregateReferrerSharePeriods(
+  const referrerShareData = aggregateReferrerSharePeriod(
     stats.daily_referrers || [],
     dailySeries,
-    granularity,
+    periodLabel,
   );
   if (referrerShareMeta) {
     referrerShareMeta.textContent =
       referrerShareData.periods.length > 0
-        ? `${referrerShareData.periods.length}개 구간 · ${referrerShareData.legend.length}개 유입원`
+        ? `${getGranularityLabel(granularity)} · ${referrerShareData.legend.length}개 유입원`
         : "";
   }
   renderReferrerStack(referrerStack, referrerShareData);
@@ -734,11 +715,10 @@ const renderStats = (stats: StatsResponse) => {
     document.querySelector("[data-stats-daily]"),
     dailySeries
       .slice()
-      .filter((row) => row.views > 0)
       .reverse()
       .map(
-      (row) =>
-        `<tr><td>${escapeHtml(formatDate(row.date))}</td><td>${formatCount(row.views)}</td></tr>`,
+        (row) =>
+          `<tr><td>${escapeHtml(formatDate(row.date))}</td><td>${formatCount(row.views)}</td></tr>`,
       ),
   );
 
@@ -802,8 +782,9 @@ const loadStats = async () => {
   setLoading(true);
   hideMessage();
 
-  const { data, error } = await supabase.rpc("get_site_stats", {
-    day_limit: getSelectedRange(),
+  const { data, error } = await supabase.rpc("get_site_stats_for_period", {
+    period_granularity: getSelectedGranularity(),
+    target_date: getSelectedDate(),
     target_site_key: siteKey,
   });
 
@@ -825,6 +806,8 @@ const loadStats = async () => {
 
 const init = async () => {
   if (!root) return;
+
+  setDefaultDateInput();
 
   if (!supabase) {
     setSignedOutView();
@@ -881,15 +864,23 @@ refreshButton?.addEventListener("click", () => {
   loadStats();
 });
 
-rangeSelect?.addEventListener("change", () => {
+dateInput?.addEventListener("change", () => {
   loadStats();
+});
+
+quickDateButtons.forEach((button) => {
+  button.addEventListener("click", () => {
+    if (!dateInput) return;
+
+    const target = button.dataset.statsQuickDate;
+    dateInput.value = target === "yesterday" ? addDays(getKoreaToday(), -1) : getKoreaToday();
+    loadStats();
+  });
 });
 
 granularityInputs.forEach((input) => {
   input.addEventListener("change", () => {
-    if (!latestStats) return;
-
-    renderStats(latestStats);
+    loadStats();
   });
 });
 

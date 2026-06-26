@@ -1404,6 +1404,14 @@ section {
   gap: 10px;
 }
 
+.stats-date-controls,
+.stats-quick-dates {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+
 .stats-control span,
 .stats-segmented legend {
   color: var(--muted);
@@ -1412,6 +1420,7 @@ section {
   text-transform: uppercase;
 }
 
+.stats-control input,
 .stats-control select {
   min-height: 38px;
   padding: 0 34px 0 12px;
@@ -1421,6 +1430,10 @@ section {
   border: 1px solid rgba(10, 74, 48, 0.16);
   border-radius: var(--radius);
   background: rgba(255, 255, 251, 0.96);
+}
+
+.stats-control input[type="date"] {
+  min-width: 156px;
 }
 
 .stats-segmented {
@@ -2393,9 +2406,16 @@ section {
   }
 
   .stats-control,
+  .stats-date-controls,
+  .stats-quick-dates,
+  .stats-control input,
   .stats-control select,
   .stats-segmented {
     width: 100%;
+  }
+
+  .stats-quick-dates .button-secondary {
+    flex: 1;
   }
 
   .stats-control {
