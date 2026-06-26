@@ -173,6 +173,13 @@ const addDays = (value: string, days: number) => {
   return toIsoDate(date);
 };
 
+const addMonths = (value: string, months: number) => {
+  const parts = parseDateParts(value);
+  if (!parts) return value;
+
+  return toIsoDate(new Date(Date.UTC(parts.year, parts.month - 1 + months, 1)));
+};
+
 const getMonthStartDate = (value: string) => {
   const parts = parseDateParts(value);
   if (!parts) return value;
@@ -199,57 +206,63 @@ const setDefaultDateInputs = () => {
   startDateInput.max = today;
   endDateInput.max = today;
 
-  if (startDateInput.value > today) {
+  if (parseDateParts(startDateInput.value) && startDateInput.value > today) {
     startDateInput.value = today;
   }
 
-  if (endDateInput.value > today) {
+  if (parseDateParts(endDateInput.value) && endDateInput.value > today) {
+    endDateInput.value = today;
+  }
+
+  if (!parseDateParts(endDateInput.value)) {
     endDateInput.value = today;
   }
 
   if (!parseDateParts(startDateInput.value)) {
-    startDateInput.value = today;
-  }
-
-  if (!parseDateParts(endDateInput.value)) {
-    endDateInput.value = startDateInput.value;
+    startDateInput.value = getDateRangeForGranularity(
+      getSelectedGranularity(),
+      endDateInput.value,
+    ).startDate;
   }
 
   if (endDateInput.value < startDateInput.value) {
-    endDateInput.value = startDateInput.value;
+    startDateInput.value = endDateInput.value;
   }
 
   startDateInput.max = endDateInput.value || today;
   endDateInput.min = startDateInput.value || "";
 };
 
-const getDateRangeForGranularity = (granularity: Granularity, anchorDate: string) => {
+const getDateRangeForGranularity = (
+  granularity: Granularity,
+  anchorDate = getKoreaToday(),
+) => {
   const today = getKoreaToday();
   const endDate = parseDateParts(anchorDate) ? (anchorDate > today ? today : anchorDate) : today;
 
   if (granularity === "week") {
     return {
       endDate,
-      startDate: addDays(endDate, -6),
+      startDate: addDays(endDate, -83),
     };
   }
 
   if (granularity === "month") {
     return {
       endDate,
-      startDate: getMonthStartDate(endDate),
+      startDate: addMonths(getMonthStartDate(endDate), -11),
     };
   }
 
   return {
     endDate,
-    startDate: endDate,
+    startDate: addDays(endDate, -6),
   };
 };
 
 const applyDateRangeForGranularity = (
   granularity = getSelectedGranularity(),
-  anchorDate = endDateInput?.value || startDateInput?.value || getKoreaToday(),
+  anchorDate = getKoreaToday(),
 ) => {
   if (!startDateInput || !endDateInput) return;
 
@@ -552,8 +565,8 @@ const renderTrendChart = (target: HTMLElement | null, points: TrendPoint[]) => {
   }
 
   const width = 720;
-  const height = 260;
-  const padding = { bottom: 38, left: 44, right: 18, top: 22 };
+  const height = 280;
+  const padding = { bottom: 38, left: 44, right: 18, top: 44 };
   const chartWidth = width - padding.left - padding.right;
   const chartHeight = height - padding.top - padding.bottom;
   const maxViews = Math.max(...points.map((point) => point.views), 1);
@@ -569,6 +582,7 @@ const renderTrendChart = (target: HTMLElement | null, points: TrendPoint[]) => {
     .join(" ");
   const areaPath = `${linePath} L ${coordinates.at(-1)?.x.toFixed(2)} ${padding.top + chartHeight} L ${coordinates[0]?.x.toFixed(2)} ${padding.top + chartHeight} Z`;
   const labelInterval = Math.max(1, Math.ceil(points.length / 6));
+  const valueLabelInterval = Math.max(1, Math.ceil(points.length / 12));
   const yTicks = [0, Math.ceil(maxViews / 2), maxViews];
   const total = points.reduce((sum, point) => sum + point.views, 0);
   const peak = coordinates.reduce((currentPeak, point) =>
@@ -601,6 +615,19 @@ const renderTrendChart = (target: HTMLElement | null, points: TrendPoint[]) => {
             <circle class="stats-line-chart__point" cx="${point.x.toFixed(2)}" cy="${point.y.toFixed(2)}" r="${point === peak ? 4.6 : 3.2}">
               <title>${escapeHtml(point.label)}: ${formatCount(point.views)}</title>
             </circle>
+          `,
+        )
+        .join("")}
+      ${coordinates
+        .filter(
+          (point, index) =>
+            index % valueLabelInterval === 0 ||
+            index === coordinates.length - 1 ||
+            point === peak,
+        )
+        .map(
+          (point) => `
+            <text class="stats-line-chart__value-label" x="${point.x.toFixed(2)}" y="${Math.max(16, point.y - 10).toFixed(2)}">${formatCount(point.views)}</text>
           `,
         )
         .join("")}
@@ -701,17 +728,6 @@ const renderStats = (stats: StatsResponse) => {
       label: row.path || "-",
       views: toCount(row.views),
     })),
-  );
-
-  renderRows(
-    document.querySelector("[data-stats-daily]"),
-    trendPoints
-      .slice()
-      .reverse()
-      .map(
-        (row) =>
-          `<tr><td>${escapeHtml(row.label)}</td><td>${formatCount(row.views)}</td></tr>`,
-      ),
   );
 
   renderRows(
