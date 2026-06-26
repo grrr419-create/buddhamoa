@@ -11,10 +11,21 @@ type Props = {
   pathname: string;
   image?: string;
   robots?: string;
+  showHeader?: boolean;
+  showMobileShare?: boolean;
   structuredData?: Record<string, unknown>[];
 };
 
-const { title, description, pathname, image, robots, structuredData = [] } = Astro.props;
+const {
+  title,
+  description,
+  pathname,
+  image,
+  robots,
+  showHeader = true,
+  showMobileShare = true,
+  structuredData = [],
+} = Astro.props;
 const basePath = import.meta.env.BASE_URL || "/";
 ---
 
@@ -136,12 +147,12 @@ const basePath = import.meta.env.BASE_URL || "/";
     height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <!-- End Google Tag Manager (noscript) -->
     <div class="site-shell">
-      <Header />
+      {showHeader && <Header />}
       <main>
         <slot />
       </main>
       <Footer />
-      <MobileShareButton />
+      {showMobileShare && <MobileShareButton />}
     </div>
 
     <script is:inline>

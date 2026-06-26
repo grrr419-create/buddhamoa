@@ -173,6 +173,13 @@ const addDays = (value: string, days: number) => {
   return toIsoDate(date);
 };
 
+const getMonthStartDate = (value: string) => {
+  const parts = parseDateParts(value);
+  if (!parts) return value;
+
+  return `${parts.year}-${String(parts.month).padStart(2, "0")}-01`;
+};
+
 const getKoreaToday = () => {
   const parts = new Intl.DateTimeFormat("en-US", {
     day: "2-digit",
@@ -192,6 +199,14 @@ const setDefaultDateInputs = () => {
   startDateInput.max = today;
   endDateInput.max = today;
 
+  if (startDateInput.value > today) {
+    startDateInput.value = today;
+  }
+
+  if (endDateInput.value > today) {
+    endDateInput.value = today;
+  }
+
   if (!parseDateParts(startDateInput.value)) {
     startDateInput.value = today;
   }
@@ -206,6 +221,42 @@ const setDefaultDateInputs = () => {
 
   startDateInput.max = endDateInput.value || today;
   endDateInput.min = startDateInput.value || "";
+};
+
+const getDateRangeForGranularity = (granularity: Granularity, anchorDate: string) => {
+  const today = getKoreaToday();
+  const endDate = parseDateParts(anchorDate) ? (anchorDate > today ? today : anchorDate) : today;
+
+  if (granularity === "week") {
+    return {
+      endDate,
+      startDate: addDays(endDate, -6),
+    };
+  }
+
+  if (granularity === "month") {
+    return {
+      endDate,
+      startDate: getMonthStartDate(endDate),
+    };
+  }
+
+  return {
+    endDate,
+    startDate: endDate,
+  };
+};
+
+const applyDateRangeForGranularity = (
+  granularity = getSelectedGranularity(),
+  anchorDate = endDateInput?.value || startDateInput?.value || getKoreaToday(),
+) => {
+  if (!startDateInput || !endDateInput) return;
+
+  const range = getDateRangeForGranularity(granularity, anchorDate);
+  startDateInput.value = range.startDate;
+  endDateInput.value = range.endDate;
+  setDefaultDateInputs();
 };
 
 const getSelectedDateRange = () => {
@@ -819,12 +870,13 @@ startDateInput?.addEventListener("change", () => {
 });
 
 endDateInput?.addEventListener("change", () => {
-  setDefaultDateInputs();
+  applyDateRangeForGranularity(getSelectedGranularity(), endDateInput.value);
   loadStats();
 });
 
 granularityInputs.forEach((input) => {
   input.addEventListener("change", () => {
+    applyDateRangeForGranularity(getSelectedGranularity());
     loadStats();
   });
 });
