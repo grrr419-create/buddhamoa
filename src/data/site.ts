@@ -25,6 +25,11 @@ export const siteConfig = {
   homeLead:
     "불상부터 명상도구, 선물용 불교용품까지 한눈에 정리한 온라인 편집 공간입니다.",
   storeUrl: "https://mkt.shopping.naver.com/link/68457bd08dd273404b731bfd",
+  socialProfiles: [
+    "https://www.youtube.com/@buddha-moa",
+    "https://www.instagram.com/buddhamoa",
+    "https://www.tiktok.com/@buddhamoa",
+  ],
   logoText: "BUDDHAMOA",
   contactEmail: "steadyorder@daum.net",
   contactPhone: "010-5077-9761",
@@ -191,6 +196,24 @@ export const productShorts: ProductShort[] = [
     tags: ["#지장보살", "#석가모니", "#관세음보살"],
     storeUrl: "https://mkt.shopping.naver.com/link/687392211cb140447c418a97",
   },
+  {
+    slug: "vajra",
+    title: "금강저",
+    href: "https://youtu.be/L4f_OQftMuk?si=8xr14DWVjxmyRCQt",
+    embedUrl:
+      "https://www.youtube.com/embed/L4f_OQftMuk?rel=0&modestbranding=1&playsinline=1&profile_refresh=20260621",
+    tags: ["#법구", "#귀신퇴치", "#명상도구"],
+    storeUrl: "https://mkt.shopping.naver.com/link/686d254a1fd1ac410798b769",
+  },
+  {
+    slug: "whale-moktak",
+    title: "고래목탁",
+    href: "https://youtu.be/5wk3hHb0kAY?si=uCDN0TT_qbFX25jh",
+    embedUrl:
+      "https://www.youtube.com/embed/5wk3hHb0kAY?rel=0&modestbranding=1&playsinline=1&profile_refresh=20260621",
+    tags: ["#목탁", "#미니목탁", "#불교굿즈"],
+    storeUrl: "https://mkt.shopping.naver.com/link/6853f935147acf255e8dff63",
+  },
 ];
 
 export const templeShorts: TempleShort[] = [
@@ -208,7 +231,7 @@ export const templeShorts: TempleShort[] = [
     location: "경기 수원",
     templeName: "봉녕사",
     tags: ["#수원봉녕사", "#봉녕사절", "#봉녕사수원", "#수원사찰"],
-    videoUrl: "https://www.tiktok.com/@buddhamoa/video/7632312467825249557?is_from_webapp=1&sender_device=pc",
+    videoUrl: "https://youtu.be/dJR6KZdBitc?si=qM5p9fY1IuNTJ_RQ",
   },
   {
     slug: "hwaseong-yongjusa",
@@ -216,7 +239,23 @@ export const templeShorts: TempleShort[] = [
     location: "경기 화성",
     templeName: "용주사",
     tags: ["#화성용주사", "#경기도절", "#화성절", "#화성사찰"],
-    videoUrl: "https://www.instagram.com/reel/DHBFIo0zHet/?utm_source=ig_web_copy_link&igsh=MzRlODBiNWFlZA==",
+    videoUrl: "https://youtu.be/ooedmHbqA9U?si=TxQdVPv6q5edPMEW",
+  },
+  {
+    slug: "incheon-heungryunsa",
+    title: "흥륜사",
+    location: "인천",
+    templeName: "흥륜사",
+    tags: ["#인천흥륜사", "#대웅전", "#주련", "#쉼터"],
+    videoUrl: "https://youtu.be/1p4rab_8iQk?si=2KW7AfJfQrov3RCT",
+  },
+  {
+    slug: "ganghwa-jeondeungsa",
+    title: "전등사",
+    location: "인천 강화",
+    templeName: "전등사",
+    tags: ["#강화도", "#강화", "#인천", "#약사전"],
+    videoUrl: "https://youtu.be/THZKhD7HtOk?si=hLqz5kFMmLqgm5PV",
   },
 ];
 

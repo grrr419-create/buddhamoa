@@ -40,8 +40,14 @@ const description = `${product.summary} ${product.description[0]}`;
       {product.description.map((paragraph) => <p>{paragraph}</p>)}
 
       <div class="stack-inline">
-        <a class="button" href={product.storeUrl} data-track={`product_detail_${product.slug}`}>
-          스마트스토어에서 보기
+        <a
+          class="button"
+          href={product.storeUrl}
+          data-track={`product_detail_${product.slug}`}
+          target="_blank"
+          rel="nofollow noopener noreferrer"
+        >
+          구매처에서 확인하기
         </a>
         <a class="button-secondary" href={withBase("/")}>홈으로 돌아가기</a>
       </div>

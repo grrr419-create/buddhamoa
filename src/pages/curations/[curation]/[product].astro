@@ -22,6 +22,7 @@ const detailPath = getCurationProductDetailPath(detail.curationSlug, detail.prod
 const title = `${detail.name} | ${detail.curationName} | ${siteConfig.brandName}`;
 const description = detail.summary;
 const optionSectionTitles = new Set(["목탁 고양이", "목탁 황구", "목탁 흑구", "목탁 수달", "목탁 돼지"]);
+const isOptionSection = (title: string) => optionSectionTitles.has(title) || /^선택\d+\./.test(title);
 
 const getSectionImageGroups = (section: (typeof detail.sections)[number]) =>
   section.imageGroups ?? (section.images ? [{ images: section.images }] : []);
@@ -58,7 +59,7 @@ const getSectionImageGroups = (section: (typeof detail.sections)[number]) =>
           class:list={[
             "curation-detail-section",
             sectionIndex === 0 && "curation-detail-section--with-divider",
-            optionSectionTitles.has(section.title) && "curation-detail-section--option",
+            isOptionSection(section.title) && "curation-detail-section--option",
           ]}
         >
           <h2>{section.title}</h2>

@@ -3,7 +3,8 @@ import {
   getCurationProductDetailPath,
   hasCurationProductDetail,
 } from "../data/curationProductDetails";
-import type { FAQItem, Product, ProductCuration } from "../types";
+import { getShortVideoEmbed } from "./shortVideoEmbeds";
+import type { FAQItem, Product, ProductCuration, ProductShort, TempleShort } from "../types";
 import { withBase } from "./paths";
 
 export function absoluteUrl(pathname: string) {
@@ -33,6 +34,7 @@ export function organizationSchema() {
       addressCountry: "KR",
     },
     knowsAbout: siteConfig.keywords,
+    sameAs: siteConfig.socialProfiles,
   };
 }
 
@@ -50,6 +52,139 @@ export function websiteSchema() {
       name: siteConfig.brandName,
     },
   };
+}
+
+export function homePageSchema() {
+  return {
+    "@context": "https://schema.org",
+    "@type": "CollectionPage",
+    name: siteConfig.siteName,
+    headline: "불교용품은 역시 붓다모아",
+    url: siteUrl,
+    description: siteConfig.description,
+    inLanguage: "ko-KR",
+    isPartOf: {
+      "@type": "WebSite",
+      name: siteConfig.siteName,
+      url: siteUrl,
+    },
+    publisher: {
+      "@type": "Organization",
+      name: siteConfig.brandName,
+      url: siteUrl,
+    },
+    about: [
+      "불교용품",
+      "불상",
+      "염주",
+      "손가락염주",
+      "목탁",
+      "명상도구",
+      "불교굿즈",
+      "사경노트",
+      "불교경전",
+    ],
+  };
+}
+
+function getYouTubeVideoId(url?: string) {
+  if (!url) return "";
+
+  try {
+    const parsedUrl = new URL(url);
+    const host = parsedUrl.hostname.replace(/^www\./, "");
+    const parts = parsedUrl.pathname.split("/").filter(Boolean);
+
+    if (host === "youtu.be") {
+      return parts[0] ?? "";
+    }
+
+    if (host.endsWith("youtube.com")) {
+      if (parts[0] === "shorts" || parts[0] === "embed") {
+        return parts[1] ?? "";
+      }
+
+      return parsedUrl.searchParams.get("v") ?? "";
+    }
+  } catch {
+    const match = url.match(/(?:shorts\/|youtu\.be\/|embed\/|v=)([A-Za-z0-9_-]+)/);
+    return match?.[1] ?? "";
+  }
+
+  return "";
+}
+
+function cleanTags(tags: string[]) {
+  return tags.map((tag) => tag.replace(/^#/, "")).join(", ");
+}
+
+function videoThumbnailUrl(videoUrl?: string) {
+  const youtubeId = getYouTubeVideoId(videoUrl);
+
+  return youtubeId ? `https://i.ytimg.com/vi/${youtubeId}/hqdefault.jpg` : "";
+}
+
+function videoObjectSchema({
+  name,
+  description,
+  contentUrl,
+  embedUrl,
+  tags,
+}: {
+  name: string;
+  description: string;
+  contentUrl?: string;
+  embedUrl?: string;
+  tags: string[];
+}) {
+  const thumbnailUrl = videoThumbnailUrl(contentUrl || embedUrl);
+
+  return {
+    "@context": "https://schema.org",
+    "@type": "VideoObject",
+    name,
+    description,
+    inLanguage: "ko-KR",
+    contentUrl,
+    embedUrl,
+    ...(thumbnailUrl ? { thumbnailUrl: [thumbnailUrl] } : {}),
+    keywords: cleanTags(tags),
+    publisher: {
+      "@type": "Organization",
+      name: siteConfig.brandName,
+      url: siteUrl,
+    },
+  };
+}
+
+export function productShortVideoSchemas(shorts: ProductShort[]) {
+  return shorts.map((short) =>
+    videoObjectSchema({
+      name: `${short.title} 쇼츠로 보는 붓다모아 Pick`,
+      description: `${short.title} 상품을 짧은 영상으로 확인할 수 있는 붓다모아 Pick 콘텐츠입니다.`,
+      contentUrl: short.href,
+      embedUrl: short.embedUrl,
+      tags: short.tags,
+    }),
+  );
+}
+
+export function templeShortVideoSchemas(shorts: TempleShort[]) {
+  return shorts.flatMap((short) => {
+    const video = getShortVideoEmbed(short.videoUrl);
+
+    if (!short.videoUrl || !video.embedUrl) return [];
+
+    return [
+      videoObjectSchema({
+        name: short.title,
+        description: `${short.location} ${short.templeName}을 짧은 영상으로 둘러보는 붓다모아 사찰 콘텐츠입니다.`,
+        contentUrl: short.videoUrl,
+        embedUrl: video.embedUrl,
+        tags: short.tags,
+      }),
+    ];
+  });
 }
 
 export function itemListSchema(items: Product[]) {
@@ -77,14 +212,14 @@ export function productCurationItemListSchemas(curations: ProductCuration[]) {
     itemListOrder: "https://schema.org/ItemListOrderAscending",
     numberOfItems: curation.items.length,
     itemListElement: curation.items.map((item, index) => {
-      const pageUrl = hasCurationProductDetail(curation.slug, item.slug)
+      const itemUrl = hasCurationProductDetail(curation.slug, item.slug)
         ? absoluteUrl(getCurationProductDetailPath(curation.slug, item.slug))
         : item.href;
 
       return {
         "@type": "ListItem",
         position: index + 1,
-        url: pageUrl,
+        url: itemUrl,
         name: item.name,
         item: {
           "@type": "Product",
@@ -92,7 +227,7 @@ export function productCurationItemListSchemas(curations: ProductCuration[]) {
           image: [absoluteUrl(item.image)],
           description: item.imageAlt,
           category: curation.name,
-          url: pageUrl,
+          url: itemUrl,
           offers: {
             "@type": "Offer",
             url: item.href,

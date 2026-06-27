@@ -2,6 +2,13 @@
 import SiteViewCounter from "./SiteViewCounter.astro";
 import { siteConfig } from "../data/site";
 import { withBase } from "../utils/paths";
+
+type Props = {
+  homeHeading?: boolean;
+};
+
+const { homeHeading = false } = Astro.props;
+const BrandNameTag = homeHeading ? "h1" : "strong";
 ---
 
 <header class="site-header">
@@ -19,7 +26,7 @@ import { withBase } from "../utils/paths";
       <span class="brand-mark__sigil">연</span>
     </span>
     <span class="brand-mark__copy">
-      <strong>{siteConfig.brandName}</strong>
+      <BrandNameTag>{siteConfig.brandName}</BrandNameTag>
       <span>{siteConfig.shortDescription}</span>
     </span>
   </a>

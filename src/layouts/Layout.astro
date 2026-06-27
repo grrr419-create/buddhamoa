@@ -147,8 +147,8 @@ const basePath = import.meta.env.BASE_URL || "/";
     height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <!-- End Google Tag Manager (noscript) -->
     <div class="site-shell">
-      {showHeader && <Header />}
-      <main>
+      {showHeader && <Header homeHeading={pathname === "/"} />}
+      <main id="content" aria-label="붓다모아 본문">
         <slot />
       </main>
       <Footer />

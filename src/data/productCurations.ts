@@ -155,9 +155,9 @@ const curationProductItems: Partial<Record<CurationSlug, ProductCuration["items"
     },
     {
       slug: "wooden-finger-prayer-beads",
-      name: "나무 염주",
+      name: "연꽃 염주",
       image: "/images/curations/finger-prayer-beads/wooden-finger-prayer-beads.png",
-      imageAlt: "나무 염주 손가락염주 상품 이미지",
+      imageAlt: "연꽃 염주 손가락염주 상품 이미지",
       href: "https://mkt.shopping.naver.com/link/69ba7f8601c5cd3461ab32d7",
     },
     {

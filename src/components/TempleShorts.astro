@@ -1,7 +1,6 @@
 ---
-import type { SocialFollowChannel, TempleShort } from "../types";
+import type { TempleShort } from "../types";
 import { getShortVideoEmbed } from "../utils/shortVideoEmbeds";
-import SocialFollowCta from "./SocialFollowCta.astro";
 
 type Props = {
   shorts: TempleShort[];
@@ -12,37 +11,9 @@ const { shorts } = Astro.props;
 const playIcon =
   '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.6v12.8L18.2 12 8 5.6Z"/></svg>';
 
-const socialFollowChannels: Record<SocialFollowChannel["icon"], SocialFollowChannel> = {
-  youtube: {
-    icon: "youtube",
-    href: "https://www.youtube.com/@buddha-moa?sub_confirmation=1",
-    label: "유튜브",
-    ctaLabel: "유튜브 구독",
-  },
-  tiktok: {
-    icon: "tiktok",
-    href: "https://www.tiktok.com/@buddhamoa",
-    label: "틱톡",
-    ctaLabel: "틱톡 팔로우",
-  },
-  instagram: {
-    icon: "instagram",
-    href: "https://www.instagram.com/buddhamoa",
-    label: "인스타그램",
-    ctaLabel: "인스타 팔로우",
-  },
-};
-
-const templeFollowIcons: Record<string, SocialFollowChannel["icon"]> = {
-  "paju-bogwangsa": "youtube",
-  "suwon-bongnyeongsa": "tiktok",
-  "hwaseong-yongjusa": "instagram",
-};
-
 const preparedShorts = shorts.map((short) => ({
   ...short,
   ...getShortVideoEmbed(short.videoUrl),
-  followChannel: socialFollowChannels[templeFollowIcons[short.slug]],
 }));
 ---
 
@@ -78,16 +49,6 @@ const preparedShorts = shorts.map((short) => ({
 
         <div class="temple-short-card__body">
           <h3>{short.templeName}</h3>
-          <div class="temple-short-card__tags" aria-label={`${short.templeName} 관련 해시태그`}>
-            {short.tags.map((tag) => <span>{tag}</span>)}
-          </div>
-          {
-            short.followChannel && (
-              <div class="temple-short-card__social">
-                <SocialFollowCta channels={[short.followChannel]} />
-              </div>
-            )
-          }
         </div>
       </article>
     ))

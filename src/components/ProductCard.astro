@@ -17,7 +17,19 @@ const { product } = Astro.props;
   <h3>
     <a href={withBase(`/products/${product.slug}/`)}>{product.name}</a>
   </h3>
-  <a class="product-card__link" href={product.storeUrl} data-track={`product_card_${product.slug}`}>
-    스마트스토어 보기
-  </a>
+  <p class="product-card__summary">{product.summary}</p>
+  <div class="product-card__actions">
+    <a class="product-card__link" href={withBase(`/products/${product.slug}/`)}>
+      자세히 읽기
+    </a>
+    <a
+      class="product-card__store"
+      href={product.storeUrl}
+      data-track={`product_card_${product.slug}`}
+      target="_blank"
+      rel="nofollow noopener noreferrer"
+    >
+      구매처 보기
+    </a>
+  </div>
 </article>

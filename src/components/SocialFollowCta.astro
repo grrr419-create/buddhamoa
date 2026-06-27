@@ -3,9 +3,10 @@ import type { SocialFollowChannel } from "../types";
 
 type Props = {
   channels: SocialFollowChannel[];
+  iconOnly?: boolean;
 };
 
-const { channels } = Astro.props;
+const { channels, iconOnly = false } = Astro.props;
 
 const icons: Record<SocialFollowChannel["icon"], string> = {
   youtube:
@@ -17,20 +18,27 @@ const icons: Record<SocialFollowChannel["icon"], string> = {
 };
 ---
 
-<nav class="social-follow-cta" aria-label="붓다모아 소셜 채널 구독과 팔로우">
+<nav
+  class:list={["social-follow-cta", iconOnly && "social-follow-cta--icon-only"]}
+  aria-label="붓다모아 소셜 채널 구독과 팔로우"
+>
   {
     channels.map((channel) => (
       <a
-        class={`social-follow-button social-follow-button--${channel.icon}`}
+        class:list={[
+          "social-follow-button",
+          `social-follow-button--${channel.icon}`,
+          iconOnly && "social-follow-button--icon-only",
+        ]}
         href={channel.href}
         aria-label={channel.ctaLabel}
         title={channel.ctaLabel}
         data-track={`social_follow_${channel.icon}`}
         target="_blank"
-        rel="noreferrer"
+        rel="nofollow noopener noreferrer"
       >
         <span class="social-follow-button__icon" set:html={icons[channel.icon]} />
-        <span>{channel.ctaLabel}</span>
+        {!iconOnly && <span>{channel.ctaLabel}</span>}
       </a>
     ))
   }

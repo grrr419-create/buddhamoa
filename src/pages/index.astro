@@ -18,14 +18,17 @@ import {
 } from "../data/site";
 import {
   faqSchema,
+  homePageSchema,
   organizationSchema,
   productCurationItemListSchemas,
+  productShortVideoSchemas,
+  templeShortVideoSchemas,
   websiteSchema,
 } from "../utils/seo";
 
-const title = "불교용품은 역시 붓다모아";
+const title = "불교용품은 역시 붓다모아 | 불상·염주·불교굿즈 안내";
 const description =
-  "불상, 염주, 싱잉볼, 불교굿즈 등 일상 속 신행과 명상에 어울리는 불교용품을 한곳에서 둘러보세요.";
+  "붓다모아는 불상, 염주, 목탁, 명상도구, 사경노트, 불교굿즈를 신행과 일상 용도에 맞게 정리해 소개하는 온라인 불교용품 안내 페이지입니다.";
 const productShortsInsertIndex = productCurations.findIndex(
   (curation) => curation.slug === "finger-prayer-beads",
 );
@@ -44,7 +47,10 @@ const productCurationsAfterShorts =
   structuredData={[
     organizationSchema(),
     websiteSchema(),
+    homePageSchema(),
     ...productCurationItemListSchemas(productCurations),
+    ...productShortVideoSchemas(productShorts),
+    ...templeShortVideoSchemas(templeShorts),
     faqSchema(),
   ]}
 >

@@ -1,5 +1,5 @@
 ---
-import { sellerInfo } from "../data/site";
+import { sellerInfo, siteConfig } from "../data/site";
 import { withBase } from "../utils/paths";
 ---
 
@@ -15,7 +15,8 @@ import { withBase } from "../utils/paths";
       {sellerInfo.representativeName} · 사업자번호 {sellerInfo.businessNumber} · 사업장 소재지
       (우: {sellerInfo.postalCode}) {sellerInfo.address} · 사업자 구분{" "}
       {sellerInfo.businessEntityType} · 업태 {sellerInfo.businessCategory} · 업종 {sellerInfo.businessSector} ·
-      통신판매업 신고번호 {sellerInfo.onlineSalesReportNumber}
+      통신판매업 신고번호 {sellerInfo.onlineSalesReportNumber} · 고객문의 {siteConfig.contactPhone} ·
+      이메일 {siteConfig.contactEmail} · 운영시간 {siteConfig.contactHours}
     </p>
   </div>
 </footer>

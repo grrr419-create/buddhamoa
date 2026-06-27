@@ -1,6 +1,7 @@
 ---
 import type { ProductShort } from "../types";
 import SectionHeader from "./SectionHeader.astro";
+import SocialFollowCta from "./SocialFollowCta.astro";
 
 type Props = {
   shorts: ProductShort[];
@@ -10,7 +11,31 @@ const { shorts } = Astro.props;
 ---
 
 <section id="product-shorts">
-  <SectionHeader title="쇼츠로 보는 붓다모아 Pick" />
+  <SectionHeader title="쇼츠로 보는 붓다모아 Pick">
+    <SocialFollowCta
+      iconOnly
+      channels={[
+        {
+          icon: "youtube",
+          href: "https://www.youtube.com/@buddha-moa?sub_confirmation=1",
+          label: "유튜브",
+          ctaLabel: "붓다모아 유튜브 영상 보기",
+        },
+        {
+          icon: "instagram",
+          href: "https://www.instagram.com/buddhamoa",
+          label: "인스타그램",
+          ctaLabel: "붓다모아 인스타그램 보기",
+        },
+        {
+          icon: "tiktok",
+          href: "https://www.tiktok.com/@buddhamoa",
+          label: "틱톡",
+          ctaLabel: "붓다모아 틱톡 보기",
+        },
+      ]}
+    />
+  </SectionHeader>
   <div class="temple-shorts-grid">
     {
       shorts.map((short) => (
@@ -28,16 +53,13 @@ const { shorts } = Astro.props;
 
           <div class="temple-short-card__body">
             <h3>{short.title}</h3>
-            <div class="temple-short-card__tags" aria-label={`${short.title} 관련 해시태그`}>
-              {short.tags.map((tag) => <span>{tag}</span>)}
-            </div>
             <a
               class="temple-short-card__buy"
               href={short.storeUrl}
               aria-label={`${short.title} 상품 보러가기`}
               data-track={`product_short_buy_${short.slug}`}
               target="_blank"
-              rel="noreferrer"
+              rel="nofollow noopener noreferrer"
             >
               <span class="temple-short-card__buy-icon" aria-hidden="true">
                 <svg viewBox="0 0 24 24">
