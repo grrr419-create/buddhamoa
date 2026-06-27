@@ -29,10 +29,13 @@ const statLabels = [
 
   type ViewCountResponse = {
     today_count?: unknown;
+    today_unique_visitors?: unknown;
     total_count?: unknown;
+    total_unique_visitors?: unknown;
   };
 
   const counter = document.querySelector<HTMLElement>("[data-view-counter]");
+  const visitorStorageKey = `buddhamoa:visitor-id:${siteKey}`;
 
   const normalizeSupabaseUrl = (value: string) => value.replace(/\/+$/, "");
 
@@ -74,6 +77,36 @@ const statLabels = [
     return value ? value.slice(0, 180) : null;
   };
 
+  const createVisitorId = () => {
+    const browserCrypto = window.crypto;
+
+    if (typeof browserCrypto?.randomUUID === "function") {
+      return browserCrypto.randomUUID();
+    }
+
+    const randomValues = new Uint32Array(4);
+    browserCrypto?.getRandomValues?.(randomValues);
+    const randomPart = Array.from(randomValues, (value) => value.toString(36)).join("-");
+
+    return `${Date.now().toString(36)}-${randomPart || Math.random().toString(36).slice(2)}`;
+  };
+
+  const getVisitorId = () => {
+    try {
+      const storedVisitorId = window.localStorage.getItem(visitorStorageKey);
+      if (storedVisitorId && /^[a-z0-9_-]{16,80}$/i.test(storedVisitorId)) {
+        return storedVisitorId;
+      }
+
+      const nextVisitorId = createVisitorId();
+      window.localStorage.setItem(visitorStorageKey, nextVisitorId);
+
+      return nextVisitorId;
+    } catch {
+      return null;
+    }
+  };
+
   const recordView = async () => {
     if (!counter || !supabaseUrl || !supabaseAnonKey) return;
     if (/\/stats\/?$/.test(window.location.pathname)) return;
@@ -94,6 +127,7 @@ const statLabels = [
       device_type: getDeviceType(),
       language: navigator.language || null,
       screen_width: screenWidth > 0 ? screenWidth : null,
+      visitor_id: getVisitorId(),
     };
 
     try {

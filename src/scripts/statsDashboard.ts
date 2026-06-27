@@ -4,6 +4,7 @@ type CountValue = string | number | null | undefined;
 
 type DailyRow = {
   date?: string;
+  visitors?: CountValue;
   views?: CountValue;
 };
 
@@ -67,9 +68,12 @@ type StatsResponse = {
   period?: StatsPeriod;
   period_granularity?: string;
   selected_count?: CountValue;
+  selected_unique_visitors?: CountValue;
   target_date?: string;
   today_count?: CountValue;
+  today_unique_visitors?: CountValue;
   total_count?: CountValue;
+  total_unique_visitors?: CountValue;
   daily?: DailyRow[];
   daily_referrers?: DailyReferrerRow[];
   top_referrers?: ReferrerRow[];
@@ -99,8 +103,17 @@ const granularityInputs = Array.from(
   document.querySelectorAll<HTMLInputElement>('input[name="stats-granularity"]'),
 );
 const todayTotal = document.querySelector<HTMLElement>('[data-stats-total="today"]');
+const todayVisitorsTotal = document.querySelector<HTMLElement>(
+  '[data-stats-total="today-visitors"]',
+);
 const allTimeTotal = document.querySelector<HTMLElement>('[data-stats-total="total"]');
+const allTimeVisitorsTotal = document.querySelector<HTMLElement>(
+  '[data-stats-total="total-visitors"]',
+);
 const selectedTotal = document.querySelector<HTMLElement>('[data-stats-total="selected"]');
+const selectedVisitorsTotal = document.querySelector<HTMLElement>(
+  '[data-stats-total="selected-visitors"]',
+);
 const averageTotal = document.querySelector<HTMLElement>('[data-stats-total="average"]');
 const updatedLabel = document.querySelector<HTMLElement>("[data-stats-updated]");
 const trendTitle = document.querySelector<HTMLElement>("[data-stats-trend-title]");
@@ -129,6 +142,12 @@ const formatCount = (value: CountValue) => {
   if (!Number.isFinite(count) || count < 0) return "0";
 
   return new Intl.NumberFormat("ko-KR").format(count);
+};
+
+const formatOptionalCount = (value: CountValue) => {
+  if (value === undefined || value === null) return "—";
+
+  return formatCount(value);
 };
 
 const formatDate = (value: string | undefined) => {
@@ -772,8 +791,20 @@ const renderStats = (stats: StatsResponse) => {
   const periodLabel = getPeriodRangeLabel(period);
 
   if (todayTotal) todayTotal.textContent = formatCount(stats.today_count);
+  if (todayVisitorsTotal) {
+    todayVisitorsTotal.textContent =
+      `순방문자 ${formatOptionalCount(stats.today_unique_visitors)}`;
+  }
   if (allTimeTotal) allTimeTotal.textContent = formatCount(stats.total_count);
+  if (allTimeVisitorsTotal) {
+    allTimeVisitorsTotal.textContent =
+      `순방문자 ${formatOptionalCount(stats.total_unique_visitors)}`;
+  }
   if (selectedTotal) selectedTotal.textContent = formatCount(selectedViews);
+  if (selectedVisitorsTotal) {
+    selectedVisitorsTotal.textContent =
+      `순방문자 ${formatOptionalCount(stats.selected_unique_visitors)}`;
+  }
   if (averageTotal) averageTotal.textContent = formatCount(averageViews);
   if (trendTitle) trendTitle.textContent = `${getGranularityLabel(granularity)} 단위 조회수 추이`;
   if (trendMeta) {
