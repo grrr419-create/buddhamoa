@@ -2,6 +2,7 @@ import type {
   CategoryLink,
   FAQItem,
   ProductShort,
+  SocialFollowChannel,
   TempleShort,
   TopNotice,
 } from "../types";
@@ -69,6 +70,27 @@ export const siteConfig = {
     "단주",
   ],
 };
+
+export const socialFollowChannels: SocialFollowChannel[] = [
+  {
+    icon: "youtube",
+    href: "https://www.youtube.com/@buddha-moa?sub_confirmation=1",
+    label: "유튜브",
+    ctaLabel: "붓다모아 유튜브 영상 보기",
+  },
+  {
+    icon: "instagram",
+    href: "https://www.instagram.com/buddhamoa",
+    label: "인스타그램",
+    ctaLabel: "붓다모아 인스타그램 보기",
+  },
+  {
+    icon: "tiktok",
+    href: "https://www.tiktok.com/@buddhamoa",
+    label: "틱톡",
+    ctaLabel: "붓다모아 틱톡 보기",
+  },
+];
 
 export const sellerInfo = {
   sellerType: "국내 사업자",

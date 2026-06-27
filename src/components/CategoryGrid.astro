@@ -16,6 +16,7 @@ const isExternalHref = (href: string) =>
   {categories.map((category) =>
     category.href ? (
       <a
+        id={`category-${category.slug}`}
         class="category-link-card"
         href={isExternalHref(category.href) ? category.href : withBase(category.href)}
         aria-label={category.hrefLabel ? `${category.name} ${category.hrefLabel}` : `${category.name} 보기`}
@@ -40,7 +41,7 @@ const isExternalHref = (href: string) =>
         </div>
       </a>
     ) : (
-      <article class="category-link-card">
+      <article id={`category-${category.slug}`} class="category-link-card">
         <div class="category-link-card__image-wrap">
           <img
             class="category-link-card__image"

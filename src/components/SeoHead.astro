@@ -31,12 +31,17 @@ const faviconPath = withBase("/images/brand/파비콘.png");
 <meta name="generator" content={Astro.generator} />
 <meta name="description" content={description} />
 <meta name="keywords" content={siteConfig.keywords.join(", ")} />
+<meta name="author" content={siteConfig.brandName} />
+<meta name="publisher" content={siteConfig.brandName} />
+<meta name="application-name" content={siteConfig.brandName} />
 <meta name="naver-site-verification" content="b5dd7ca25a2cf1ee3251a71263144079a7da3f51" />
 <meta name="robots" content={robots} />
+<meta name="theme-color" content="#ffffff" />
 <link rel="icon" type="image/png" href={faviconPath} />
 <link rel="shortcut icon" type="image/png" href={faviconPath} />
 <link rel="apple-touch-icon" href={faviconPath} />
 <link rel="canonical" href={canonical} />
+<link rel="alternate" hreflang="ko-KR" href={canonical} />
 <title>{title}</title>
 
 <meta property="og:type" content="website" />

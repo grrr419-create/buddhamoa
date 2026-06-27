@@ -4,7 +4,14 @@ import {
   hasCurationProductDetail,
 } from "../data/curationProductDetails";
 import { getShortVideoEmbed } from "./shortVideoEmbeds";
-import type { FAQItem, Product, ProductCuration, ProductShort, TempleShort } from "../types";
+import type {
+  CategoryLink,
+  FAQItem,
+  Product,
+  ProductCuration,
+  ProductShort,
+  TempleShort,
+} from "../types";
 import { withBase } from "./paths";
 
 export function absoluteUrl(pathname: string) {
@@ -19,9 +26,12 @@ export function organizationSchema() {
   return {
     "@context": "https://schema.org",
     "@type": "Organization",
+    "@id": `${siteUrl}#organization`,
     name: siteConfig.brandName,
     legalName: sellerInfo.businessName,
     url: siteUrl,
+    logo: absoluteUrl(siteConfig.brandAssetPath),
+    image: absoluteUrl("/images/brand/new-og-image.png"),
     description: siteConfig.description,
     email: siteConfig.contactEmail,
     telephone: siteConfig.contactPhone,
@@ -33,6 +43,14 @@ export function organizationSchema() {
       streetAddress: sellerInfo.address,
       addressCountry: "KR",
     },
+    contactPoint: {
+      "@type": "ContactPoint",
+      contactType: "customer support",
+      telephone: siteConfig.contactPhone,
+      email: siteConfig.contactEmail,
+      availableLanguage: ["ko"],
+      areaServed: "KR",
+    },
     knowsAbout: siteConfig.keywords,
     sameAs: siteConfig.socialProfiles,
   };
@@ -42,37 +60,47 @@ export function websiteSchema() {
   return {
     "@context": "https://schema.org",
     "@type": "WebSite",
+    "@id": `${siteUrl}#website`,
     name: siteConfig.siteName,
     url: siteUrl,
     description: siteConfig.description,
     inLanguage: "ko-KR",
     keywords: siteConfig.keywords.join(", "),
     publisher: {
-      "@type": "Organization",
-      name: siteConfig.brandName,
+      "@id": `${siteUrl}#organization`,
     },
   };
 }
 
-export function homePageSchema() {
+export function homePageSchema({
+  categories = [],
+  curations = [],
+  productShorts = [],
+  templeShorts = [],
+  faqItems = [],
+}: {
+  categories?: CategoryLink[];
+  curations?: ProductCuration[];
+  productShorts?: ProductShort[];
+  templeShorts?: TempleShort[];
+  faqItems?: FAQItem[];
+} = {}) {
   return {
     "@context": "https://schema.org",
     "@type": "CollectionPage",
+    "@id": `${siteUrl}#webpage`,
     name: siteConfig.siteName,
     headline: "불교용품은 역시 붓다모아",
     url: siteUrl,
     description: siteConfig.description,
     inLanguage: "ko-KR",
     isPartOf: {
-      "@type": "WebSite",
-      name: siteConfig.siteName,
-      url: siteUrl,
+      "@id": `${siteUrl}#website`,
     },
     publisher: {
-      "@type": "Organization",
-      name: siteConfig.brandName,
-      url: siteUrl,
+      "@id": `${siteUrl}#organization`,
     },
+    primaryImageOfPage: absoluteUrl("/images/brand/new-og-image.png"),
     about: [
       "불교용품",
       "불상",
@@ -84,6 +112,81 @@ export function homePageSchema() {
       "사경노트",
       "불교경전",
     ],
+    hasPart: [
+      {
+        "@type": "WebPageElement",
+        "@id": absoluteUrl("/#category-links"),
+        name: "필요한 불교용품, 쉽게 골라보세요",
+        description: `${categories.length}개 주제별 불교용품 카테고리 안내`,
+      },
+      {
+        "@type": "WebPageElement",
+        "@id": absoluteUrl("/#product-curations"),
+        name: "붓다모아 상품 큐레이션",
+        description: `${curations.length}개 큐레이션별 불교용품 상세 안내`,
+      },
+      {
+        "@type": "WebPageElement",
+        "@id": absoluteUrl("/#product-shorts"),
+        name: "쇼츠로 보는 붓다모아 Pick",
+        description: `${productShorts.length}개 불교용품 영상 콘텐츠`,
+      },
+      {
+        "@type": "WebPageElement",
+        "@id": absoluteUrl("/#temple-shorts"),
+        name: "잠깐, 사찰 한 바퀴",
+        description: `${templeShorts.length}개 사찰 영상 콘텐츠`,
+      },
+      {
+        "@type": "WebPageElement",
+        "@id": absoluteUrl("/#guide-faq"),
+        name: "붓다모아 이용 안내",
+        description: `${faqItems.length}개 불교용품 구매 전 자주 묻는 질문`,
+      },
+    ],
+  };
+}
+
+export function landingNavigationSchemas() {
+  return [
+    ["필요한 불교용품, 쉽게 골라보세요", "/#category-links"],
+    ["붓다모아 상품 큐레이션", "/#product-curations"],
+    ["쇼츠로 보는 붓다모아 Pick", "/#product-shorts"],
+    ["잠깐, 사찰 한 바퀴", "/#temple-shorts"],
+    ["붓다모아 이용 안내", "/#guide-faq"],
+  ].map(([name, url], index) => ({
+    "@context": "https://schema.org",
+    "@type": "SiteNavigationElement",
+    position: index + 1,
+    name,
+    url: absoluteUrl(url),
+  }));
+}
+
+export function categoryItemListSchema(categories: CategoryLink[]) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    name: "붓다모아 불교용품 카테고리 안내",
+    description:
+      "이벤트, 불교인테리어, 불교액세서리, 명상도구, 불교경전, 풍수용품을 용도별로 정리한 안내 목록입니다.",
+    url: absoluteUrl("/#category-links"),
+    itemListOrder: "https://schema.org/ItemListOrderAscending",
+    numberOfItems: categories.length,
+    itemListElement: categories.map((category, index) => ({
+      "@type": "ListItem",
+      position: index + 1,
+      url: absoluteUrl(`/#category-${category.slug}`),
+      name: category.name,
+      item: {
+        "@type": "DefinedTerm",
+        "@id": absoluteUrl(`/#category-${category.slug}`),
+        name: category.name,
+        description: category.description,
+        image: absoluteUrl(category.image),
+        inDefinedTermSet: "붓다모아 불교용품 카테고리",
+      },
+    })),
   };
 }
 

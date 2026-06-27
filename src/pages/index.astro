@@ -17,8 +17,10 @@ import {
   topNotices,
 } from "../data/site";
 import {
+  categoryItemListSchema,
   faqSchema,
   homePageSchema,
+  landingNavigationSchemas,
   organizationSchema,
   productCurationItemListSchemas,
   productShortVideoSchemas,
@@ -47,7 +49,15 @@ const productCurationsAfterShorts =
   structuredData={[
     organizationSchema(),
     websiteSchema(),
-    homePageSchema(),
+    homePageSchema({
+      categories,
+      curations: productCurations,
+      productShorts,
+      templeShorts,
+      faqItems: faqs,
+    }),
+    ...landingNavigationSchemas(),
+    categoryItemListSchema(categories),
     ...productCurationItemListSchemas(productCurations),
     ...productShortVideoSchemas(productShorts),
     ...templeShortVideoSchemas(templeShorts),

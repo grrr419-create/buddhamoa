@@ -1,0 +1,19 @@
+---
+import SectionHeader from "./SectionHeader.astro";
+
+type Props = {
+  id: string;
+  title: string;
+  description: string;
+  tone: "category" | "shorts" | "temple";
+};
+
+const { id, title, description, tone } = Astro.props;
+---
+
+<section id={id} class:list={["landing-section-panel", `landing-section-panel--${tone}`]}>
+  <SectionHeader title={title} description={description}>
+    <slot name="header-actions" />
+  </SectionHeader>
+  <slot />
+</section>

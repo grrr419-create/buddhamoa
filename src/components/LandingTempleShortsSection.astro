@@ -1,6 +1,7 @@
 ---
 import type { TempleShort } from "../types";
-import SectionHeader from "./SectionHeader.astro";
+import { socialFollowChannels } from "../data/site";
+import LandingSectionPanel from "./LandingSectionPanel.astro";
 import SocialFollowCta from "./SocialFollowCta.astro";
 import TempleShorts from "./TempleShorts.astro";
 
@@ -11,31 +12,14 @@ type Props = {
 const { shorts } = Astro.props;
 ---
 
-<section id="temple-shorts">
-  <SectionHeader title="잠깐, 사찰 한 바퀴">
-    <SocialFollowCta
-      iconOnly
-      channels={[
-        {
-          icon: "youtube",
-          href: "https://www.youtube.com/@buddha-moa?sub_confirmation=1",
-          label: "유튜브",
-          ctaLabel: "붓다모아 유튜브 영상 보기",
-        },
-        {
-          icon: "instagram",
-          href: "https://www.instagram.com/buddhamoa",
-          label: "인스타그램",
-          ctaLabel: "붓다모아 인스타그램 보기",
-        },
-        {
-          icon: "tiktok",
-          href: "https://www.tiktok.com/@buddhamoa",
-          label: "틱톡",
-          ctaLabel: "붓다모아 틱톡 보기",
-        },
-      ]}
-    />
-  </SectionHeader>
+<LandingSectionPanel
+  id="temple-shorts"
+  tone="temple"
+  title="잠깐, 사찰 한 바퀴"
+  description="잠시 쉬어가듯, 사찰 이야기를 둘러보세요."
+>
+  <Fragment slot="header-actions">
+    <SocialFollowCta iconOnly channels={socialFollowChannels} />
+  </Fragment>
   <TempleShorts shorts={shorts} />
-</section>
+</LandingSectionPanel>

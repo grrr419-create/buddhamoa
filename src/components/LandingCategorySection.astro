@@ -1,7 +1,7 @@
 ---
 import type { CategoryLink } from "../types";
 import CategoryGrid from "./CategoryGrid.astro";
-import SectionHeader from "./SectionHeader.astro";
+import LandingSectionPanel from "./LandingSectionPanel.astro";
 import StoreCtaButton from "./StoreCtaButton.astro";
 
 type Props = {
@@ -12,9 +12,14 @@ type Props = {
 const { categories, storeUrl } = Astro.props;
 ---
 
-<section id="category-links">
-  <SectionHeader title="필요한 불교용품, 쉽게 골라보세요">
+<LandingSectionPanel
+  id="category-links"
+  tone="category"
+  title="필요한 불교용품, 쉽게 골라보세요"
+  description="마음이 가는 물건을 편하게 둘러보세요."
+>
+  <Fragment slot="header-actions">
     <StoreCtaButton href={storeUrl} track="category_store" />
-  </SectionHeader>
+  </Fragment>
   <CategoryGrid categories={categories} />
-</section>
+</LandingSectionPanel>

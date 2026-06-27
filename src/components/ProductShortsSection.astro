@@ -1,6 +1,7 @@
 ---
 import type { ProductShort } from "../types";
-import SectionHeader from "./SectionHeader.astro";
+import { socialFollowChannels } from "../data/site";
+import LandingSectionPanel from "./LandingSectionPanel.astro";
 import SocialFollowCta from "./SocialFollowCta.astro";
 
 type Props = {
@@ -10,32 +11,15 @@ type Props = {
 const { shorts } = Astro.props;
 ---
 
-<section id="product-shorts">
-  <SectionHeader title="쇼츠로 보는 붓다모아 Pick">
-    <SocialFollowCta
-      iconOnly
-      channels={[
-        {
-          icon: "youtube",
-          href: "https://www.youtube.com/@buddha-moa?sub_confirmation=1",
-          label: "유튜브",
-          ctaLabel: "붓다모아 유튜브 영상 보기",
-        },
-        {
-          icon: "instagram",
-          href: "https://www.instagram.com/buddhamoa",
-          label: "인스타그램",
-          ctaLabel: "붓다모아 인스타그램 보기",
-        },
-        {
-          icon: "tiktok",
-          href: "https://www.tiktok.com/@buddhamoa",
-          label: "틱톡",
-          ctaLabel: "붓다모아 틱톡 보기",
-        },
-      ]}
-    />
-  </SectionHeader>
+<LandingSectionPanel
+  id="product-shorts"
+  tone="shorts"
+  title="쇼츠로 보는 붓다모아 Pick"
+  description="마음 가는 상품을 바로 만나보세요."
+>
+  <Fragment slot="header-actions">
+    <SocialFollowCta iconOnly channels={socialFollowChannels} />
+  </Fragment>
   <div class="temple-shorts-grid">
     {
       shorts.map((short) => (
@@ -75,4 +59,4 @@ const { shorts } = Astro.props;
       ))
     }
   </div>
-</section>
+</LandingSectionPanel>

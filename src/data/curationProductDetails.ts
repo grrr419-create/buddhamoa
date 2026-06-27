@@ -48,6 +48,15 @@ const babyBuddhaImageBase = "/images/curation-details/desk-buddha/baby-buddha";
 const miniBuddhaStatueImageBase = "/images/curation-details/desk-buddha/mini-buddha-statue";
 const smallBuddhaStatueImageBase = "/images/curation-details/desk-buddha/small-buddha-statue";
 const buddhaGoodsImageBase = "/images/curation-details/desk-buddha/buddha-goods";
+const pensiveBodhisattvaImageBase =
+  "/images/curation-details/home-buddha-statues/pensive-bodhisattva";
+const homeBuddhaStatueImageBase =
+  "/images/curation-details/home-buddha-statues/home-buddha-statue";
+const mediumBuddhaStatueImageBase =
+  "/images/curation-details/home-buddha-statues/medium-buddha-statue";
+const interiorBuddhaStatueImageBase =
+  "/images/curation-details/home-buddha-statues/interior-buddha-statue";
+const buddhaObjectImageBase = "/images/curation-details/home-buddha-statues/buddha-object";
 
 const curationProductDetailOverrides: Record<string, Partial<ProductCurationDetail>> = {
   "emotional-buddhist-goods/buddhist-frog": {
@@ -2306,6 +2315,459 @@ const curationProductDetailOverrides: Record<string, Partial<ProductCurationDeta
           "구성: 불상굿즈 2종 중 1EA (좌상 / 와상)",
           "사이즈: 좌상 높이 약 8.5cm, 너비 약 5.5cm / 와상 높이 약 6.0cm, 너비 약 8.8cm",
           "무게: 좌상 약 93g / 와상 약 114g",
+          "원산지: 중국",
+          "수입사: 스테디오더",
+        ],
+      },
+    ],
+  },
+  "home-buddha-statues/pensive-bodhisattva": {
+    name: "반가사유상",
+    subtitle: "공간에 고요한 사유의 분위기를 더하는 불상 소품",
+    summary:
+      "깊은 생각에 잠긴 듯한 자세와 차분한 표정이 돋보이는 반가사유상입니다.",
+    introBody: [
+      "반가사유상은 깊은 생각에 잠긴 듯한 자세와 차분한 표정이 돋보이는 불상입니다. 정교한 조각선과 은은한 사암 느낌의 표면 질감이 어우러져, 바라보는 것만으로도 공간에 고요한 분위기를 더해줍니다.",
+    ],
+    image: `${pensiveBodhisattvaImageBase}/image1.jpg`,
+    imageAlt: "공간에 고요한 사유의 분위기를 더하는 반가사유상 대표 이미지",
+    sections: [
+      {
+        title: "정교한 조각감과 차분한 질감",
+        images: [
+          {
+            src: `${pensiveBodhisattvaImageBase}/image2.jpg`,
+            alt: "사암을 연상시키는 질감과 정교한 조각감의 반가사유상",
+          },
+        ],
+        body: [
+          "수지 재질로 제작되었으며, 사암을 연상시키는 거친 입자감과 자연스러운 명암이 표현되어 있습니다. 얼굴, 옷 주름, 장식 디테일까지 섬세하게 살아 있어 작은 공간에서도 안정감 있는 존재감을 느낄 수 있습니다.",
+        ],
+      },
+      {
+        title: "옆모습까지 살아있는 입체감",
+        images: [
+          {
+            src: `${pensiveBodhisattvaImageBase}/image3.jpg`,
+            alt: "측면에서 본 반가사유상의 유려한 자세",
+          },
+        ],
+        body: [
+          "정면뿐 아니라 측면에서 보아도 반가사유상의 유려한 자세가 자연스럽게 이어집니다. 한쪽 다리를 올리고 사유하는 듯한 조형은 차분한 분위기를 만들며, 선반이나 책상 위에 두었을 때 인테리어 포인트가 됩니다.",
+        ],
+      },
+      {
+        title: "뒷모습까지 자연스러운 조형",
+        images: [
+          {
+            src: `${pensiveBodhisattvaImageBase}/image4.jpg`,
+            alt: "후면과 옆선의 조각 흐름이 이어지는 반가사유상",
+          },
+        ],
+        body: [
+          "후면과 옆선에도 조각의 흐름이 이어져 어느 방향에서 보아도 어색하지 않습니다. 단순한 장식품보다 조금 더 깊이 있는 분위기의 불상 소품을 찾는 분께 잘 어울립니다.",
+        ],
+      },
+      {
+        title: "얼굴과 손의 세밀한 디테일",
+        images: [
+          {
+            src: `${pensiveBodhisattvaImageBase}/image5.jpg`,
+            alt: "얼굴 광배와 손 표현이 섬세한 반가사유상",
+          },
+        ],
+        body: [
+          "얼굴 주변의 광배와 손의 표현, 잔잔한 표정은 이 제품의 분위기를 완성하는 핵심 요소입니다. 가까이에서 보았을 때도 조각의 세부 표현이 잘 드러나며, 명상 공간이나 개인 책상 위에 두기 좋습니다.",
+        ],
+      },
+      {
+        title: "하단 장식과 받침 질감",
+        images: [
+          {
+            src: `${pensiveBodhisattvaImageBase}/image6.jpg`,
+            alt: "하단 장식과 받침 질감이 표현된 반가사유상",
+          },
+        ],
+        body: [
+          "하단 장식과 받침 부분에도 사암 느낌의 질감이 표현되어 있습니다. 과하게 화려하지 않고, 은은하게 공간과 어우러지는 색감이 특징입니다.",
+        ],
+      },
+      {
+        title: "가정 공간에 두기 좋은 크기",
+        images: [
+          {
+            src: `${pensiveBodhisattvaImageBase}/image7.jpg`,
+            alt: "가정 공간에 두기 좋은 크기의 반가사유상",
+          },
+        ],
+        body: [
+          "높이 약 19.5cm, 너비 약 10.5cm의 크기로 책상, 선반, 협탁, 명상 공간에 놓기 좋습니다. 너무 작아 보이지 않으면서도 가정 공간에 부담 없이 둘 수 있는 사이즈입니다.",
+        ],
+      },
+      {
+        title: "공간의 중심이 되는 무게감",
+        images: [
+          {
+            src: `${pensiveBodhisattvaImageBase}/image8.jpg`,
+            alt: "안정감 있게 놓을 수 있는 반가사유상",
+          },
+        ],
+        body: [
+          "무게는 약 332g 내외로, 가볍게 이동할 수 있으면서도 놓았을 때 안정감이 있습니다. 공간을 차분하게 정리하고 싶을 때 중심 소품으로 활용하기 좋습니다.",
+        ],
+      },
+      {
+        title: "제품 정보",
+        body: [],
+        items: [
+          "제품명: 반가사유상",
+          "재질: 수지재질",
+          "구성: 반가사유상 1EA",
+          "사이즈: 높이 약 19.5cm / 너비 약 10.5cm",
+          "무게: 약 332g ±20g",
+          "원산지: 중국",
+          "수입사: 스테디오더",
+        ],
+      },
+    ],
+  },
+  "home-buddha-statues/home-buddha-statue": {
+    name: "가정용불상",
+    subtitle: "화려한 모자이크 무늬가 돋보이는 중형 불상",
+    summary:
+      "전통적인 불상의 고요함에 현대적인 모자이크 무늬를 더한 인테리어 불상입니다.",
+    introBody: [
+      "가정용불상은 전통적인 불상의 고요함에 현대적인 모자이크 무늬를 더한 인테리어 불상입니다. 높이 약 20cm의 중형 사이즈로 책상, 선반, 거실장, 명상 공간에 놓기 좋고, 화려한 색감이 공간에 분명한 포인트를 만들어줍니다.",
+    ],
+    image: `${homeBuddhaStatueImageBase}/image1.jpg`,
+    imageAlt: "화려한 모자이크 무늬가 돋보이는 가정용불상 대표 이미지",
+    sections: [
+      {
+        title: "화려한 모자이크 무늬",
+        images: [
+          {
+            src: `${homeBuddhaStatueImageBase}/image2.jpg`,
+            alt: "모자이크 무늬와 알록달록한 색감의 가정용불상",
+          },
+        ],
+        body: [
+          "표면의 모자이크 무늬와 알록달록한 색감이 일반적인 불상과는 다른 분위기를 전합니다. 클래식한 부처님 형상에 빈티지한 장식성이 더해져, 집 안에서도 자연스럽게 시선을 끄는 소품으로 활용하기 좋습니다.",
+        ],
+      },
+      {
+        title: "섬세한 얼굴과 차분한 자세",
+        images: [
+          {
+            src: `${homeBuddhaStatueImageBase}/image3.jpg`,
+            alt: "섬세한 얼굴과 차분한 자세의 가정용불상",
+          },
+        ],
+        body: [
+          "지그시 눈을 감은 듯한 표정과 고요한 자세가 제품의 분위기를 완성합니다. 가까이에서 보았을 때도 얼굴선과 옷 주름, 표면 장식이 살아 있어 장식용 불상으로서의 완성도가 느껴집니다.",
+        ],
+      },
+      {
+        title: "어느 방향에서도 자연스러운 조형감",
+        images: [
+          {
+            src: `${homeBuddhaStatueImageBase}/image4.jpg`,
+            alt: "정면 옆모습 뒷모습이 자연스러운 가정용불상",
+          },
+        ],
+        body: [
+          "정면뿐 아니라 옆모습과 뒷모습까지 입체적으로 표현되어 있습니다. 책상 위나 선반 위에 두었을 때 어느 방향에서 보아도 어색하지 않고, 공간에 차분하면서도 개성 있는 분위기를 더해줍니다.",
+        ],
+      },
+      {
+        title: "중형 사이즈의 안정감",
+        images: [
+          {
+            src: `${homeBuddhaStatueImageBase}/image5.jpg`,
+            alt: "중형 사이즈로 안정감 있게 놓이는 가정용불상",
+          },
+        ],
+        body: [
+          "높이 약 20cm, 너비 약 15cm의 중형 사이즈로 작은 미니 불상보다 존재감이 분명합니다. 너무 과하게 크지 않아 가정 공간에 부담 없이 놓을 수 있고, 명상 공간이나 인테리어 선반의 중심 소품으로 활용하기 좋습니다.",
+        ],
+      },
+      {
+        title: "묵직하게 자리 잡는 무게감",
+        images: [
+          {
+            src: `${homeBuddhaStatueImageBase}/image6.jpg`,
+            alt: "묵직한 무게감으로 자리 잡는 가정용불상",
+          },
+        ],
+        body: [
+          "무게는 약 642g으로, 놓았을 때 안정감 있게 자리 잡습니다. 가벼운 장식품과 달리 묵직한 느낌이 있어 선반, 거실장, 협탁 위에서도 차분한 분위기를 만들어줍니다.",
+        ],
+      },
+      {
+        title: "제품 정보",
+        body: [],
+        items: [
+          "제품명: 가정용불상",
+          "재질: 수지재질",
+          "구성: 가정용불상 1EA",
+          "사이즈: 높이 약 20cm / 너비 약 15cm",
+          "무게: 약 642g",
+          "원산지: 중국",
+          "수입사: 스테디오더",
+        ],
+      },
+    ],
+  },
+  "home-buddha-statues/medium-buddha-statue": {
+    name: "중형불상",
+    subtitle: "가정용 불단과 선반에 어울리는 석가모니 중형 불상",
+    summary:
+      "높이 약 24cm의 안정감 있는 크기로 집 안 공간에 부담스럽지 않게 어울리는 가정용 불상입니다.",
+    introBody: [
+      "중형불상은 석가모니 부처님의 고요한 형상을 빈티지한 수지 재질로 표현한 가정용 불상입니다. 높이 약 24cm의 안정감 있는 크기로, 작은 미니불상보다 존재감이 분명하면서도 집 안 공간에 부담스럽지 않게 어울립니다.",
+    ],
+    image: `${mediumBuddhaStatueImageBase}/image1.jpg`,
+    imageAlt: "가정용 불단과 선반에 어울리는 석가모니 중형불상 대표 이미지",
+    sections: [
+      {
+        title: "수지 재질의 빈티지한 마감",
+        images: [
+          {
+            src: `${mediumBuddhaStatueImageBase}/image2.jpg`,
+            alt: "빈티지한 마감이 느껴지는 중형불상",
+          },
+        ],
+        body: [
+          "세월의 흔적이 느껴지는 듯한 거친 마감이 특징입니다. 표면의 질감과 은은한 색감이 조화를 이루어, 새것처럼 반짝이는 느낌보다 차분하고 깊이 있는 분위기를 전합니다.",
+        ],
+      },
+      {
+        title: "석가모니불의 차분한 조형미",
+        images: [
+          {
+            src: `${mediumBuddhaStatueImageBase}/image3.jpg`,
+            alt: "석가모니불의 얼굴과 법의 흐름이 표현된 중형불상",
+          },
+        ],
+        body: [
+          "부처님의 얼굴, 법의의 흐름, 좌상의 자세가 단정하게 표현되어 있습니다. 가까이에서 보면 세부 조각이 살아 있어 불교 인테리어 소품으로도 충분한 완성도를 느낄 수 있습니다.",
+        ],
+      },
+      {
+        title: "중형 사이즈의 안정감",
+        images: [
+          {
+            src: `${mediumBuddhaStatueImageBase}/image4.jpg`,
+            alt: "높이 약 24cm의 중형불상 크기감",
+          },
+        ],
+        body: [
+          "높이 약 24cm, 너비 약 16cm의 중형 크기로 책상, 선반, 거실 장식장, 가정용 불단에 두기 좋습니다. 작은 소품보다 시선이 잘 머물고, 공간의 중심을 차분하게 잡아주는 역할을 합니다.",
+        ],
+      },
+      {
+        title: "공간에 자연스럽게 스며드는 불상",
+        images: [
+          {
+            src: `${mediumBuddhaStatueImageBase}/image5.jpg`,
+            alt: "가정 공간에 자연스럽게 어울리는 중형불상",
+          },
+        ],
+        body: [
+          "가정에서 조용히 명상하는 공간을 만들고 싶을 때, 또는 불교적인 분위기의 인테리어 포인트가 필요할 때 잘 어울립니다. 과하게 화려하지 않아 주변 소품과도 자연스럽게 조화됩니다.",
+        ],
+      },
+      {
+        title: "제품 정보",
+        body: [],
+        items: [
+          "제품명: 중형불상",
+          "재질: 수지재질",
+          "구성: 중형불상 1EA",
+          "사이즈: 높이 약 24cm / 너비 약 16cm",
+          "무게: 약 560g ±20g",
+          "원산지: 중국",
+          "수입사: 스테디오더",
+        ],
+      },
+    ],
+  },
+  "home-buddha-statues/interior-buddha-statue": {
+    name: "인테리어불상",
+    subtitle: "빈티지한 질감과 섬세한 형상이 어우러진 중형 불상",
+    summary:
+      "섬세한 형상과 거칠게 표현된 표면 질감이 어우러진 빈티지 스타일의 부처님 불상입니다.",
+    introBody: [
+      "인테리어불상은 수지 재질로 제작된 빈티지 스타일의 부처님 불상입니다. 섬세한 형상과 거칠게 표현된 표면 질감이 어우러져, 종교적 의미와 인테리어 소품의 분위기를 함께 느낄 수 있습니다.",
+    ],
+    image: `${interiorBuddhaStatueImageBase}/image1.jpg`,
+    imageAlt: "빈티지한 질감과 섬세한 형상이 어우러진 인테리어불상 대표 이미지",
+    sections: [
+      {
+        title: "공간에 차분하게 스며드는 불상",
+        images: [
+          {
+            src: `${interiorBuddhaStatueImageBase}/image2.jpg`,
+            alt: "공간에 차분하게 스며드는 중형 인테리어불상",
+          },
+        ],
+        body: [
+          "높이 약 28cm의 중형 사이즈로 책상, 선반, 거실장, 명상 공간 등에 두기 좋습니다. 너무 작아 존재감이 약하지 않고, 너무 커서 부담스럽지도 않아 가정용 불상이나 불교 인테리어 소품으로 자연스럽게 어울립니다.",
+        ],
+      },
+      {
+        title: "빈티지한 마감과 고요한 분위기",
+        images: [
+          {
+            src: `${interiorBuddhaStatueImageBase}/image3.jpg`,
+            alt: "빈티지한 표면 마감의 인테리어불상",
+          },
+        ],
+        body: [
+          "표면에는 오래된 조각상처럼 자연스러운 빈티지 질감이 표현되어 있습니다. 은은한 색감과 부드러운 선이 함께 어우러져 공간을 차분하게 만들고, 바라보는 것만으로도 마음을 가라앉히는 분위기를 전합니다.",
+        ],
+      },
+      {
+        title: "섬세하게 표현된 얼굴과 장식",
+        images: [
+          {
+            src: `${interiorBuddhaStatueImageBase}/image4.jpg`,
+            alt: "얼굴과 장식이 섬세하게 표현된 인테리어불상",
+          },
+        ],
+        body: [
+          "얼굴의 표정, 머리 장식, 손을 모은 자세가 정교하게 표현되어 있습니다. 가까이 보았을 때 디테일이 살아 있어 단순한 장식품보다 깊이 있는 인상을 주며, 불교적 분위기를 자연스럽게 더해줍니다.",
+        ],
+      },
+      {
+        title: "질감이 살아 있는 수지 재질",
+        images: [
+          {
+            src: `${interiorBuddhaStatueImageBase}/image5.jpg`,
+            alt: "수지 재질의 질감이 살아 있는 인테리어불상",
+          },
+        ],
+        body: [
+          "수지 재질 특유의 가벼운 관리성과 조형 표현력이 돋보이는 제품입니다. 표면의 거친 질감과 색감이 빈티지한 느낌을 살려주며, 일반적인 매끈한 장식품과 다른 분위기를 만들어줍니다.",
+        ],
+      },
+      {
+        title: "중형 불상의 사이즈",
+        images: [
+          {
+            src: `${interiorBuddhaStatueImageBase}/image6.jpg`,
+            alt: "높이 약 28cm 너비 약 11cm의 인테리어불상",
+          },
+        ],
+        body: [
+          "높이 약 28.0cm, 너비 약 11.0cm의 중형 불상입니다. 집 안에서 눈에 잘 띄는 위치에 두기 좋고, 단독으로 배치해도 안정적인 존재감을 보여줍니다.",
+        ],
+      },
+      {
+        title: "선반과 책상 위에 두기 좋은 무게감",
+        images: [
+          {
+            src: `${interiorBuddhaStatueImageBase}/image7.jpg`,
+            alt: "선반과 책상 위에 안정감 있게 놓이는 인테리어불상",
+          },
+        ],
+        body: [
+          "무게는 약 572g으로, 가정용 장식 소품으로 두었을 때 안정감 있게 자리합니다. 선반이나 책상 위에 올려두기 좋은 크기와 무게감을 갖추고 있습니다.",
+        ],
+      },
+      {
+        title: "제품 정보",
+        body: [],
+        items: [
+          "제품명: 인테리어불상",
+          "재질: 수지재질",
+          "구성: 빈티지 부처님 불상 1EA",
+          "사이즈: 높이 약 28.0cm / 너비 약 11.0cm",
+          "무게: 약 572g",
+          "원산지: 중국",
+          "수입사: 스테디오더",
+        ],
+      },
+    ],
+  },
+  "home-buddha-statues/buddha-object": {
+    name: "불상오브제",
+    subtitle: "블랙 바디와 황금빛 장식이 어우러진 인테리어 석가모니불",
+    summary:
+      "차분한 블랙 바디와 황금빛 장식, 청록 포인트가 어우러진 인테리어 석가모니불입니다.",
+    introBody: [
+      "불상오브제는 차분한 블랙 바디와 황금빛 장식, 청록 포인트가 어우러진 인테리어 석가모니불입니다. 불상 특유의 고요한 분위기는 살리면서도 오브제처럼 두기 좋은 디자인으로, 책상·선반·명상 공간에 자연스럽게 어울립니다.",
+    ],
+    image: `${buddhaObjectImageBase}/image1.jpg`,
+    imageAlt: "블랙 바디와 황금빛 장식이 어우러진 불상오브제 대표 이미지",
+    sections: [
+      {
+        title: "공간에 차분함을 더하는 디자인",
+        images: [
+          {
+            src: `${buddhaObjectImageBase}/image2.jpg`,
+            alt: "공간에 차분함을 더하는 블랙 불상오브제",
+          },
+        ],
+        body: [
+          "불상오브제는 단순한 장식품처럼 보이면서도, 가까이서 보면 섬세한 문양과 합장한 자세가 주는 고요함이 느껴지는 제품입니다. 어두운 색감의 바디가 공간을 차분하게 잡아주고, 금빛과 청록 장식이 은은한 포인트가 되어줍니다.",
+        ],
+      },
+      {
+        title: "합장 수인이 전하는 평온한 인상",
+        images: [
+          {
+            src: `${buddhaObjectImageBase}/image3.jpg`,
+            alt: "합장 수인이 표현된 불상오브제",
+          },
+        ],
+        body: [
+          "두 손을 모은 합장 수인은 바라보는 사람에게 자연스럽게 마음을 가라앉히는 느낌을 줍니다. 눈에 띄게 화려하기보다 묵직하고 단정한 분위기를 지니고 있어, 불단뿐 아니라 거실 선반이나 개인 명상 공간에도 부담 없이 배치할 수 있습니다.",
+        ],
+      },
+      {
+        title: "블랙 바디 위에 더해진 섬세한 포인트",
+        images: [
+          {
+            src: `${buddhaObjectImageBase}/image4.jpg`,
+            alt: "황금빛 나뭇잎 문양과 청록 장식이 더해진 불상오브제",
+          },
+        ],
+        body: [
+          "검은 바탕 위에 더해진 황금빛 나뭇잎 문양과 청록색 장식은 제품의 분위기를 더욱 깊게 만들어줍니다. 가까이서 보았을 때 디테일이 살아 있어, 작은 공간에서도 존재감 있는 불교 인테리어 소품으로 활용하기 좋습니다.",
+        ],
+      },
+      {
+        title: "책상·선반·명상 공간에 어울리는 불상",
+        images: [
+          {
+            src: `${buddhaObjectImageBase}/image5.jpg`,
+            alt: "책상 선반 명상 공간에 어울리는 불상오브제",
+          },
+        ],
+        body: [
+          "높이 약 20cm, 너비 약 14cm의 크기로 가정에서 두기 좋은 사이즈입니다. 너무 작아 존재감이 약하지 않고, 너무 커서 부담스럽지도 않아 일상 공간에 자연스럽게 놓을 수 있습니다. 수지 재질로 제작되어 형태감이 안정적이고, 오랫동안 곁에 두기 좋은 불상입니다.",
+        ],
+      },
+      {
+        title: "뒷모습까지 이어지는 장식감",
+        images: [
+          {
+            src: `${buddhaObjectImageBase}/image6.jpg`,
+            alt: "뒷모습까지 장식감이 이어지는 불상오브제",
+          },
+        ],
+        body: [
+          "앞모습뿐 아니라 측면과 뒷모습에서도 장식의 흐름이 이어져 어느 방향에서 보아도 완성도 있는 인상을 줍니다. 공간 한쪽에 세워두었을 때도 자연스럽고, 여러 불교 소품과 함께 배치하면 더욱 조화로운 분위기를 만들 수 있습니다.",
+        ],
+      },
+      {
+        title: "제품 정보",
+        body: [],
+        items: [
+          "제품명: 불상오브제",
+          "재질: 수지재질",
+          "구성: 인테리어 석가모니불 1EA",
+          "사이즈: 높이 약 20.0cm, 너비 약 14.0cm",
           "원산지: 중국",
           "수입사: 스테디오더",
         ],
