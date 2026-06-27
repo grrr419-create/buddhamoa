@@ -1,8 +1,24 @@
 ---
 import Layout from "../layouts/Layout.astro";
+import {
+  curationProductDetails,
+  getCurationProductDetailPath,
+} from "../data/curationProductDetails";
+import { products } from "../data/products";
 
 const title = "조회수 통계 | 붓다모아";
 const description = "붓다모아 관리자용 비공개 조회수 통계 페이지입니다.";
+const statsPageLabelEntries = [
+  ["/", "홈"],
+  ["/contact/", "문의"],
+  ["/privacy/", "개인정보처리방침"],
+  ...products.map((product) => [`/products/${product.slug}/`, product.name]),
+  ...curationProductDetails.map((detail) => [
+    getCurationProductDetailPath(detail.curationSlug, detail.productSlug),
+    detail.name,
+  ]),
+];
+const statsPageLabelJson = JSON.stringify(statsPageLabelEntries).replaceAll("<", "\\u003c");
 ---
 
 <Layout
@@ -117,17 +133,6 @@ const description = "붓다모아 관리자용 비공개 조회수 통계 페이
         <section class="stats-panel">
           <h2>인기 페이지</h2>
           <div class="stats-bars" data-stats-path-bars></div>
-          <div class="stats-table-wrap">
-            <table class="stats-table">
-              <thead>
-                <tr>
-                  <th scope="col">경로</th>
-                  <th scope="col">조회수</th>
-                </tr>
-              </thead>
-              <tbody data-stats-paths></tbody>
-            </table>
-          </div>
         </section>
 
         <section class="stats-panel">
@@ -164,6 +169,8 @@ const description = "붓다모아 관리자용 비공개 조회수 통계 페이
       <p class="stats-updated" data-stats-updated></p>
     </div>
   </section>
+
+  <script type="application/json" data-stats-page-labels set:html={statsPageLabelJson}></script>
 </Layout>
 
 <script>

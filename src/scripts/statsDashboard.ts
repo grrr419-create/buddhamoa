@@ -109,6 +109,7 @@ const trendChart = document.querySelector<HTMLElement>("[data-stats-trend-chart]
 const referrerBars = document.querySelector<HTMLElement>("[data-stats-referrer-bars]");
 const referrerTotal = document.querySelector<HTMLElement>("[data-stats-referrer-total]");
 const pathBars = document.querySelector<HTMLElement>("[data-stats-path-bars]");
+const pageLabelSource = document.querySelector<HTMLScriptElement>("[data-stats-page-labels]");
 
 let latestStats: StatsResponse | null = null;
 
@@ -141,6 +142,69 @@ const toCount = (value: CountValue) => {
   if (!Number.isFinite(count) || count < 0) return 0;
 
   return count;
+};
+
+const normalizeBasePath = (value: string) => {
+  const path = value.startsWith("/") ? value : `/${value}`;
+
+  return path.endsWith("/") ? path : `${path}/`;
+};
+
+const normalizePagePath = (value: string | undefined) => {
+  if (!value) return "/";
+
+  let path = value;
+
+  try {
+    path = new URL(value, window.location.origin).pathname;
+  } catch {
+    path = value.split(/[?#]/)[0] || "/";
+  }
+
+  const normalizedBase = normalizeBasePath(basePath);
+  if (normalizedBase !== "/" && path.startsWith(normalizedBase)) {
+    path = path.slice(normalizedBase.length - 1) || "/";
+  }
+
+  path = path.replace(/\/index\.html$/, "/");
+
+  if (!path.startsWith("/")) {
+    path = `/${path}`;
+  }
+
+  return path.endsWith("/") ? path : `${path}/`;
+};
+
+const getPageLabelMap = () => {
+  const labelMap = new Map<string, string>();
+
+  if (!pageLabelSource?.textContent) return labelMap;
+
+  try {
+    const entries = JSON.parse(pageLabelSource.textContent) as unknown;
+    if (!Array.isArray(entries)) return labelMap;
+
+    entries.forEach((entry) => {
+      if (!Array.isArray(entry) || entry.length < 2) return;
+
+      const [path, label] = entry;
+      if (typeof path !== "string" || typeof label !== "string") return;
+
+      labelMap.set(normalizePagePath(path), label);
+    });
+  } catch {
+    return labelMap;
+  }
+
+  return labelMap;
+};
+
+const pageLabels = getPageLabelMap();
+
+const getPageLabel = (path: string | undefined) => {
+  const normalizedPath = normalizePagePath(path);
+
+  return pageLabels.get(normalizedPath) || path || "-";
 };
 
 const getSelectedGranularity = (): Granularity => {
@@ -395,12 +459,6 @@ const isMissingPeriodStatsFunctionError = (error: unknown) => {
   const detail = getErrorMessage(error).toLowerCase();
 
   return detail.includes("get_site_stats_for_period") && detail.includes("schema cache");
-};
-
-const normalizeBasePath = (value: string) => {
-  const path = value.startsWith("/") ? value : `/${value}`;
-
-  return path.endsWith("/") ? path : `${path}/`;
 };
 
 const getAuthRedirectUrl = () => {
@@ -670,7 +728,7 @@ const aggregateReferrers = (rows: Array<DailyReferrerRow | ReferrerRow>): Referr
 
 const renderBars = (
   target: HTMLElement | null,
-  rows: { label: string; percentage?: number; views: number }[],
+  rows: { label: string; percentage?: number; title?: string; views: number }[],
   emptyLabel = "표시할 데이터가 없습니다.",
 ) => {
   if (!target) return;
@@ -687,7 +745,7 @@ const renderBars = (
       return `
         <div class="stats-bar">
           <div class="stats-bar__head">
-            <span>${escapeHtml(row.label)}</span>
+            <span title="${escapeHtml(row.title || row.label)}">${escapeHtml(row.label)}</span>
             <strong>${formatCount(row.views)}${row.percentage === undefined ? "" : ` (${row.percentage}%)`}</strong>
           </div>
           <div class="stats-bar__track">
@@ -729,17 +787,10 @@ const renderStats = (stats: StatsResponse) => {
   renderBars(
     pathBars,
     (stats.top_paths || []).map((row) => ({
-      label: row.path || "-",
+      label: getPageLabel(row.path),
+      title: row.path || undefined,
       views: toCount(row.views),
     })),
-  );
-
-  renderRows(
-    document.querySelector("[data-stats-paths]"),
-    (stats.top_paths || []).map(
-      (row) =>
-        `<tr><td>${escapeHtml(row.path || "-")}</td><td>${formatCount(row.views)}</td></tr>`,
-    ),
   );
 
   renderRows(
