@@ -33,6 +33,16 @@ const catPrayerBeadsImageBase =
   "/images/curation-details/finger-prayer-beads/cat-prayer-beads";
 const catPawImageBase = "/images/curation-details/finger-prayer-beads/cat-paw";
 const catCharmImageBase = "/images/curation-details/finger-prayer-beads/cat-charm";
+const zodiacPrayerBeadsImageBase =
+  "/images/curation-details/bold-prayer-beads/zodiac-prayer-beads";
+const diamondSutraPrayerBeadsImageBase =
+  "/images/curation-details/bold-prayer-beads/diamond-sutra-prayer-beads";
+const carPrayerBeadsImageBase =
+  "/images/curation-details/bold-prayer-beads/car-prayer-beads";
+const chunkyPrayerBeadsImageBase =
+  "/images/curation-details/bold-prayer-beads/chunky-prayer-beads";
+const largePrayerBeadsImageBase =
+  "/images/curation-details/bold-prayer-beads/large-prayer-beads";
 
 const curationProductDetailOverrides: Record<string, Partial<ProductCurationDetail>> = {
   "emotional-buddhist-goods/buddhist-frog": {
@@ -1435,6 +1445,433 @@ const curationProductDetailOverrides: Record<string, Partial<ProductCurationDeta
           "재질: 보리근 가공 소재 외",
           "구성: 고양이장식염주 1EA",
           "사이즈: 염주 알 지름 12mm x 8EA",
+          "원산지: 중국",
+          "수입사: 스테디오더",
+        ],
+      },
+    ],
+  },
+  "bold-prayer-beads/zodiac-prayer-beads": {
+    name: "12지신염주",
+    subtitle: "차량 안에 두기 좋은 12지신 나무 염주",
+    summary:
+      "큼직한 구슬과 12지신 문양이 돋보이는 차량용 굵은 나무 염주입니다.",
+    introBody: [
+      "12지신염주는 차량 안에 두기 좋은 나무 염주로, 큼직한 구슬과 12지신 문양이 돋보이는 제품입니다. 운전석 가까이에 두면 차량 내부에 차분한 포인트를 더해주고, 이동하는 시간마다 마음을 한 번 정리하게 해주는 작은 상징이 됩니다.",
+    ],
+    image: `${zodiacPrayerBeadsImageBase}/image1.jpg`,
+    imageAlt: "차량 안에 두기 좋은 12지신염주 대표 이미지",
+    sections: [
+      {
+        title: "운전석에 머무는 든든한 포인트",
+        images: [
+          {
+            src: `${zodiacPrayerBeadsImageBase}/image2.jpg`,
+            alt: "운전석 가까이에 둔 12지신염주",
+          },
+        ],
+        body: [
+          "12지신염주는 단순한 차량 장식품보다 의미 있는 불교 소품에 가깝습니다. 기어봉 주변이나 차량 내부에 두기 좋고, 바쁜 일상 속에서도 안전운전과 차분한 마음을 떠올리게 해줍니다.",
+        ],
+      },
+      {
+        title: "12지신 문양이 담긴 나무 구슬",
+        images: [
+          {
+            src: `${zodiacPrayerBeadsImageBase}/image3.jpg`,
+            alt: "12지신 문양이 새겨진 나무 구슬",
+          },
+        ],
+        body: [
+          "쥐, 소, 호랑이, 토끼, 용, 뱀, 말, 양, 원숭이, 닭, 개, 돼지를 상징하는 12지신 문양이 구슬 하나하나에 표현되어 있습니다. 열두 동물의 상징성이 더해져 차량 안에서도 든든하고 안정적인 분위기를 만들어줍니다.",
+        ],
+      },
+      {
+        title: "굵은 구슬이 주는 존재감",
+        images: [
+          {
+            src: `${zodiacPrayerBeadsImageBase}/image4.jpg`,
+            alt: "지름 약 20mm의 굵은 12지신염주 구슬",
+          },
+        ],
+        body: [
+          "구슬 지름은 약 20mm이며 총 12개의 나무 구슬로 구성되어 있습니다. 일반적인 염주보다 큼직한 편이라 차량 내부에서도 존재감이 분명하고, 손에 닿았을 때 묵직한 안정감이 느껴집니다.",
+        ],
+      },
+      {
+        title: "기어봉에 잘 어울리는 차량용 염주",
+        images: [
+          {
+            src: `${zodiacPrayerBeadsImageBase}/image5.jpg`,
+            alt: "기어봉에 자연스럽게 어울리는 12지신 차량용 염주",
+          },
+        ],
+        body: [
+          "12지신염주는 차량용 기어봉 염주로 사용하기 좋은 형태입니다. 기어봉에 자연스럽게 걸어두면 운전석 분위기를 해치지 않으면서 은은한 장식 포인트가 됩니다. 나무 소재 특유의 질감이 차량 내부와 부드럽게 어우러집니다.",
+        ],
+      },
+      {
+        title: "조롱박 장식의 작은 포인트",
+        images: [
+          {
+            src: `${zodiacPrayerBeadsImageBase}/image6.jpg`,
+            alt: "조롱박 장식이 달린 12지신염주",
+          },
+        ],
+        body: [
+          "염주 끝에는 조롱박 장식이 함께 매듭지어져 있어 단조롭지 않고 고급스러운 느낌을 더해줍니다. 12지신 문양과 조롱박 장식이 함께 어우러져 선물용으로도 부담 없이 선택하기 좋습니다.",
+          "차량을 운전하는 가족, 지인, 동료에게 마음을 담아 선물하기 좋은 제품입니다. 안전운전을 바라는 마음을 전하기에도 좋고, 불교 소품이나 차량 장식을 좋아하는 분께도 의미 있는 선물이 될 수 있습니다.",
+        ],
+      },
+      {
+        title: "제품 정보",
+        body: [],
+        items: [
+          "제품명: 12지신염주",
+          "재질: 나무 외",
+          "구성: 12지신염주 1EA",
+          "사이즈: 구슬 지름 약 20mm x 12EA",
+          "원산지: 중국",
+          "수입사: 스테디오더",
+        ],
+      },
+    ],
+  },
+  "bold-prayer-beads/diamond-sutra-prayer-beads": {
+    name: "금강경염주",
+    subtitle: "금강경이 새겨진 굵은 나무 염주",
+    summary:
+      "금강경 문구가 새겨진 20mm 굵은 나무 구슬 12개로 구성된 불교 소품입니다.",
+    introBody: [
+      "금강경염주는 지름 약 20mm의 굵은 나무 구슬 12개로 구성된 염주입니다. 구슬 하나하나에 금강경 문구가 새겨져 있어 단순한 장식품을 넘어 차분한 마음가짐을 떠올리게 하는 불교 소품으로 활용하기 좋습니다.",
+    ],
+    image: `${diamondSutraPrayerBeadsImageBase}/image1.jpg`,
+    imageAlt: "금강경 문구가 새겨진 굵은 나무 염주 대표 이미지",
+    sections: [
+      {
+        title: "금강경이 새겨진 나무 구슬",
+        images: [
+          {
+            src: `${diamondSutraPrayerBeadsImageBase}/image2.jpg`,
+            alt: "금강경 문구가 조각된 나무 구슬",
+          },
+        ],
+        body: [
+          "각 구슬에는 금강경 문구가 조각되어 있어 가까이 볼수록 섬세한 디테일이 돋보입니다. 나무의 따뜻한 색감과 경전 문구의 정갈한 분위기가 어우러져 차분하고 고급스러운 인상을 줍니다.",
+        ],
+      },
+      {
+        title: "굵은 구슬이 주는 안정감",
+        images: [
+          {
+            src: `${diamondSutraPrayerBeadsImageBase}/image3.jpg`,
+            alt: "지름 약 20mm 금강경염주 구슬",
+          },
+        ],
+        body: [
+          "구슬 지름은 약 20mm로, 일반적인 염주보다 굵은 편입니다. 손에 쥐었을 때 존재감이 분명하고, 차량 안이나 책상 위에 두어도 가볍게 보이지 않아 안정적인 분위기를 만들어줍니다.",
+        ],
+      },
+      {
+        title: "차량용 염주로도 좋은 구성",
+        images: [
+          {
+            src: `${diamondSutraPrayerBeadsImageBase}/image4.jpg`,
+            alt: "차량용 염주로 활용하기 좋은 금강경염주",
+          },
+        ],
+        body: [
+          "금강경염주는 자동차 기어봉 주변에 두기 좋은 크기와 무게감을 갖춘 제품입니다. 운전 중 자주 시선이 머무는 곳에 두면 안전운전과 차분한 마음을 떠올리게 하는 작은 상징이 되어줍니다.",
+        ],
+      },
+      {
+        title: "나무 소재 특유의 따뜻한 분위기",
+        images: [
+          {
+            src: `${diamondSutraPrayerBeadsImageBase}/image5.jpg`,
+            alt: "나무 소재 특유의 따뜻한 색감이 보이는 금강경염주",
+          },
+        ],
+        body: [
+          "나무 구슬은 자연스러운 결감과 은은한 색감이 특징입니다. 금속 장식처럼 차갑게 보이지 않고, 차량 내부나 실내 공간에 부담 없이 어울리는 따뜻한 분위기를 더해줍니다.",
+        ],
+      },
+      {
+        title: "선물하기 좋은 불교 소품",
+        images: [
+          {
+            src: `${diamondSutraPrayerBeadsImageBase}/image6.jpg`,
+            alt: "선물하기 좋은 금강경염주 구성",
+          },
+        ],
+        body: [
+          "신차를 구매한 분이나 운전을 자주 하는 분께 마음을 담아 선물하기 좋습니다. 무사고와 평온한 이동을 바라는 마음을 전하기에도 적합하며, 불교 소품을 좋아하는 분께도 의미 있는 선물이 될 수 있습니다.",
+        ],
+      },
+      {
+        title: "제품 정보",
+        body: [],
+        items: [
+          "제품명: 금강경염주",
+          "재질: 나무 외",
+          "구성: 금강경염주 1EA",
+          "사이즈: 구슬 지름 약 20mm x 12EA",
+          "원산지: 중국",
+          "수입사: 스테디오더",
+        ],
+      },
+    ],
+  },
+  "bold-prayer-beads/car-prayer-beads": {
+    name: "자동차염주",
+    subtitle: "차 안에 차분한 분위기를 더해주는 굵은 나무 염주",
+    summary:
+      "운전석 가까이에 두기 좋은 20mm 굵은 나무 구슬 차량용 염주입니다.",
+    introBody: [
+      "자동차염주는 차량 안에 두기 좋은 굵은 나무 염주입니다. 운전 중 자주 시선이 머무는 기어봉 주변에 두면 차 안의 분위기가 한층 차분해지고, 바쁜 이동 시간 속에서도 잠시 마음을 가다듬는 작은 포인트가 됩니다. 단순한 장식품보다는 안전운전의 마음을 떠올리게 하는 불교 감성 소품에 가깝습니다.",
+    ],
+    image: `${carPrayerBeadsImageBase}/image1.jpg`,
+    imageAlt: "차 안에 두기 좋은 자동차염주 대표 이미지",
+    sections: [
+      {
+        title: "운전석 가까이에 두기 좋은 염주",
+        images: [
+          {
+            src: `${carPrayerBeadsImageBase}/image2.jpg`,
+            alt: "운전석 가까이에 둔 자동차염주",
+          },
+        ],
+        body: [
+          "자동차염주는 차량 안에 두기 좋은 굵은 나무 염주입니다. 운전 중 자주 시선이 머무는 기어봉 주변에 두면 차 안의 분위기가 한층 차분해지고, 바쁜 이동 시간 속에서도 잠시 마음을 가다듬는 작은 포인트가 됩니다.",
+        ],
+      },
+      {
+        title: "20mm 구슬 12개의 묵직한 존재감",
+        images: [
+          {
+            src: `${carPrayerBeadsImageBase}/image3.jpg`,
+            alt: "20mm 구슬 12개로 구성된 자동차염주",
+          },
+        ],
+        body: [
+          "구슬은 지름 약 20mm의 큰 사이즈로 구성되어 있습니다. 총 12개의 굵은 구슬이 이어져 있어 일반적인 작은 염주보다 존재감이 분명하고, 차량 내부에서도 안정감 있게 보입니다. 너무 가볍거나 얇아 보이지 않아 기어봉 장식으로도 잘 어울립니다.",
+        ],
+      },
+      {
+        title: "나무 소재가 주는 편안한 분위기",
+        images: [
+          {
+            src: `${carPrayerBeadsImageBase}/image4.jpg`,
+            alt: "흑색 나무 구슬의 자동차염주",
+          },
+        ],
+        body: [
+          "흑색 나무 구슬은 차분하고 단정한 인상을 줍니다. 표면의 은은한 광택과 나무 특유의 무늬가 어우러져 과하게 튀지 않으면서도 고급스러운 분위기를 만듭니다. 차량 내부의 어두운 색감과도 자연스럽게 어울려 데일리 차량 소품으로 사용하기 좋습니다.",
+        ],
+      },
+      {
+        title: "조롱박 장식이 더하는 포인트",
+        images: [
+          {
+            src: `${carPrayerBeadsImageBase}/image5.jpg`,
+            alt: "조롱박 장식 2개가 달린 자동차염주",
+          },
+        ],
+        body: [
+          "염주에는 작은 조롱박 장식 2개가 함께 매듭지어져 있습니다. 단순한 원형 염주에 포인트를 더해주며, 전체 디자인을 조금 더 전통적이고 의미 있게 완성해줍니다. 조롱박 장식은 복과 좋은 기운을 떠올리게 하는 요소로, 차량용 선물에도 잘 어울립니다.",
+        ],
+      },
+      {
+        title: "차량 기어봉에 자연스럽게 어울리는 디자인",
+        images: [
+          {
+            src: `${carPrayerBeadsImageBase}/image6.jpg`,
+            alt: "차량 기어봉 주변에 어울리는 자동차염주",
+          },
+        ],
+        body: [
+          "자동차염주는 차량 기어봉 주변에 두었을 때 자연스럽게 어울리는 디자인입니다. 운전석 분위기를 해치지 않으면서도 은은한 불교 소품의 느낌을 더해줍니다. 새 차를 구매한 가족이나 지인에게 무사고와 안전운전의 마음을 담아 선물하기에도 부담 없는 제품입니다.",
+        ],
+      },
+      {
+        title: "제품 정보",
+        body: [],
+        items: [
+          "제품명: 자동차염주",
+          "재질: 나무 외",
+          "구성: 자동차염주 1EA",
+          "사이즈: 구슬 지름 약 20mm x 12EA",
+          "원산지: 중국",
+          "수입사: 스테디오더",
+        ],
+      },
+    ],
+  },
+  "bold-prayer-beads/chunky-prayer-beads": {
+    name: "굵은염주",
+    subtitle: "알록달록한 구슬과 전통 매듭 장식의 나무 염주",
+    summary:
+      "지름 약 20mm의 큼직한 구슬과 전통 매듭 장식이 돋보이는 굵은 나무 염주입니다.",
+    introBody: [
+      "굵은염주는 지름 약 20mm의 큼직한 구슬 12개로 구성된 나무 염주입니다. 알록달록한 구슬과 전통 매듭 장식이 어우러져 손에 쥐었을 때도, 차량 안에 두었을 때도 분명한 존재감을 전해줍니다.",
+    ],
+    image: `${chunkyPrayerBeadsImageBase}/image1.jpg`,
+    imageAlt: "알록달록한 구슬과 전통 매듭 장식의 굵은염주 대표 이미지",
+    sections: [
+      {
+        title: "큼직한 구슬이 주는 존재감",
+        images: [
+          {
+            src: `${chunkyPrayerBeadsImageBase}/image2.jpg`,
+            alt: "큼직한 구슬이 돋보이는 굵은염주",
+          },
+        ],
+        body: [
+          "일반적인 작은 염주보다 구슬이 굵어 한눈에 들어오는 힘이 있습니다. 구슬 하나하나의 색감과 무늬가 달라 단조롭지 않고, 가까이 볼수록 나무 소재 특유의 따뜻한 분위기가 느껴집니다.",
+        ],
+      },
+      {
+        title: "알록달록한 색감의 조화",
+        images: [
+          {
+            src: `${chunkyPrayerBeadsImageBase}/image3.jpg`,
+            alt: "알록달록한 구슬 색감이 조화로운 굵은염주",
+          },
+        ],
+        body: [
+          "굵은염주는 서로 다른 톤의 구슬이 함께 연결되어 있어 장식용으로도 보기 좋습니다. 차분한 색과 포인트 컬러가 함께 어우러져 차량 내부, 책상, 선반 등 다양한 공간에 자연스럽게 놓기 좋습니다.",
+        ],
+      },
+      {
+        title: "전통 매듭 장식 포인트",
+        images: [
+          {
+            src: `${chunkyPrayerBeadsImageBase}/image4.jpg`,
+            alt: "전통 매듭 장식이 달린 굵은염주",
+          },
+        ],
+        body: [
+          "전통적인 느낌의 매듭 장식이 더해져 불교 소품다운 분위기를 살려줍니다. 매듭 부분은 단순한 연결 장식이 아니라 제품 전체의 분위기를 정리해주는 포인트로, 염주의 완성도를 높여줍니다.",
+        ],
+      },
+      {
+        title: "차량용 염주로 활용하기 좋은 구성",
+        images: [
+          {
+            src: `${chunkyPrayerBeadsImageBase}/image5.jpg`,
+            alt: "차량용 염주로 활용하기 좋은 굵은염주",
+          },
+        ],
+        body: [
+          "굵은염주는 차량 기어봉 주변에 두거나 차량 내부 장식으로 활용하기 좋습니다. 큰 구슬의 무게감과 전통 매듭 장식이 어우러져 운전석 주변에 차분한 포인트를 더해줍니다.",
+        ],
+      },
+      {
+        title: "조롱박 장식이 더하는 의미",
+        images: [
+          {
+            src: `${chunkyPrayerBeadsImageBase}/image6.jpg`,
+            alt: "조롱박 장식이 달린 굵은염주",
+          },
+        ],
+        body: [
+          "염주 끝에는 조롱박 장식이 함께 달려 있어 단조로움을 덜어줍니다. 조롱박은 좋은 기운과 복을 상징하는 장식으로 여겨져, 차량을 새로 마련한 분이나 가까운 지인에게 선물하기에도 잘 어울립니다.",
+          "신차를 구매한 가족이나 지인, 차량용 불교 소품을 찾는 분께 부담 없이 전하기 좋은 제품입니다. 크기가 작아도 의미는 분명하고, 차량 안에 두었을 때 매일 자연스럽게 눈길이 머무는 소품이 되어줍니다.",
+        ],
+      },
+      {
+        title: "제품 정보",
+        body: [],
+        items: [
+          "제품명: 굵은염주",
+          "재질: 나무 외",
+          "구성: 굵은염주 1EA",
+          "사이즈: 구슬 약 20mm x 12EA",
+          "원산지: 중국",
+          "수입사: 스테디오더",
+        ],
+      },
+    ],
+  },
+  "bold-prayer-beads/large-prayer-beads": {
+    name: "큰염주",
+    subtitle: "묵직한 안정감이 느껴지는 굵은 나무 염주",
+    summary:
+      "지름 약 20mm의 굵은 나무 구슬 12개로 구성된 차량용 불교 소품입니다.",
+    introBody: [
+      "큰염주는 지름 약 20mm의 굵은 나무 구슬 12개로 구성된 염주입니다. 손에 쥐었을 때 묵직한 안정감이 느껴지고, 차량 안에 두었을 때도 차분한 포인트가 되어주는 불교 소품입니다.",
+    ],
+    image: `${largePrayerBeadsImageBase}/image1.jpg`,
+    imageAlt: "묵직한 안정감이 느껴지는 큰염주 대표 이미지",
+    sections: [
+      {
+        title: "굵은 구슬이 주는 안정감",
+        images: [
+          {
+            src: `${largePrayerBeadsImageBase}/image2.jpg`,
+            alt: "굵은 나무 구슬이 돋보이는 큰염주",
+          },
+        ],
+        body: [
+          "작은 염주보다 구슬이 큼직해 한눈에 존재감이 느껴집니다. 손에 올렸을 때도 안정적으로 잡히며, 단단한 나무 구슬의 질감이 차분한 분위기를 전해줍니다.",
+        ],
+      },
+      {
+        title: "나무 구슬의 자연스러운 결감",
+        images: [
+          {
+            src: `${largePrayerBeadsImageBase}/image3.jpg`,
+            alt: "나무 구슬의 자연스러운 결감이 보이는 큰염주",
+          },
+        ],
+        body: [
+          "구슬마다 나무 특유의 결, 색감, 무늬가 조금씩 달라 자연스러운 멋이 있습니다. 밝고 따뜻한 갈색 톤이 부담스럽지 않아 차량 내부나 생활 공간에 두어도 잘 어울립니다.",
+        ],
+      },
+      {
+        title: "조롱박 장식이 더하는 포인트",
+        images: [
+          {
+            src: `${largePrayerBeadsImageBase}/image4.jpg`,
+            alt: "조롱박 장식이 달린 큰염주",
+          },
+        ],
+        body: [
+          "염주 끝에는 조롱박 장식이 함께 달려 있어 단조로움을 덜어줍니다. 조롱박은 좋은 기운과 복을 떠올리게 하는 장식으로, 제품 전체에 의미 있는 포인트를 더합니다.",
+        ],
+      },
+      {
+        title: "차량용 기어봉 염주로 활용하기 좋습니다",
+        images: [
+          {
+            src: `${largePrayerBeadsImageBase}/image5.jpg`,
+            alt: "차량용 기어봉 염주로 활용하기 좋은 큰염주",
+          },
+        ],
+        body: [
+          "큰염주는 차량 기어봉 주변에 두기 좋은 크기와 디자인을 갖추고 있습니다. 운전석 가까이에 두면 차량 인테리어를 해치지 않으면서도 차분하고 안정적인 분위기를 만들어줍니다.",
+        ],
+      },
+      {
+        title: "선물하기 좋은 불교 소품",
+        images: [
+          {
+            src: `${largePrayerBeadsImageBase}/image6.jpg`,
+            alt: "선물하기 좋은 큰염주 구성",
+          },
+        ],
+        body: [
+          "새 차를 구매한 가족이나 지인, 운전을 자주 하는 분께 마음을 담아 선물하기 좋은 제품입니다. 무사고와 안전운전을 바라는 마음을 부담 없이 전할 수 있는 불교 소품입니다.",
+        ],
+      },
+      {
+        title: "제품 정보",
+        body: [],
+        items: [
+          "제품명: 큰염주",
+          "재질: 나무 외",
+          "구성: 큰염주 1EA",
+          "사이즈: 구슬 약 20mm x 12EA",
           "원산지: 중국",
           "수입사: 스테디오더",
         ],
