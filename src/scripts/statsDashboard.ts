@@ -161,16 +161,19 @@ const normalizePagePath = (value: string | undefined) => {
     path = value.split(/[?#]/)[0] || "/";
   }
 
-  const normalizedBase = normalizeBasePath(basePath);
-  if (normalizedBase !== "/" && path.startsWith(normalizedBase)) {
-    path = path.slice(normalizedBase.length - 1) || "/";
-  }
-
-  path = path.replace(/\/index\.html$/, "/");
-
   if (!path.startsWith("/")) {
     path = `/${path}`;
   }
+
+  const knownBasePaths = Array.from(new Set([normalizeBasePath(basePath), "/buddhamoa/"]));
+  const matchedBase = knownBasePaths.find(
+    (knownBase) => knownBase !== "/" && path.startsWith(knownBase),
+  );
+  if (matchedBase) {
+    path = path.slice(matchedBase.length - 1) || "/";
+  }
+
+  path = path.replace(/\/index\.html$/, "/");
 
   return path.endsWith("/") ? path : `${path}/`;
 };
