@@ -43,6 +43,11 @@ const chunkyPrayerBeadsImageBase =
   "/images/curation-details/bold-prayer-beads/chunky-prayer-beads";
 const largePrayerBeadsImageBase =
   "/images/curation-details/bold-prayer-beads/large-prayer-beads";
+const vairocanaBuddhaImageBase = "/images/curation-details/desk-buddha/vairocana-buddha";
+const babyBuddhaImageBase = "/images/curation-details/desk-buddha/baby-buddha";
+const miniBuddhaStatueImageBase = "/images/curation-details/desk-buddha/mini-buddha-statue";
+const smallBuddhaStatueImageBase = "/images/curation-details/desk-buddha/small-buddha-statue";
+const buddhaGoodsImageBase = "/images/curation-details/desk-buddha/buddha-goods";
 
 const curationProductDetailOverrides: Record<string, Partial<ProductCurationDetail>> = {
   "emotional-buddhist-goods/buddhist-frog": {
@@ -1872,6 +1877,435 @@ const curationProductDetailOverrides: Record<string, Partial<ProductCurationDeta
           "재질: 나무 외",
           "구성: 큰염주 1EA",
           "사이즈: 구슬 약 20mm x 12EA",
+          "원산지: 중국",
+          "수입사: 스테디오더",
+        ],
+      },
+    ],
+  },
+  "desk-buddha/vairocana-buddha": {
+    name: "비로자나불",
+    subtitle: "작은 크기 안에 담긴 차분한 부처님",
+    summary:
+      "모든 부처님의 근원과 우주의 진리를 상징하는 비로자나불 미니불상입니다.",
+    introBody: [
+      "비로자나불은 모든 부처님의 근원과 우주의 진리를 상징하는 부처님입니다. 이 미니불상은 작은 크기 안에 차분한 표정과 단정한 자세를 담아, 책상 위나 명상 공간에 두기 좋은 불교 소품입니다.",
+    ],
+    image: `${vairocanaBuddhaImageBase}/image1.jpg`,
+    imageAlt: "책상 위나 명상 공간에 두기 좋은 비로자나불 미니불상 대표 이미지",
+    sections: [
+      {
+        title: "작지만 깊은 존재감",
+        images: [
+          {
+            src: `${vairocanaBuddhaImageBase}/image2.jpg`,
+            alt: "손에 올릴 수 있는 작은 크기의 비로자나불",
+          },
+        ],
+        body: [
+          "높이 약 3.3cm의 아담한 크기지만 손에 올렸을 때 단단한 무게감이 느껴집니다. 공간을 크게 차지하지 않으면서도 시선이 머무는 곳에 조용한 중심을 만들어줍니다.",
+        ],
+      },
+      {
+        title: "황동 특유의 묵직한 질감",
+        images: [
+          {
+            src: `${vairocanaBuddhaImageBase}/image3.jpg`,
+            alt: "황동 소재의 금빛 질감이 보이는 비로자나불",
+          },
+        ],
+        body: [
+          "황동 소재가 주는 은은한 금빛과 묵직한 감촉이 제품의 안정감을 높여줍니다. 빛이 닿는 방향에 따라 표면의 질감과 조각의 입체감이 자연스럽게 살아납니다.",
+        ],
+      },
+      {
+        title: "앞뒤로 살핀 섬세한 형태",
+        images: [
+          {
+            src: `${vairocanaBuddhaImageBase}/image4.jpg`,
+            alt: "정면과 뒷면의 형태가 보이는 비로자나불",
+          },
+        ],
+        body: [
+          "정면의 합장한 손과 단정한 좌대, 뒷면의 둥근 선까지 작은 크기 안에 세부 형태가 안정적으로 표현되어 있습니다. 가까이 두고 볼수록 미니불상의 섬세함이 느껴집니다.",
+        ],
+      },
+      {
+        title: "두기 좋은 작은 크기",
+        images: [
+          {
+            src: `${vairocanaBuddhaImageBase}/image5.jpg`,
+            alt: "작은 공간에 두기 좋은 비로자나불 미니불상",
+          },
+        ],
+        body: [
+          "책상, 선반, 차량 내부, 침실 한켠처럼 작은 공간에도 자연스럽게 놓을 수 있습니다. 큰 불상을 두기 부담스러운 공간에서도 비로자나불의 차분한 분위기를 가까이 느낄 수 있습니다.",
+        ],
+      },
+      {
+        title: "묵직함이 전하는 안정감",
+        images: [
+          {
+            src: `${vairocanaBuddhaImageBase}/image6.jpg`,
+            alt: "작지만 묵직한 안정감이 느껴지는 비로자나불",
+          },
+        ],
+        body: [
+          "약 45g의 무게로 작은 크기에 비해 안정감 있게 느껴집니다. 손에 올려두었을 때 가볍게 흩어지는 느낌보다 단단하게 머무는 느낌이 있어, 소장용이나 선물용으로도 잘 어울립니다.",
+          "본 제품은 초미니 상품입니다. 어린아이가 실수로 삼킬 수 있으니 아이의 손이 닿지 않는 곳에 보관하고, 전시하거나 이동할 때는 떨어뜨리지 않도록 주의해 주세요.",
+        ],
+      },
+      {
+        title: "제품 정보",
+        body: [],
+        items: [
+          "제품명: 비로자나불",
+          "재질: 황동",
+          "구성: 비로자나불 1EA",
+          "사이즈: 높이 약 3.3cm / 너비 약 2.5cm",
+          "무게: 약 45g ±5g",
+          "원산지: 중국",
+          "수입사: 스테디오더",
+        ],
+      },
+    ],
+  },
+  "desk-buddha/baby-buddha": {
+    name: "아기부처",
+    subtitle: "맑은 유리 질감이 전하는 작은 평온",
+    summary:
+      "투명하고 맑은 유리 재질이 돋보이는 책상 위 미니 불상입니다.",
+    introBody: [
+      "아기부처는 투명하고 맑은 유리 재질이 돋보이는 미니 불상입니다. 매끈한 마감과 온화한 표정이 어우러져 책상, 선반, 침실, 명상 공간에 자연스럽게 놓기 좋습니다. 작은 크기지만 공간에 차분한 분위기를 더해주고, 바라보는 순간 마음을 한 번 쉬어가게 해줍니다.",
+    ],
+    image: `${babyBuddhaImageBase}/image1.jpg`,
+    imageAlt: "맑은 유리 질감의 아기부처 미니 불상 대표 이미지",
+    sections: [
+      {
+        title: "손안에 들어오는 미니 불상",
+        images: [
+          {
+            src: `${babyBuddhaImageBase}/image2.jpg`,
+            alt: "손안에 들어오는 크기의 아기부처 미니 불상",
+          },
+        ],
+        body: [
+          "높이 약 8.5cm의 아담한 크기로 부담 없이 두기 좋은 미니 불상입니다. 작은 선반이나 책상 위에도 자연스럽게 어울리며, 공간을 크게 차지하지 않으면서도 분명한 존재감을 전합니다.",
+        ],
+      },
+      {
+        title: "유리 재질의 맑은 분위기",
+        images: [
+          {
+            src: `${babyBuddhaImageBase}/image3.jpg`,
+            alt: "투명한 질감과 하얀 색감의 아기부처",
+          },
+        ],
+        body: [
+          "투명한 질감과 하얀 색감이 부드럽게 어우러져 밝고 깨끗한 인상을 줍니다. 빛을 받을 때 은은하게 달라지는 표정과 질감이 매력적이며, 단순한 장식 이상의 차분한 분위기를 만들어줍니다.",
+        ],
+      },
+      {
+        title: "선택1. 투명색",
+        images: [
+          {
+            src: `${babyBuddhaImageBase}/image4.jpg`,
+            alt: "투명색 아기부처 미니 불상",
+          },
+        ],
+        body: [
+          "투명색은 맑고 깨끗한 느낌이 돋보이는 옵션입니다. 빛을 머금은 듯한 유리 질감이 공간을 밝게 만들어주고, 작은 명상 공간이나 인테리어 포인트로 활용하기 좋습니다.",
+        ],
+      },
+      {
+        title: "선택2. 하얀색",
+        images: [
+          {
+            src: `${babyBuddhaImageBase}/image5.jpg`,
+            alt: "하얀색 아기부처 미니 불상",
+          },
+        ],
+        body: [
+          "하얀색은 부드럽고 단정한 분위기가 특징입니다. 과하지 않은 색감 덕분에 주변 소품과 자연스럽게 어울리며, 침실이나 책상 위에 두었을 때 차분한 인상을 전합니다.",
+        ],
+      },
+      {
+        title: "뒤태와 디테일까지 자연스럽게",
+        images: [
+          {
+            src: `${babyBuddhaImageBase}/image6.jpg`,
+            alt: "아기부처의 정면 뒷모습 옆모습 디테일",
+          },
+        ],
+        body: [
+          "정면뿐 아니라 뒷모습과 옆모습까지 둥글고 부드럽게 마감되어 어느 방향에서 보아도 편안한 느낌을 줍니다. 투명색과 하얀색 모두 각기 다른 분위기를 지니고 있어 취향에 따라 선택하기 좋습니다.",
+        ],
+      },
+      {
+        title: "제품 정보",
+        body: [],
+        items: [
+          "제품명: 아기부처",
+          "재질: 유리",
+          "구성: 아기부처 투명색, 하얀색 중 1EA",
+          "사이즈: 약 5.3cm x 8.5cm",
+          "무게: 약 165g ±5g",
+          "원산지: 중국",
+          "수입사: 스테디오더",
+        ],
+      },
+    ],
+  },
+  "desk-buddha/mini-buddha-statue": {
+    name: "미니불상",
+    subtitle: "작은 공간에 두기 좋은 인테리어 미니불상",
+    summary:
+      "책상과 선반, 침실 한켠, 명상 공간에 부담 없이 놓기 좋은 도기 미니불상입니다.",
+    introBody: [
+      "미니불상은 높이 약 8cm의 아담한 크기로, 책상과 선반, 침실 한켠, 명상 공간에 부담 없이 놓기 좋은 인테리어 소품입니다. 작은 크기지만 부처님의 차분한 표정과 부드러운 색감이 공간에 고요한 분위기를 더해줍니다.",
+      "크게 눈에 띄기보다 자연스럽게 곁에 머무는 불상을 찾는 분들께 잘 어울립니다. 자주 시선이 머무는 곳에 두면 하루 중 잠시 마음을 가다듬는 작은 기준점이 되어줍니다.",
+    ],
+    image: `${miniBuddhaStatueImageBase}/image1.jpg`,
+    imageAlt: "책상과 선반에 두기 좋은 도기 미니불상 대표 이미지",
+    sections: [
+      {
+        title: "작은 공간에 두기 좋은 불상",
+        images: [
+          {
+            src: `${miniBuddhaStatueImageBase}/image2.jpg`,
+            alt: "작은 공간에 두기 좋은 미니불상",
+          },
+        ],
+        body: [
+          "미니불상은 크기가 부담스럽지 않아 넓은 불단이 없어도 편하게 둘 수 있습니다. 책상 위에서는 집중을 돕는 차분한 오브제가 되고, 선반 위에서는 공간의 분위기를 부드럽게 정리해주는 포인트가 됩니다.",
+          "불교 인테리어 소품을 처음 들이는 분들도 어렵지 않게 선택할 수 있는 크기와 디자인입니다. 단정한 색감과 안정적인 형태 덕분에 집 안 분위기와 자연스럽게 어우러집니다.",
+        ],
+      },
+      {
+        title: "4가지 모습으로 선택하는 미니불상",
+        images: [
+          {
+            src: `${miniBuddhaStatueImageBase}/image3.jpg`,
+            alt: "단정상 단충상 기복상 단의상 4가지 미니불상",
+          },
+        ],
+        body: [
+          "미니불상은 단정상, 단충상, 기복상, 단의상 4가지 옵션으로 구성되어 있습니다. 같은 크기의 미니불상이지만 각기 다른 자세와 분위기를 담고 있어, 놓는 공간이나 선호하는 느낌에 따라 선택할 수 있습니다.",
+          "하나만 두어도 좋고, 여러 종류를 함께 배치하면 작은 불교 인테리어 공간처럼 조화로운 느낌을 만들 수 있습니다.",
+        ],
+      },
+      {
+        title: "선택1. 단정상",
+        images: [
+          {
+            src: `${miniBuddhaStatueImageBase}/image4.jpg`,
+            alt: "단정상 미니불상",
+          },
+        ],
+        body: [
+          "단정상은 고요한 표정과 안정감 있는 자세가 돋보이는 옵션입니다. 차분하게 정돈된 분위기를 좋아하는 분께 잘 어울리며, 책상이나 선반 위에 두었을 때 부드러운 존재감을 전해줍니다.",
+        ],
+      },
+      {
+        title: "선택2. 단충상",
+        images: [
+          {
+            src: `${miniBuddhaStatueImageBase}/image5.jpg`,
+            alt: "단충상 미니불상",
+          },
+        ],
+        body: [
+          "단충상은 부드러운 색감과 단정한 형태가 조화를 이루는 옵션입니다. 작은 공간에 두어도 과하지 않고, 일상 속에서 자연스럽게 마음을 가라앉히는 분위기를 만들어줍니다.",
+        ],
+      },
+      {
+        title: "선택3. 기복상",
+        images: [
+          {
+            src: `${miniBuddhaStatueImageBase}/image6.jpg`,
+            alt: "기복상 미니불상",
+          },
+        ],
+        body: [
+          "기복상은 두 손을 모은 듯한 모습이 인상적인 옵션입니다. 소망과 기도의 분위기를 담고 있어, 마음을 모으고 싶은 공간이나 조용한 명상 공간에 잘 어울립니다.",
+        ],
+      },
+      {
+        title: "선택4. 단의상",
+        images: [
+          {
+            src: `${miniBuddhaStatueImageBase}/image7.jpg`,
+            alt: "단의상 미니불상",
+          },
+        ],
+        body: [
+          "단의상은 손의 수인이 시선을 끄는 옵션입니다. 작지만 표정과 자세의 디테일이 살아 있어, 가까이 볼수록 미니불상 특유의 섬세한 매력을 느낄 수 있습니다.",
+        ],
+      },
+      {
+        title: "제품 정보",
+        body: [],
+        items: [
+          "제품명: 미니불상",
+          "재질: 도기",
+          "구성: 인테리어용 미니불상 4종 중 1EA",
+          "사이즈: 높이 약 8cm / 너비 약 4cm",
+          "무게: 약 75g",
+          "원산지: 중국",
+          "수입사: 스테디오더",
+        ],
+      },
+    ],
+  },
+  "desk-buddha/small-buddha-statue": {
+    name: "소형불상",
+    subtitle: "작은 공간에 차분한 분위기를 더하는 연꽃 불상",
+    summary:
+      "책상 위나 선반, 차량 내부, 명상 공간에 자연스럽게 놓기 좋은 아담한 소형불상입니다.",
+    introBody: [
+      "소형불상은 높이 약 5cm, 너비 약 4cm의 아담한 미니 불상입니다. 석가모니불의 고요한 표정과 연꽃을 감싼 수인이 함께 어우러져, 책상 위나 선반, 차량 내부, 명상 공간에 자연스럽게 놓기 좋습니다.",
+      "부담스럽지 않은 크기지만 불상 특유의 차분한 존재감이 있어, 일상 공간에 작은 평온의 포인트를 더해줍니다.",
+    ],
+    image: `${smallBuddhaStatueImageBase}/image1.jpg`,
+    imageAlt: "연꽃을 품은 소형불상 대표 이미지",
+    sections: [
+      {
+        title: "작은 크기 속에 담긴 고요함",
+        images: [
+          {
+            src: `${smallBuddhaStatueImageBase}/image2.jpg`,
+            alt: "한 손에 들어오는 작은 크기의 소형불상",
+          },
+        ],
+        body: [
+          "수지 재질로 제작된 소형불상은 한 손에 들어오는 크기이지만, 정면에서 보았을 때의 안정감이 분명합니다. 부처님의 온화한 표정과 단정한 자세가 공간을 차분하게 정돈해 줍니다.",
+          "작은 불상을 처음 모시는 분도 부담 없이 선택하기 좋고, 기존 불상이나 염주, 향, 명상 소품과 함께 배치하기에도 잘 어울립니다.",
+        ],
+      },
+      {
+        title: "연꽃을 품은 단정한 수인",
+        images: [
+          {
+            src: `${smallBuddhaStatueImageBase}/image3.jpg`,
+            alt: "연꽃을 감싼 수인이 돋보이는 소형불상",
+          },
+        ],
+        body: [
+          "연꽃은 불교에서 청정함과 깨달음을 상징하는 이미지로 자주 사용됩니다. 이 소형불상은 연꽃을 감싼 듯한 손 모양이 인상적이며, 작은 조형 안에서도 부드럽고 단정한 분위기를 전합니다.",
+          "가까이에서 바라보면 석가모니불의 표정과 손 모양, 좌상 형태가 조화롭게 어우러져 작은 명상 공간의 중심이 되어줍니다.",
+        ],
+      },
+      {
+        title: "어디에 두어도 자연스러운 불교 인테리어",
+        images: [
+          {
+            src: `${smallBuddhaStatueImageBase}/image4.jpg`,
+            alt: "책상 선반 차량 내부에 두기 좋은 소형불상",
+          },
+        ],
+        body: [
+          "소형불상은 크기가 작아 공간을 많이 차지하지 않습니다. 책상 한편, 침실 협탁, 현관 선반, 차량 내부처럼 자주 시선이 머무는 곳에 두기 좋습니다.",
+          "중후한 색감과 클래식한 조형미가 있어 불교 인테리어 소품으로도 자연스럽고, 마음을 가다듬고 싶은 순간에 조용히 바라보기 좋은 제품입니다.",
+        ],
+      },
+      {
+        title: "뒷모습까지 단정한 조형감",
+        images: [
+          {
+            src: `${smallBuddhaStatueImageBase}/image5.jpg`,
+            alt: "정면 측면 뒷모습이 단정한 소형불상",
+          },
+        ],
+        body: [
+          "정면뿐 아니라 측면과 뒷모습에서도 불상의 형태가 단정하게 이어집니다. 선반이나 책상 위처럼 다양한 각도에서 보이는 공간에 두어도 어색하지 않습니다.",
+          "작은 크기이지만 전체적인 균형감이 있어, 단독으로 두어도 좋고 여러 불교 소품과 함께 배치해도 차분한 분위기를 유지합니다.",
+        ],
+      },
+      {
+        title: "제품 정보",
+        body: [],
+        items: [
+          "제품명: 소형불상",
+          "재질: 수지",
+          "구성: 소형 연꽃 불상 1EA",
+          "사이즈: 높이 약 5.0cm, 너비 약 4.0cm",
+          "원산지: 중국",
+          "수입사: 스테디오더",
+        ],
+      },
+    ],
+  },
+  "desk-buddha/buddha-goods": {
+    name: "불상굿즈",
+    subtitle: "도자기 미니불상 2종",
+    summary:
+      "좌상과 와상 두 가지 타입으로 구성된 도자기 미니 불상 소품입니다.",
+    introBody: [
+      "불상굿즈는 도자기 특유의 맑고 부드러운 색감이 돋보이는 미니 불상 소품입니다. 좌상과 와상 두 가지 타입으로 구성되어, 책상·선반·TV장·명상 공간처럼 자주 시선이 머무는 곳에 자연스럽게 어울립니다.",
+    ],
+    image: `${buddhaGoodsImageBase}/image1.jpg`,
+    imageAlt: "좌상과 와상으로 구성된 도자기 미니불상 2종 대표 이미지",
+    sections: [
+      {
+        title: "고급스러운 도자기 불상",
+        images: [
+          {
+            src: `${buddhaGoodsImageBase}/image2.jpg`,
+            alt: "작은 공간에도 자연스럽게 어울리는 도자기 미니 불상",
+          },
+        ],
+        body: [
+          "작은 크기지만 단정한 형태와 은은한 색감이 공간에 차분한 분위기를 더해줍니다. 과하게 눈에 띄는 장식이 아니라, 가까운 곳에 두고 볼수록 편안하게 스며드는 불교 소품입니다.",
+          "집 안의 선반, 책상 위, 침실 한쪽, 명상 공간에 두기 좋으며, 불교 인테리어를 처음 시작하는 분도 부담 없이 선택할 수 있습니다.",
+        ],
+      },
+      {
+        title: "선택1. 좌상",
+        images: [
+          {
+            src: `${buddhaGoodsImageBase}/image3.jpg`,
+            alt: "도자기 미니불상 좌상",
+          },
+        ],
+        body: [
+          "좌상은 반듯하게 앉은 모습이 특징입니다. 두 손을 모은 단정한 자세가 안정적인 인상을 주며, 책상이나 선반 위에 두었을 때 차분한 중심감을 만들어줍니다.",
+          "높이 약 8.5cm, 너비 약 5.5cm의 아담한 크기라 일상 공간 가까이에 두기 좋습니다.",
+        ],
+      },
+      {
+        title: "선택2. 와상",
+        images: [
+          {
+            src: `${buddhaGoodsImageBase}/image4.jpg`,
+            alt: "도자기 미니불상 와상",
+          },
+        ],
+        body: [
+          "와상은 편안히 누운 형태가 돋보이는 타입입니다. 부드러운 곡선과 여유로운 자세가 공간에 한층 편안한 분위기를 더해줍니다.",
+          "높이 약 6.0cm, 너비 약 8.8cm로, 낮고 안정적인 형태라 선반이나 협탁 위에 자연스럽게 배치하기 좋습니다.",
+        ],
+      },
+      {
+        title: "두 가지 타입으로 완성하는 공간 포인트",
+        images: [
+          {
+            src: `${buddhaGoodsImageBase}/image5.jpg`,
+            alt: "좌상과 와상 크기 비교",
+          },
+        ],
+        body: [
+          "좌상과 와상은 각각 단독으로 두어도 좋고, 함께 배치하면 더 풍성한 분위기를 연출할 수 있습니다. 취향에 따라 하나를 선택하거나, 두 가지 형태를 나란히 두어 작은 불교 인테리어 공간을 만들 수 있습니다.",
+        ],
+      },
+      {
+        title: "제품 정보",
+        body: [],
+        items: [
+          "제품명: 불상굿즈",
+          "재질: 도자기",
+          "구성: 불상굿즈 2종 중 1EA (좌상 / 와상)",
+          "사이즈: 좌상 높이 약 8.5cm, 너비 약 5.5cm / 와상 높이 약 6.0cm, 너비 약 8.8cm",
+          "무게: 좌상 약 93g / 와상 약 114g",
           "원산지: 중국",
           "수입사: 스테디오더",
         ],
