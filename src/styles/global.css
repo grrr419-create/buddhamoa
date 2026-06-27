@@ -2563,24 +2563,32 @@ section {
   }
 
   .product-curation__viewport {
-    --curation-card-peek: 40px;
     --curation-card-gap: 12px;
+    --curation-card-width: 78%;
+    --curation-card-side-peek: calc((100% - var(--curation-card-width)) / 2);
 
     overflow-x: auto;
     overscroll-behavior-x: contain;
-    scroll-padding-inline: 0 calc(var(--curation-card-peek) + var(--curation-card-gap));
+    scroll-padding-inline: var(--curation-card-side-peek);
     scroll-snap-type: x mandatory;
     scroll-behavior: smooth;
-    padding: 0 calc(var(--curation-card-peek) + var(--curation-card-gap)) 8px 0;
+    padding: 0 var(--curation-card-side-peek) 8px;
     -webkit-overflow-scrolling: touch;
     scrollbar-width: thin;
     -webkit-mask-image: linear-gradient(
       90deg,
-      #000 0,
-      #000 calc(100% - 28px),
+      transparent 0,
+      #000 22px,
+      #000 calc(100% - 22px),
       transparent 100%
     );
-    mask-image: linear-gradient(90deg, #000 0, #000 calc(100% - 28px), transparent 100%);
+    mask-image: linear-gradient(
+      90deg,
+      transparent 0,
+      #000 22px,
+      #000 calc(100% - 22px),
+      transparent 100%
+    );
   }
 
   .product-curation__viewport::-webkit-scrollbar {
@@ -2616,9 +2624,9 @@ section {
   }
 
   .product-curation-card {
-    flex: 0 0 calc(100% - var(--curation-card-peek) - var(--curation-card-gap));
+    flex: 0 0 var(--curation-card-width);
     width: auto;
-    scroll-snap-align: start;
+    scroll-snap-align: center;
     scroll-snap-stop: always;
     gap: 7px;
   }
@@ -2628,27 +2636,35 @@ section {
   }
 
   .category-link-grid {
-    --category-card-peek: 40px;
     --category-card-gap: 12px;
+    --category-card-width: 78%;
+    --category-card-side-peek: calc((100% - var(--category-card-width)) / 2);
 
     display: flex;
     grid-template-columns: none;
     gap: var(--category-card-gap);
     overflow-x: auto;
     overscroll-behavior-x: contain;
-    scroll-padding-inline: 0 calc(var(--category-card-peek) + var(--category-card-gap));
+    scroll-padding-inline: var(--category-card-side-peek);
     scroll-snap-type: x mandatory;
     scroll-behavior: smooth;
-    padding: 0 calc(var(--category-card-peek) + var(--category-card-gap)) 12px 0;
+    padding: 0 var(--category-card-side-peek) 12px;
     -webkit-overflow-scrolling: touch;
     scrollbar-width: thin;
     -webkit-mask-image: linear-gradient(
       90deg,
-      #000 0,
-      #000 calc(100% - 28px),
+      transparent 0,
+      #000 22px,
+      #000 calc(100% - 22px),
       transparent 100%
     );
-    mask-image: linear-gradient(90deg, #000 0, #000 calc(100% - 28px), transparent 100%);
+    mask-image: linear-gradient(
+      90deg,
+      transparent 0,
+      #000 22px,
+      #000 calc(100% - 22px),
+      transparent 100%
+    );
   }
 
   .category-link-grid::-webkit-scrollbar {
@@ -2661,9 +2677,9 @@ section {
   }
 
   .category-link-card {
-    flex: 0 0 calc(100% - var(--category-card-peek) - var(--category-card-gap));
-    max-width: calc(100% - var(--category-card-peek) - var(--category-card-gap));
-    scroll-snap-align: start;
+    flex: 0 0 var(--category-card-width);
+    max-width: var(--category-card-width);
+    scroll-snap-align: center;
     scroll-snap-stop: always;
     padding: 10px;
   }

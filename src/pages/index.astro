@@ -5,6 +5,7 @@ import LandingProductCurationsSection from "../components/LandingProductCuration
 import LandingCategorySection from "../components/LandingCategorySection.astro";
 import ProductShortsSection from "../components/ProductShortsSection.astro";
 import LandingTempleShortsSection from "../components/LandingTempleShortsSection.astro";
+import MobileInfiniteScroller from "../components/MobileInfiniteScroller.astro";
 import FaqList from "../components/FaqList.astro";
 import SectionHeader from "../components/SectionHeader.astro";
 import {
@@ -74,6 +75,7 @@ const productCurationsAfterShorts =
   <ProductShortsSection shorts={productShorts} />
   <LandingProductCurationsSection curations={productCurationsAfterShorts} />
   <LandingTempleShortsSection shorts={templeShorts} />
+  <MobileInfiniteScroller />
 
   <section id="guide-faq">
     <SectionHeader title="붓다모아 이용 안내" />

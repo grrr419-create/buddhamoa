@@ -1,0 +1,177 @@
+<script>
+  const cleanupKey = "__buddhamoaMobileInfiniteScrollerCleanup";
+  const mobileMedia = window.matchMedia("(max-width: 860px)");
+  const loopTargets = [
+    {
+      scrollerSelector: ".category-link-grid",
+      trackSelector: null,
+      itemSelector: ":scope > .category-link-card",
+    },
+    {
+      scrollerSelector: ".product-curation__viewport",
+      trackSelector: ".product-curation__group:not([aria-hidden='true'])",
+      itemSelector: ":scope > .product-curation-card",
+    },
+  ];
+
+  window[cleanupKey]?.();
+
+  const cloneLoopItem = (item) => {
+    const clone = item.cloneNode(true);
+    clone.dataset.mobileLoopClone = "true";
+    clone.setAttribute("aria-hidden", "true");
+    clone.querySelectorAll("[id]").forEach((element) => element.removeAttribute("id"));
+
+    if (clone instanceof HTMLElement) {
+      clone.removeAttribute("id");
+      if (clone.matches("a, button")) clone.tabIndex = -1;
+    }
+
+    clone.querySelectorAll("a, button, input, select, textarea, [tabindex]").forEach((element) => {
+      if (element instanceof HTMLElement) element.tabIndex = -1;
+    });
+
+    return clone;
+  };
+
+  const temporarilyDisableSmoothScroll = (scroller, callback) => {
+    const previousScrollBehavior = scroller.style.scrollBehavior;
+    scroller.style.scrollBehavior = "auto";
+    callback();
+    requestAnimationFrame(() => {
+      scroller.style.scrollBehavior = previousScrollBehavior;
+    });
+  };
+
+  const createLoop = ({ scroller, track, itemSelector }) => {
+    const originals = Array.from(track.querySelectorAll(itemSelector)).filter(
+      (item) => item instanceof HTMLElement && item.dataset.mobileLoopClone !== "true",
+    );
+
+    if (originals.length < 2) return undefined;
+
+    const beforeClones = originals.map(cloneLoopItem);
+    const afterClones = originals.map(cloneLoopItem);
+
+    track.prepend(...beforeClones);
+    track.append(...afterClones);
+    scroller.dataset.mobileLoopReady = "true";
+
+    let start = 0;
+    let end = 0;
+    let segmentWidth = 0;
+    let scrollFrame = 0;
+    let resizeFrame = 0;
+
+    const getCenteredScrollLeft = (item) =>
+      item.offsetLeft + item.offsetWidth / 2 - scroller.clientWidth / 2;
+
+    const jumpTo = (left) => {
+      temporarilyDisableSmoothScroll(scroller, () => {
+        scroller.scrollLeft = left;
+      });
+    };
+
+    const measure = () => {
+      start = getCenteredScrollLeft(originals[0]);
+      end = getCenteredScrollLeft(afterClones[0]);
+      segmentWidth = end - start;
+
+      if (segmentWidth > 0) {
+        jumpTo(start);
+      }
+    };
+
+    const keepInsideOriginalSegment = () => {
+      scrollFrame = 0;
+      if (segmentWidth <= 0) return;
+
+      const currentLeft = scroller.scrollLeft;
+      if (currentLeft < start - 2) {
+        jumpTo(currentLeft + segmentWidth);
+      } else if (currentLeft >= end - 2) {
+        jumpTo(currentLeft - segmentWidth);
+      }
+    };
+
+    const handleScroll = () => {
+      if (scrollFrame) return;
+      scrollFrame = requestAnimationFrame(keepInsideOriginalSegment);
+    };
+
+    const handleResize = () => {
+      if (resizeFrame) return;
+      resizeFrame = requestAnimationFrame(() => {
+        resizeFrame = 0;
+        measure();
+      });
+    };
+
+    scroller.addEventListener("scroll", handleScroll, { passive: true });
+    window.addEventListener("resize", handleResize);
+    requestAnimationFrame(measure);
+
+    return () => {
+      scroller.removeEventListener("scroll", handleScroll);
+      window.removeEventListener("resize", handleResize);
+      if (scrollFrame) cancelAnimationFrame(scrollFrame);
+      if (resizeFrame) cancelAnimationFrame(resizeFrame);
+      beforeClones.forEach((clone) => clone.remove());
+      afterClones.forEach((clone) => clone.remove());
+      delete scroller.dataset.mobileLoopReady;
+      jumpTo(0);
+    };
+  };
+
+  let cleanups = [];
+
+  const disableLoops = () => {
+    cleanups.forEach((cleanup) => cleanup());
+    cleanups = [];
+  };
+
+  const enableLoops = () => {
+    disableLoops();
+    if (!mobileMedia.matches) return;
+
+    cleanups = loopTargets.flatMap((target) =>
+      Array.from(document.querySelectorAll(target.scrollerSelector)).flatMap((scroller) => {
+        if (!(scroller instanceof HTMLElement)) return [];
+
+        const track = target.trackSelector
+          ? scroller.querySelector(target.trackSelector)
+          : scroller;
+
+        if (!(track instanceof HTMLElement)) return [];
+
+        const cleanup = createLoop({
+          scroller,
+          track,
+          itemSelector: target.itemSelector,
+        });
+
+        return cleanup ? [cleanup] : [];
+      }),
+    );
+  };
+
+  const handleMediaChange = () => {
+    if (mobileMedia.matches) {
+      enableLoops();
+    } else {
+      disableLoops();
+    }
+  };
+
+  mobileMedia.addEventListener("change", handleMediaChange);
+  window[cleanupKey] = () => {
+    mobileMedia.removeEventListener("change", handleMediaChange);
+    disableLoops();
+  };
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", enableLoops, { once: true });
+  } else {
+    enableLoops();
+  }
+</script>
