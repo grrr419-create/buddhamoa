@@ -229,6 +229,8 @@ const getPageLabel = (path: string | undefined) => {
   return pageLabels.get(normalizedPath) || path || "-";
 };
 
+const isHomePagePath = (path: string | undefined) => normalizePagePath(path) === "/";
+
 const getSelectedGranularity = (): Granularity => {
   const selected = granularityInputs.find((input) => input.checked)?.value;
   if (selected === "week" || selected === "month") return selected;
@@ -818,13 +820,15 @@ const renderStats = (stats: StatsResponse) => {
     referrerTotal.textContent = `조회수 합계 ${formatCount(selectedViews)}`;
   }
   renderBars(referrerBars, referrerRows.slice(0, 6));
+  const popularPageRows = (stats.top_paths || []).filter((row) => !isHomePagePath(row.path));
   renderBars(
     pathBars,
-    (stats.top_paths || []).map((row) => ({
+    popularPageRows.map((row) => ({
       label: getPageLabel(row.path),
       title: row.path || undefined,
       views: toCount(row.views),
     })),
+    "홈 외 페이지 데이터가 없습니다.",
   );
 
   renderRows(
