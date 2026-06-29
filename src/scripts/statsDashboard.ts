@@ -184,7 +184,7 @@ const normalizePagePath = (value: string | undefined) => {
     path = `/${path}`;
   }
 
-  const knownBasePaths = Array.from(new Set([normalizeBasePath(basePath), "/buddhamoa/"]));
+  const knownBasePaths = [normalizeBasePath(basePath)];
   const matchedBase = knownBasePaths.find(
     (knownBase) => knownBase !== "/" && path.startsWith(knownBase),
   );

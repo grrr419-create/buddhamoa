@@ -12,7 +12,7 @@ npm run dev
 
 기본 개발 서버는 `http://localhost:4321`에서 실행됩니다.
 
-## 배포 전 확인
+## Cloudflare Pages 배포
 
 `PUBLIC_SITE_URL` 환경변수에 실제 배포 도메인을 넣어 주세요.
 
@@ -28,16 +28,19 @@ PUBLIC_SITE_URL=https://buddhamoa.com npm run build
 - `sitemap-index.xml`
 - `robots.txt`의 사이트맵 주소
 
-GitHub Pages에서 `buddhamoa.com`을 루트 도메인으로 사용할 때는 Pages 설정의 Custom domain에
-`buddhamoa.com`을 저장하고, DNS에는 아래 값을 연결합니다.
+Cloudflare Pages에서는 GitHub 저장소를 연결한 뒤 아래 값으로 설정합니다.
 
 ```text
-@    A      185.199.108.153
-@    A      185.199.109.153
-@    A      185.199.110.153
-@    A      185.199.111.153
-www  CNAME  grrr419-create.github.io
+Framework preset: Astro
+Build command: npm run build
+Build output directory: dist
+Root directory: /
+Production branch: main
 ```
+
+운영 환경 변수는 `PUBLIC_SITE_URL=https://buddhamoa.com`, `SITE_BASE_PATH=/`를 사용합니다.
+`www.buddhamoa.com`과 향후 한글 도메인의 대표 도메인 리디렉션은 Cloudflare Pages 프로젝트의
+`_redirects` 파일보다 Cloudflare Redirect Rules에서 처리하는 편이 관리하기 좋습니다.
 
 ## 조회수 집계 설정
 

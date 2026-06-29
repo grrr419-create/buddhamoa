@@ -1,0 +1,7 @@
+# Preserve old GitHub Pages subpath URLs after moving to the apex domain.
+/buddhamoa / 301
+/buddhamoa/ / 301
+/buddhamoa/* /:splat 301
+
+# Astro emits sitemap-index.xml; keep /sitemap.xml usable for search tools.
+/sitemap.xml /sitemap-index.xml 301
