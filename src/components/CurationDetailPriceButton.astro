@@ -1,0 +1,25 @@
+---
+type Props = {
+  href: string;
+  track: string;
+  className?: string;
+  label?: string;
+};
+
+const {
+  href,
+  track,
+  className,
+  label = "가격 확인하기",
+} = Astro.props;
+---
+
+<a
+  class:list={["button", className]}
+  href={href}
+  target="_blank"
+  rel="nofollow noopener noreferrer"
+  data-track={track}
+>
+  {label}
+</a>

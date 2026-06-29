@@ -1,4 +1,5 @@
 ---
+import CurationDetailPriceButton from "../../../components/CurationDetailPriceButton.astro";
 import Layout from "../../../layouts/Layout.astro";
 import {
   curationProductDetails,
@@ -23,6 +24,8 @@ const title = `${detail.name} | ${detail.curationName} | ${siteConfig.brandName}
 const description = detail.summary;
 const optionSectionTitles = new Set(["목탁 고양이", "목탁 황구", "목탁 흑구", "목탁 수달", "목탁 돼지"]);
 const isOptionSection = (title: string) => optionSectionTitles.has(title) || /^선택\d+\./.test(title);
+const getStoreTrack = (placement: "pc" | "mobile") =>
+  `curation_detail_${placement}_buy_${detail.curationSlug}_${detail.productSlug}`;
 
 const getSectionImageGroups = (section: (typeof detail.sections)[number]) =>
   section.imageGroups ?? (section.images ? [{ images: section.images }] : []);
@@ -90,25 +93,13 @@ const getSectionImageGroups = (section: (typeof detail.sections)[number]) =>
       <img src={withBase(detail.image)} alt={detail.imageAlt} width="220" height="220" loading="lazy" />
       <strong>{detail.name}</strong>
       {detail.subtitle && <p>{detail.subtitle}</p>}
-      <a
-        class="button"
-        href={detail.storeUrl}
-        target="_blank"
-        rel="nofollow noopener noreferrer"
-        data-track={`curation_detail_pc_buy_${detail.curationSlug}_${detail.productSlug}`}
-      >
-        가격 확인하기
-      </a>
+      <CurationDetailPriceButton href={detail.storeUrl} track={getStoreTrack("pc")} />
     </aside>
 
-    <a
-      class="button curation-detail__mobile-buy"
+    <CurationDetailPriceButton
+      className="curation-detail__mobile-buy"
       href={detail.storeUrl}
-      target="_blank"
-      rel="nofollow noopener noreferrer"
-      data-track={`curation_detail_mobile_buy_${detail.curationSlug}_${detail.productSlug}`}
-    >
-      가격 확인하기
-    </a>
+      track={getStoreTrack("mobile")}
+    />
   </section>
 </Layout>
