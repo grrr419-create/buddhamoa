@@ -1,6 +1,7 @@
 ---
 import Layout from "../../layouts/Layout.astro";
 import ProductCard from "../../components/ProductCard.astro";
+import OptimizedImage from "../../components/OptimizedImage.astro";
 import { products } from "../../data/products";
 import { siteConfig } from "../../data/site";
 import { withBase } from "../../utils/paths";
@@ -34,7 +35,13 @@ const description = `${product.summary} ${product.description[0]}`;
 >
   <section class="detail-grid">
     <div class="panel detail-copy">
-      <img src={withBase(product.image)} alt={product.imageAlt} />
+      <OptimizedImage
+        src={product.image}
+        alt={product.imageAlt}
+        loading="eager"
+        fetchpriority="high"
+        sizes="(max-width: 760px) calc(100vw - 48px), 520px"
+      />
       <span class="meta-chip">{product.category}</span>
       <h1>{product.name}</h1>
       {product.description.map((paragraph) => <p>{paragraph}</p>)}

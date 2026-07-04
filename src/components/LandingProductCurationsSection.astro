@@ -5,6 +5,7 @@ import {
   hasCurationProductDetail,
 } from "../data/curationProductDetails";
 import { withBase } from "../utils/paths";
+import OptimizedImage from "./OptimizedImage.astro";
 
 type Props = {
   curations: ProductCuration[];
@@ -52,13 +53,16 @@ const getItemHref = (curation: ProductCuration, item: ProductCuration["items"][n
                   }
                 >
                   <span class="product-curation-card__image-wrap">
-                    <img
+                    <OptimizedImage
                       class="product-curation-card__image"
-                      src={withBase(item.image)}
+                      src={item.image}
                       alt={item.imageAlt}
                       width="720"
                       height="720"
                       loading={curationIndex === 0 && itemIndex === 0 ? "eager" : "lazy"}
+                      fetchpriority={curationIndex === 0 && itemIndex === 0 ? "high" : "auto"}
+                      sizes="(max-width: 860px) 72vw, (max-width: 1040px) 20vw, 180px"
+                      optimizedWidths={[320, 480, 720]}
                     />
                   </span>
                   <span class="product-curation-card__name">{item.name}</span>
@@ -72,13 +76,15 @@ const getItemHref = (curation: ProductCuration, item: ProductCuration["items"][n
                   data-track={`product_curation_${curation.slug}_${item.slug}`}
                 >
                   <span class="product-curation-card__image-wrap">
-                    <img
+                    <OptimizedImage
                       class="product-curation-card__image"
-                      src={withBase(item.image)}
+                      src={item.image}
                       alt={item.imageAlt}
                       width="720"
                       height="720"
                       loading="lazy"
+                      sizes="(max-width: 860px) 72vw, (max-width: 1040px) 20vw, 180px"
+                      optimizedWidths={[320, 480, 720]}
                     />
                   </span>
                   <span class="product-curation-card__name">{item.name}</span>

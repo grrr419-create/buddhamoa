@@ -1,0 +1,65 @@
+---
+import { withBase } from "../utils/paths";
+
+type Props = {
+  src: string;
+  alt: string;
+  width?: number | string;
+  height?: number | string;
+  class?: string;
+  loading?: "eager" | "lazy";
+  decoding?: "async" | "auto" | "sync";
+  fetchpriority?: "high" | "low" | "auto";
+  sizes?: string;
+  optimizedWidths?: number[];
+  onerror?: string;
+};
+
+const {
+  src,
+  alt,
+  width,
+  height,
+  class: className,
+  loading = "lazy",
+  decoding = "async",
+  fetchpriority,
+  sizes = "(max-width: 720px) 100vw, 720px",
+  optimizedWidths = [320, 480, 720],
+  onerror,
+} = Astro.props;
+
+const extensionMatch = src.match(/\.(png|jpe?g)$/i);
+const isLocalOptimizableRaster = src.startsWith("/images/") && Boolean(extensionMatch);
+const baseSrc = extensionMatch ? src.slice(0, -extensionMatch[0].length) : src;
+const widths = [...new Set(optimizedWidths)]
+  .filter((value) => Number.isFinite(value) && value > 0)
+  .sort((a, b) => a - b);
+const imageUrl = (path: string) => encodeURI(withBase(path));
+const webpSrcSet = widths
+  .map((imageWidth) => `${imageUrl(`${baseSrc}-${imageWidth}.webp`)} ${imageWidth}w`)
+  .join(", ");
+
+const imageAttributes = {
+  class: className,
+  src: imageUrl(src),
+  alt,
+  width,
+  height,
+  loading,
+  decoding,
+  fetchpriority,
+  onerror,
+};
+---
+
+{
+  isLocalOptimizableRaster && widths.length > 0 ? (
+    <picture class="optimized-picture">
+      <source type="image/webp" srcset={webpSrcSet} sizes={sizes} />
+      <img {...imageAttributes} />
+    </picture>
+  ) : (
+    <img {...imageAttributes} />
+  )
+}

@@ -1,6 +1,7 @@
 ---
 import type { CategoryLink } from "../types";
 import { withBase } from "../utils/paths";
+import OptimizedImage from "./OptimizedImage.astro";
 
 type Props = {
   categories: CategoryLink[];
@@ -25,13 +26,15 @@ const isExternalHref = (href: string) =>
         rel={isExternalHref(category.href) ? "nofollow noopener noreferrer" : undefined}
       >
         <div class="category-link-card__image-wrap">
-          <img
+          <OptimizedImage
             class="category-link-card__image"
-            src={withBase(category.image)}
+            src={category.image}
             alt={category.imageAlt}
             width="720"
             height="720"
             loading="lazy"
+            sizes="(max-width: 860px) 72vw, (max-width: 1040px) 30vw, 220px"
+            optimizedWidths={[320, 480, 720]}
           />
         </div>
         <div class="category-link-card__meta">
@@ -43,13 +46,15 @@ const isExternalHref = (href: string) =>
     ) : (
       <article id={`category-${category.slug}`} class="category-link-card">
         <div class="category-link-card__image-wrap">
-          <img
+          <OptimizedImage
             class="category-link-card__image"
-            src={withBase(category.image)}
+            src={category.image}
             alt={category.imageAlt}
             width="720"
             height="720"
             loading="lazy"
+            sizes="(max-width: 860px) 72vw, (max-width: 1040px) 30vw, 220px"
+            optimizedWidths={[320, 480, 720]}
           />
         </div>
         <div class="category-link-card__meta">

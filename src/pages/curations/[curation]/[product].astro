@@ -1,6 +1,7 @@
 ---
 import CurationDetailPriceButton from "../../../components/CurationDetailPriceButton.astro";
 import Layout from "../../../layouts/Layout.astro";
+import OptimizedImage from "../../../components/OptimizedImage.astro";
 import {
   curationProductDetails,
   getCurationProductDetailPath,
@@ -45,13 +46,15 @@ const getSectionImageGroups = (section: (typeof detail.sections)[number]) =>
       <header class="curation-detail__header">
         <h1 id="curation-detail-title">{detail.name}</h1>
         {detail.subtitle && <p class="curation-detail__subtitle">{detail.subtitle}</p>}
-        <img
+        <OptimizedImage
           class="curation-detail__hero-image"
-          src={withBase(detail.image)}
+          src={detail.image}
           alt={detail.imageAlt}
           width="1100"
           height="1100"
           loading="eager"
+          fetchpriority="high"
+          sizes="(max-width: 680px) calc(100vw - 32px), 600px"
         />
         <p class="curation-detail__summary">{detail.summary}</p>
         {detail.introBody?.map((paragraph) => <p>{paragraph}</p>)}
@@ -69,12 +72,13 @@ const getSectionImageGroups = (section: (typeof detail.sections)[number]) =>
           {getSectionImageGroups(section).map((group) => (
             <div class="curation-detail-section__images">
               {group.images.map((image) => (
-                <img
-                  src={withBase(image.src)}
+                <OptimizedImage
+                  src={image.src}
                   alt={image.alt}
                   width="1100"
                   height="1100"
                   loading="lazy"
+                  sizes="(max-width: 680px) calc(100vw - 32px), 600px"
                 />
               ))}
             </div>
@@ -90,7 +94,15 @@ const getSectionImageGroups = (section: (typeof detail.sections)[number]) =>
     </article>
 
     <aside class="curation-detail__buy-card" aria-label={`${detail.name} 구매하기`}>
-      <img src={withBase(detail.image)} alt={detail.imageAlt} width="220" height="220" loading="lazy" />
+      <OptimizedImage
+        src={detail.image}
+        alt={detail.imageAlt}
+        width="220"
+        height="220"
+        loading="lazy"
+        sizes="210px"
+        optimizedWidths={[320, 480]}
+      />
       <strong>{detail.name}</strong>
       {detail.subtitle && <p>{detail.subtitle}</p>}
       <CurationDetailPriceButton href={detail.storeUrl} track={getStoreTrack("pc")} />

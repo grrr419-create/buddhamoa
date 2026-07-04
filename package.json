@@ -6,8 +6,11 @@
     "node": ">=22.12.0"
   },
   "scripts": {
+    "predev": "node scripts/optimize-images.mjs",
     "dev": "astro dev",
+    "prebuild": "node scripts/optimize-images.mjs",
     "build": "astro build",
+    "prepreview": "node scripts/optimize-images.mjs",
     "preview": "astro preview",
     "astro": "astro"
   },
@@ -15,5 +18,8 @@
     "@astrojs/sitemap": "^3.7.3",
     "@supabase/supabase-js": "^2.108.2",
     "astro": "^6.4.7"
+  },
+  "devDependencies": {
+    "sharp": "^0.34.5"
   }
 }

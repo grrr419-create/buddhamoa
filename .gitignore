@@ -1,6 +1,10 @@
 # build output
 dist/
 
+# generated responsive image variants
+public/images/**/*-[0-9]*.avif
+public/images/**/*-[0-9]*.webp
+
 # generated types
 .astro/
 
