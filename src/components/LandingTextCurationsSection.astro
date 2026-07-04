@@ -1,0 +1,71 @@
+---
+import type { TextCuration } from "../types";
+import OptimizedImage from "./OptimizedImage.astro";
+
+type Props = {
+  curations: TextCuration[];
+  ariaLabel?: string;
+};
+
+const { curations, ariaLabel = "붓다모아 추천 큐레이션" } = Astro.props;
+---
+
+{curations.length > 0 && (
+  <section class="product-curations product-curations--text" aria-label={ariaLabel}>
+    {curations.map((curation) => (
+      <section
+        class="product-curation product-curation--text"
+        aria-labelledby={`text-curation-${curation.slug}`}
+      >
+        <h2 class="product-curation__title" id={`text-curation-${curation.slug}`}>
+          {curation.name}
+        </h2>
+        <p class="product-curation__description">{curation.description}</p>
+
+        {curation.items && curation.items.length > 0 && (
+          <div class="product-curation__viewport">
+            <div class="product-curation__track">
+              <div class="product-curation__group">
+                {curation.items.map((item, itemIndex) =>
+                  item.image && item.href ? (
+                    <a
+                      class="product-curation-card"
+                      href={item.href}
+                      aria-label={`${item.name} 상품 보러가기`}
+                      data-track={`text_curation_${curation.slug}_${item.slug}`}
+                      target="_blank"
+                      rel="nofollow noopener noreferrer"
+                    >
+                      <span class="product-curation-card__image-wrap">
+                        <OptimizedImage
+                          class="product-curation-card__image"
+                          src={item.image}
+                          alt={item.imageAlt ?? `${item.name} 상품 이미지`}
+                          width="720"
+                          height="720"
+                          loading={itemIndex === 0 ? "eager" : "lazy"}
+                          fetchpriority={itemIndex === 0 ? "high" : "auto"}
+                          sizes="(max-width: 860px) 72vw, (max-width: 1040px) 20vw, 180px"
+                          optimizedWidths={[320, 480, 720]}
+                        />
+                      </span>
+                      <span class="product-curation-card__name">{item.name}</span>
+                    </a>
+                  ) : (
+                    <article class="product-curation-card product-curation-card--placeholder">
+                      <span
+                        class="product-curation-card__image-wrap product-curation-card__image-wrap--placeholder"
+                        aria-hidden="true"
+                      />
+                      <span class="product-curation-card__name">{item.name}</span>
+                    </article>
+                  )
+                )}
+              </div>
+            </div>
+          </div>
+        )}
+      </section>
+    ))}
+  </section>
+)}

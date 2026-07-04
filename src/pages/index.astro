@@ -5,6 +5,7 @@ import LandingProductCurationsSection from "../components/LandingProductCuration
 import LandingCategorySection from "../components/LandingCategorySection.astro";
 import ProductShortsSection from "../components/ProductShortsSection.astro";
 import LandingTempleShortsSection from "../components/LandingTempleShortsSection.astro";
+import LandingTextCurationsSection from "../components/LandingTextCurationsSection.astro";
 import MobileInfiniteScroller from "../components/MobileInfiniteScroller.astro";
 import FaqList from "../components/FaqList.astro";
 import SectionHeader from "../components/SectionHeader.astro";
@@ -13,6 +14,8 @@ import {
   faqs,
   productCurations,
   productShorts,
+  postTempleCurations,
+  secondaryNotices,
   siteConfig,
   templeShorts,
   topNotices,
@@ -32,15 +35,19 @@ import {
 const title = "불교용품은 역시 붓다모아 | 불상·염주·불교굿즈 안내";
 const description =
   "붓다모아는 불상, 염주, 목탁, 명상도구, 사경노트, 불교굿즈를 신행과 일상 용도에 맞게 정리해 소개하는 온라인 불교용품 안내 페이지입니다.";
-const productShortsInsertIndex = productCurations.findIndex(
-  (curation) => curation.slug === "finger-prayer-beads",
+
+function splitAfterSlug<Item extends { slug: string }>(items: Item[], slug: string): [Item[], Item[]] {
+  const index = items.findIndex((item) => item.slug === slug);
+
+  return index >= 0 ? [items.slice(0, index + 1), items.slice(index + 1)] : [items, []];
+}
+
+const [productCurationsBeforeShorts, productCurationsAfterShorts] = splitAfterSlug(
+  productCurations,
+  "finger-prayer-beads",
 );
-const productCurationsBeforeShorts =
-  productShortsInsertIndex >= 0
-    ? productCurations.slice(0, productShortsInsertIndex + 1)
-    : productCurations;
-const productCurationsAfterShorts =
-  productShortsInsertIndex >= 0 ? productCurations.slice(productShortsInsertIndex + 1) : [];
+const [postTempleCurationsBeforeTempleShorts, postTempleCurationsAfterTempleShorts] =
+  splitAfterSlug(postTempleCurations, "ksitigarbha-for-loved-ones");
 ---
 
 <Layout
@@ -65,7 +72,7 @@ const productCurationsAfterShorts =
     faqSchema(),
   ]}
 >
-  <TopNotice notices={topNotices} />
+  <TopNotice notices={topNotices} label="공지사항1" sectionId="notice-1" trackPrefix="notice_1" />
 
   <LandingCategorySection categories={categories} storeUrl={siteConfig.storeUrl} />
   <LandingProductCurationsSection
@@ -74,7 +81,10 @@ const productCurationsAfterShorts =
   />
   <ProductShortsSection shorts={productShorts} />
   <LandingProductCurationsSection curations={productCurationsAfterShorts} />
+  <TopNotice notices={secondaryNotices} label="공지사항2" sectionId="notice-2" trackPrefix="notice_2" />
+  <LandingTextCurationsSection curations={postTempleCurationsBeforeTempleShorts} />
   <LandingTempleShortsSection shorts={templeShorts} />
+  <LandingTextCurationsSection curations={postTempleCurationsAfterTempleShorts} />
   <MobileInfiniteScroller />
 
   <section id="guide-faq">

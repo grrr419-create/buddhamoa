@@ -4,13 +4,22 @@ import OptimizedImage from "./OptimizedImage.astro";
 
 type Props = {
   notices: TopNotice[];
+  label?: string;
+  sectionId?: string;
+  trackPrefix?: string;
 };
 
-const { notices } = Astro.props;
+const { notices, label, sectionId, trackPrefix = "top_notice" } = Astro.props;
+const titleId = sectionId && label ? `${sectionId}-title` : undefined;
 ---
 
 {notices.length > 0 && (
-<section class="notice-section">
+<section id={sectionId} class="notice-section" aria-labelledby={titleId}>
+  {label && titleId && (
+    <h2 class="notice-section__label" id={titleId}>
+      {label}
+    </h2>
+  )}
   <div class="panel notice-carousel" data-notice-carousel data-notice-count={notices.length}>
     <div class="notice-carousel__viewport">
       <div class="notice-carousel__track" data-notice-track>
@@ -28,7 +37,7 @@ const { notices } = Astro.props;
                     class="notice-banner__link"
                     href={notice.href}
                     aria-label={`${notice.imageAlt} - 붓다모아 바로가기`}
-                    data-track={`top_notice_${notice.slug}`}
+                    data-track={`${trackPrefix}_${notice.slug}`}
                     target="_blank"
                     rel="nofollow noopener noreferrer"
                   >
@@ -90,12 +99,20 @@ const { notices } = Astro.props;
 </section>
 )}
 
-<script is:inline>
+<script>
   (() => {
-    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const reduceMotion =
+      typeof window.matchMedia === "function" &&
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     const carousels = document.querySelectorAll("[data-notice-carousel]");
 
     carousels.forEach((carousel) => {
+      if (!(carousel instanceof HTMLElement) || carousel.dataset.noticeCarouselReady === "true") {
+        return;
+      }
+
+      carousel.dataset.noticeCarouselReady = "true";
+
       const track = carousel.querySelector("[data-notice-track]");
       const slides = Array.from(carousel.querySelectorAll("[data-notice-slide]"));
       const selectors = Array.from(carousel.querySelectorAll("[data-notice-target]"));

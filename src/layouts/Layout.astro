@@ -193,10 +193,10 @@ const basePath = import.meta.env.BASE_URL || "/";
     </script>
     <script is:inline type="text/javascript" src="//wcs.pstatic.net/wcslog.js"></script>
     <script is:inline type="text/javascript">
-if(!wcs_add) var wcs_add = {};
-wcs_add["wa"] = "3a9d1df20188a0";
-if(window.wcs) {
-  wcs_do();
+window.wcs_add = window.wcs_add || {};
+window.wcs_add["wa"] = "3a9d1df20188a0";
+if (window.wcs && typeof window.wcs_do === "function") {
+  window.wcs_do();
 }
     </script>
   </body>

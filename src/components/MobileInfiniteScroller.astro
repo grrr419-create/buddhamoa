@@ -1,6 +1,9 @@
 <script>
   const cleanupKey = "__buddhamoaMobileInfiniteScrollerCleanup";
-  const mobileMedia = window.matchMedia("(max-width: 860px)");
+  const mobileMedia =
+    typeof window.matchMedia === "function"
+      ? window.matchMedia("(max-width: 860px)")
+      : null;
   const loopTargets = [
     {
       scrollerSelector: ".category-link-grid",
@@ -132,7 +135,7 @@
 
   const enableLoops = () => {
     disableLoops();
-    if (!mobileMedia.matches) return;
+    if (!mobileMedia?.matches) return;
 
     cleanups = loopTargets.flatMap((target) =>
       Array.from(document.querySelectorAll(target.scrollerSelector)).flatMap((scroller) => {
@@ -156,16 +159,42 @@
   };
 
   const handleMediaChange = () => {
-    if (mobileMedia.matches) {
+    if (mobileMedia?.matches) {
       enableLoops();
     } else {
       disableLoops();
     }
   };
 
-  mobileMedia.addEventListener("change", handleMediaChange);
+  const addMediaChangeListener = () => {
+    if (!mobileMedia) return;
+
+    if (typeof mobileMedia.addEventListener === "function") {
+      mobileMedia.addEventListener("change", handleMediaChange);
+      return;
+    }
+
+    if (typeof mobileMedia.addListener === "function") {
+      mobileMedia.addListener(handleMediaChange);
+    }
+  };
+
+  const removeMediaChangeListener = () => {
+    if (!mobileMedia) return;
+
+    if (typeof mobileMedia.removeEventListener === "function") {
+      mobileMedia.removeEventListener("change", handleMediaChange);
+      return;
+    }
+
+    if (typeof mobileMedia.removeListener === "function") {
+      mobileMedia.removeListener(handleMediaChange);
+    }
+  };
+
+  addMediaChangeListener();
   window[cleanupKey] = () => {
-    mobileMedia.removeEventListener("change", handleMediaChange);
+    removeMediaChangeListener();
     disableLoops();
   };
 

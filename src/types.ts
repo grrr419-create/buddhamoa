@@ -35,6 +35,21 @@ export type ProductCuration = {
   items: ProductCurationItem[];
 };
 
+export type TextCurationItem = {
+  slug: string;
+  name: string;
+  image?: string;
+  imageAlt?: string;
+  href?: string;
+};
+
+export type TextCuration = {
+  slug: string;
+  name: string;
+  description: string;
+  items?: TextCurationItem[];
+};
+
 export type ProductCurationDetailImage = {
   src: string;
   alt: string;

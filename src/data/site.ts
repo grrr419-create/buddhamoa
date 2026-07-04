@@ -4,6 +4,7 @@ import type {
   ProductShort,
   SocialFollowChannel,
   TempleShort,
+  TextCuration,
   TopNotice,
 } from "../types";
 import { withBase } from "../utils/paths";
@@ -126,6 +127,8 @@ export const topNotices: TopNotice[] = [
     href: siteConfig.storeUrl,
   },
 ];
+
+export const secondaryNotices: TopNotice[] = topNotices.map((notice) => ({ ...notice }));
 
 export const categories: CategoryLink[] = [
   {
@@ -278,6 +281,261 @@ export const templeShorts: TempleShort[] = [
     templeName: "전등사",
     tags: ["#강화도", "#강화", "#인천", "#약사전"],
     videoUrl: "https://youtu.be/THZKhD7HtOk?si=hLqz5kFMmLqgm5PV",
+  },
+];
+
+export const postTempleCurations: TextCuration[] = [
+  {
+    slug: "practice-space-buddha",
+    name: "신행 공간의 중심 부처님",
+    description: "집 안에 차분한 평온을 들여보세요.",
+    items: [
+      {
+        slug: "buddha-statue",
+        name: "부처상",
+        image: "/images/curations/practice-space-buddha/buddha-statue.png",
+        imageAlt: "부처상 상품 이미지",
+        href: "https://mkt.shopping.naver.com/link/69dcd533a8076a338797cb47",
+      },
+      {
+        slug: "medicine-buddha",
+        name: "약사여래불",
+        image: "/images/curations/practice-space-buddha/medicine-buddha.png",
+        imageAlt: "약사여래불 상품 이미지",
+        href: "https://mkt.shopping.naver.com/link/6a48fc81a84c611cbff4cc59",
+      },
+      {
+        slug: "buddha-statue-figure",
+        name: "부처님불상",
+        image: "/images/curations/practice-space-buddha/buddha-statue-figure.png",
+        imageAlt: "부처님불상 상품 이미지",
+        href: "https://mkt.shopping.naver.com/link/6a48fd92f89fad3874ee6120",
+      },
+      {
+        slug: "amitabha-buddha",
+        name: "아미타불",
+        image: "/images/curations/practice-space-buddha/amitabha-buddha.png",
+        imageAlt: "아미타불 상품 이미지",
+        href: "https://mkt.shopping.naver.com/link/6a48fcb1bb3426556b4195d2",
+      },
+      {
+        slug: "shakyamuni-buddha",
+        name: "석가모니불상",
+        image: "/images/curations/practice-space-buddha/shakyamuni-buddha.png",
+        imageAlt: "석가모니불상 상품 이미지",
+        href: "https://mkt.shopping.naver.com/link/69d9b2cba8076a338797c877",
+      },
+    ],
+  },
+  {
+    slug: "avalokitesvara-symbol",
+    name: "자비의 상징 관세음보살",
+    description: "온화한 얼굴에서 편안함을 느껴보세요.",
+    items: [
+      {
+        slug: "water-moon-avalokitesvara",
+        name: "수월관음상",
+        image: "/images/curations/avalokitesvara-symbol/water-moon-avalokitesvara.png",
+        imageAlt: "수월관음상 상품 이미지",
+        href: "https://mkt.shopping.naver.com/link/68cf9b28156a0e2f1d6064e1",
+      },
+      {
+        slug: "avalokitesvara",
+        name: "관세음보살",
+        image: "/images/curations/avalokitesvara-symbol/avalokitesvara.png",
+        imageAlt: "관세음보살 상품 이미지",
+        href: "https://mkt.shopping.naver.com/link/6a48fe39bb3426556b4195d3",
+      },
+      {
+        slug: "avalokitesvara-statue",
+        name: "관세음보살상",
+        image: "/images/curations/avalokitesvara-symbol/avalokitesvara-statue.png",
+        imageAlt: "관세음보살상 상품 이미지",
+        href: "https://mkt.shopping.naver.com/link/6a48fe56c07ae34f7540f793",
+      },
+      {
+        slug: "avalokitesvara-buddhist-statue",
+        name: "관세음보살불상",
+        image: "/images/curations/avalokitesvara-symbol/avalokitesvara-buddhist-statue.png",
+        imageAlt: "관세음보살불상 상품 이미지",
+        href: "https://mkt.shopping.naver.com/link/68cf9b9f34805940cb8378fd",
+      },
+      {
+        slug: "thousand-arm-avalokitesvara",
+        name: "천수관음",
+        image: "/images/curations/avalokitesvara-symbol/thousand-arm-avalokitesvara.png",
+        imageAlt: "천수관음 상품 이미지",
+        href: "https://mkt.shopping.naver.com/link/6a4902bba84c611cbff4cc5a",
+      },
+    ],
+  },
+  {
+    slug: "ksitigarbha-for-loved-ones",
+    name: "소중한 이를 위한 지장보살",
+    description: "평안을 바라는 마음을 전해보세요.",
+    items: [
+      {
+        slug: "ksitigarbha",
+        name: "지장보살",
+        image: "/images/curations/ksitigarbha-for-loved-ones/ksitigarbha.png",
+        imageAlt: "지장보살 상품 이미지",
+        href: "https://mkt.shopping.naver.com/link/687392211cb140447c418a97",
+      },
+      {
+        slug: "standing-ksitigarbha",
+        name: "지장보살입상",
+        image: "/images/curations/ksitigarbha-for-loved-ones/standing-ksitigarbha.png",
+        imageAlt: "지장보살입상 상품 이미지",
+        href: "https://mkt.shopping.naver.com/link/69c7a368bae80b60f30cc510",
+      },
+      {
+        slug: "ksitigarbha-buddhist-statue",
+        name: "지장보살불상",
+        image: "/images/curations/ksitigarbha-for-loved-ones/ksitigarbha-buddhist-statue.png",
+        imageAlt: "지장보살불상 상품 이미지",
+        href: "https://mkt.shopping.naver.com/link/69e41d25aa5808771ea68e59",
+      },
+      {
+        slug: "ksitigarbha-statue",
+        name: "지장보살상",
+        image: "/images/curations/ksitigarbha-for-loved-ones/ksitigarbha-statue.png",
+        imageAlt: "지장보살상 상품 이미지",
+        href: "https://mkt.shopping.naver.com/link/6a48ffa7c07ae34f7540f794",
+      },
+      {
+        slug: "ksitigarbha-king",
+        name: "지장왕",
+        image: "/images/curations/ksitigarbha-for-loved-ones/ksitigarbha-king.png",
+        imageAlt: "지장왕 상품 이미지",
+        href: "https://mkt.shopping.naver.com/link/6a48ff56e61f7638275bccf6",
+      },
+    ],
+  },
+  {
+    slug: "laughing-buddha-symbol",
+    name: "복과 웃음을 담은 포대화상",
+    description: "볼수록 기분 좋아지는 상징을 만나보세요.",
+    items: [
+      {
+        slug: "laughing-buddha",
+        name: "포대화상",
+        image: "/images/curations/laughing-buddha-symbol/laughing-buddha.png",
+        imageAlt: "포대화상 상품 이미지",
+        href: "https://mkt.shopping.naver.com/link/6a4901f5f89fad3874ee6121",
+      },
+      {
+        slug: "golden-laughing-buddha",
+        name: "황금포대화상",
+        image: "/images/curations/laughing-buddha-symbol/golden-laughing-buddha.png",
+        imageAlt: "황금포대화상 상품 이미지",
+        href: "https://mkt.shopping.naver.com/link/6a490637c07ae34f7540f795",
+      },
+      {
+        slug: "laughing-buddha-statue",
+        name: "포대화상불상",
+        image: "/images/curations/laughing-buddha-symbol/laughing-buddha-statue.png",
+        imageAlt: "포대화상불상 상품 이미지",
+        href: "https://mkt.shopping.naver.com/link/6a49065dc5db947f36e1260f",
+      },
+      {
+        slug: "laughing-buddha-goods",
+        name: "포대화상굿즈",
+        image: "/images/curations/laughing-buddha-symbol/laughing-buddha-goods.png",
+        imageAlt: "포대화상굿즈 상품 이미지",
+        href: "https://mkt.shopping.naver.com/link/6a49067b2f607413f52662be",
+      },
+      {
+        slug: "budai-monk",
+        name: "포대스님",
+        image: "/images/curations/laughing-buddha-symbol/budai-monk.png",
+        imageAlt: "포대스님 상품 이미지",
+        href: "https://mkt.shopping.naver.com/link/6a4906a72f607413f52662bf",
+      },
+    ],
+  },
+  {
+    slug: "mind-awakening-meditation-tools",
+    name: "마음을 깨우는 명상도구",
+    description: "맑은 울림과 단단한 상징을 만나보세요.",
+    items: [
+      {
+        slug: "singing-bowl",
+        name: "싱잉볼",
+        image: "/images/curations/mind-awakening-meditation-tools/singing-bowl.png",
+        imageAlt: "싱잉볼 상품 이미지",
+        href: "https://mkt.shopping.naver.com/link/69c3bdb601c5cd3461ab419a",
+      },
+      {
+        slug: "vajra",
+        name: "금강저",
+        image: "/images/curations/mind-awakening-meditation-tools/vajra.png",
+        imageAlt: "금강저 상품 이미지",
+        href: "https://mkt.shopping.naver.com/link/6a4907d9c5db947f36e12610",
+      },
+      {
+        slug: "mini-moktak",
+        name: "미니목탁",
+        image: "/images/curations/mind-awakening-meditation-tools/mini-moktak.png",
+        imageAlt: "미니목탁 상품 이미지",
+        href: "https://mkt.shopping.naver.com/link/6a49078be61f7638275bccf7",
+      },
+      {
+        slug: "bajra",
+        name: "바즈라",
+        image: "/images/curations/mind-awakening-meditation-tools/bajra.png",
+        imageAlt: "바즈라 상품 이미지",
+        href: "https://mkt.shopping.naver.com/link/686d254a1fd1ac410798b769",
+      },
+      {
+        slug: "mini-singing-bowl",
+        name: "미니싱잉볼",
+        image: "/images/curations/mind-awakening-meditation-tools/mini-singing-bowl.png",
+        imageAlt: "미니싱잉볼 상품 이미지",
+        href: "https://mkt.shopping.naver.com/link/6a49075ec07ae34f7540f796",
+      },
+    ],
+  },
+  {
+    slug: "good-energy-feng-shui-props",
+    name: "좋은 기운을 들이는 풍수소품",
+    description: "집안에 좋은 흐름을 들여보세요.",
+    items: [
+      {
+        slug: "haetae-statue",
+        name: "해태상",
+        image: "/images/curations/good-energy-feng-shui-props/haetae-statue.png",
+        imageAlt: "해태상 상품 이미지",
+        href: "https://mkt.shopping.naver.com/link/69de1cefc81d717af867d213",
+      },
+      {
+        slug: "three-legged-toad",
+        name: "삼족두꺼비",
+        image: "/images/curations/good-energy-feng-shui-props/three-legged-toad.png",
+        imageAlt: "삼족두꺼비 상품 이미지",
+        href: "https://mkt.shopping.naver.com/link/6a490867bb3426556b4195d5",
+      },
+      {
+        slug: "pollock-talisman",
+        name: "액막이명태",
+        image: "/images/curations/good-energy-feng-shui-props/pollock-talisman.png",
+        imageAlt: "액막이명태 상품 이미지",
+        href: "https://mkt.shopping.naver.com/link/6a490878c5db947f36e12611",
+      },
+      {
+        slug: "mandarin-duck-set",
+        name: "원앙세트",
+        image: "/images/curations/good-energy-feng-shui-props/mandarin-duck-set.png",
+        imageAlt: "원앙세트 상품 이미지",
+        href: "https://mkt.shopping.naver.com/link/6a4908afe61f7638275bccf8",
+      },
+      {
+        slug: "elephant-statue",
+        name: "코끼리조각상",
+        image: "/images/curations/good-energy-feng-shui-props/elephant-statue.png",
+        imageAlt: "코끼리조각상 상품 이미지",
+        href: "https://mkt.shopping.naver.com/link/6a4908dcc5db947f36e12612",
+      },
+    ],
   },
 ];
 
