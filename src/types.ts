@@ -53,6 +53,7 @@ export type TextCuration = {
 export type ProductCurationDetailImage = {
   src: string;
   alt: string;
+  caption?: string;
 };
 
 export type ProductCurationDetailSection = {
@@ -65,6 +66,24 @@ export type ProductCurationDetailSection = {
   items?: string[];
 };
 
+export type ProductCurationDetailSeo = {
+  title?: string;
+  description?: string;
+  primaryKeyword?: string;
+  secondaryKeywords?: string[];
+  keywords?: string[];
+};
+
+export type ProductCurationDetailDescriptionSection = {
+  title?: string;
+  body: string[];
+};
+
+export type ProductCurationDetailFact = {
+  name: string;
+  value: string;
+};
+
 export type ProductCurationDetail = {
   curationSlug: string;
   curationName: string;
@@ -73,6 +92,13 @@ export type ProductCurationDetail = {
   subtitle?: string;
   summary: string;
   introBody?: string[];
+  relatedSearchTerms?: string[];
+  sliderImages?: ProductCurationDetailImage[];
+  descriptionBody?: string[];
+  descriptionSections?: ProductCurationDetailDescriptionSection[];
+  quickFacts?: ProductCurationDetailFact[];
+  faqs?: FAQItem[];
+  seo?: ProductCurationDetailSeo;
   image: string;
   imageAlt: string;
   storeUrl: string;

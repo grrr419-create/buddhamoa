@@ -10,6 +10,10 @@ type Props = {
   description: string;
   pathname: string;
   image?: string;
+  imageAlt?: string;
+  imageWidth?: number | string;
+  imageHeight?: number | string;
+  keywords?: string[];
   robots?: string;
   showHeader?: boolean;
   showMobileShare?: boolean;
@@ -21,6 +25,10 @@ const {
   description,
   pathname,
   image,
+  imageAlt,
+  imageWidth,
+  imageHeight,
+  keywords,
   robots,
   showHeader = true,
   showMobileShare = true,
@@ -126,6 +134,10 @@ const basePath = import.meta.env.BASE_URL || "/";
       description={description}
       pathname={pathname}
       image={image}
+      imageAlt={imageAlt}
+      imageWidth={imageWidth}
+      imageHeight={imageHeight}
+      keywords={keywords}
       robots={robots}
       structuredData={structuredData}
     />

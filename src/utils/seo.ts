@@ -8,6 +8,7 @@ import type {
   CategoryLink,
   FAQItem,
   Product,
+  ProductCurationDetail,
   ProductCuration,
   ProductShort,
   TempleShort,
@@ -359,6 +360,247 @@ export function faqSchema(items: FAQItem[] = faqs) {
       },
     })),
   };
+}
+
+function uniqueValues(values: string[]) {
+  return [...new Set(values.map((value) => value.trim()).filter(Boolean))];
+}
+
+export function curationProductDetailDescriptionText(detail: ProductCurationDetail) {
+  const sectionText = detail.descriptionSections
+    ?.map((section) => [section.title, section.body.join(" ")].filter(Boolean).join(" "))
+    .join(" ");
+  const bodyText = detail.descriptionBody?.join(" ");
+  const fallbackText = [detail.summary, ...(detail.introBody ?? [])].join(" ");
+
+  return sectionText || bodyText || fallbackText;
+}
+
+export function curationProductDetailMeta(detail: ProductCurationDetail) {
+  const pathname = getCurationProductDetailPath(detail.curationSlug, detail.productSlug);
+  const title =
+    detail.seo?.title ?? `${detail.name} | ${detail.curationName} | ${siteConfig.brandName}`;
+  const description = detail.seo?.description ?? detail.summary;
+  const keywords = uniqueValues(detail.seo?.keywords ?? detail.relatedSearchTerms ?? siteConfig.keywords);
+
+  return {
+    pathname,
+    canonicalUrl: absoluteUrl(pathname),
+    title,
+    description,
+    keywords,
+  };
+}
+
+function curationProductDetailImageObjects(detail: ProductCurationDetail, canonicalUrl: string) {
+  const images = detail.sliderImages?.length
+    ? detail.sliderImages
+    : [{ src: detail.image, alt: detail.imageAlt, caption: detail.summary }];
+
+  return images.map((image, index) => {
+    const imageUrl = absoluteUrl(image.src);
+
+    return {
+      "@type": "ImageObject",
+      "@id": `${canonicalUrl}#image-${index + 1}`,
+      contentUrl: imageUrl,
+      url: imageUrl,
+      name: image.alt,
+      caption: image.caption ?? image.alt,
+      inLanguage: "ko-KR",
+      representativeOfPage: index === 0,
+      mainEntityOfPage: {
+        "@id": `${canonicalUrl}#webpage`,
+      },
+    };
+  });
+}
+
+export function curationProductDetailStructuredData(detail: ProductCurationDetail) {
+  const { pathname, canonicalUrl, title, description, keywords } = curationProductDetailMeta(detail);
+  const imageObjects = curationProductDetailImageObjects(detail, canonicalUrl);
+  const imageRefs = imageObjects.map((image) => ({ "@id": image["@id"] }));
+  const imageUrls = imageObjects.map((image) => image.contentUrl);
+  const descriptionText = curationProductDetailDescriptionText(detail);
+  const about = uniqueValues([detail.name, detail.curationName, ...keywords]);
+  const quickFactsText = detail.quickFacts
+    ?.map((fact) => `${fact.name}: ${fact.value}`)
+    .join(" / ");
+  const faqQuestions =
+    detail.faqs?.map((item, index) => ({
+      "@type": "Question",
+      "@id": `${canonicalUrl}#faq-question-${index + 1}`,
+      name: item.question,
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: item.answer,
+      },
+    })) ?? [];
+  const graph = [
+    {
+      "@type": "Organization",
+      "@id": `${siteUrl}#organization`,
+      name: siteConfig.brandName,
+      url: siteUrl,
+      logo: absoluteUrl(siteConfig.brandAssetPath),
+      sameAs: siteConfig.socialProfiles,
+    },
+    {
+      "@type": "WebSite",
+      "@id": `${siteUrl}#website`,
+      name: siteConfig.siteName,
+      url: siteUrl,
+      description: siteConfig.description,
+      inLanguage: "ko-KR",
+      keywords: siteConfig.keywords.join(", "),
+      publisher: {
+        "@id": `${siteUrl}#organization`,
+      },
+    },
+    ...imageObjects,
+    {
+      "@type": "WebPage",
+      "@id": `${canonicalUrl}#webpage`,
+      url: canonicalUrl,
+      name: title,
+      headline: detail.name,
+      description,
+      inLanguage: "ko-KR",
+      keywords: keywords.join(", "),
+      isPartOf: {
+        "@id": `${siteUrl}#website`,
+      },
+      publisher: {
+        "@id": `${siteUrl}#organization`,
+      },
+      primaryImageOfPage: imageRefs[0],
+      image: imageRefs,
+      associatedMedia: imageRefs,
+      about,
+      breadcrumb: {
+        "@id": `${canonicalUrl}#breadcrumb`,
+      },
+      mainContentOfPage: {
+        "@type": "WebPageElement",
+        "@id": `${canonicalUrl}#product-description`,
+        name: `${detail.name} 상품 설명`,
+        text: descriptionText,
+      },
+      ...(detail.quickFacts?.length
+        ? {
+            hasPart: [
+              {
+                "@type": "WebPageElement",
+                "@id": `${canonicalUrl}#quick-facts`,
+                name: "한눈에 보는 상품 정보",
+                text: quickFactsText,
+              },
+            ],
+          }
+        : {}),
+      mainEntity: {
+        "@id": `${canonicalUrl}#product`,
+      },
+    },
+    {
+      "@type": "Product",
+      "@id": `${canonicalUrl}#product`,
+      name: detail.name,
+      description,
+      image: imageUrls,
+      url: canonicalUrl,
+      category: detail.curationName,
+      keywords: keywords.join(", "),
+      brand: {
+        "@type": "Brand",
+        name: siteConfig.brandName,
+      },
+      mainEntityOfPage: {
+        "@id": `${canonicalUrl}#webpage`,
+      },
+      ...(detail.quickFacts?.length
+        ? {
+            additionalProperty: detail.quickFacts.map((fact) => ({
+              "@type": "PropertyValue",
+              name: fact.name,
+              value: fact.value,
+            })),
+          }
+        : {}),
+      offers: {
+        "@type": "Offer",
+        url: detail.storeUrl,
+        availability: "https://schema.org/InStock",
+        priceCurrency: "KRW",
+        seller: {
+          "@id": `${siteUrl}#organization`,
+        },
+      },
+    },
+    {
+      "@type": "Article",
+      "@id": `${canonicalUrl}#article`,
+      headline: detail.descriptionSections?.[0]?.title ?? title,
+      description,
+      articleBody: descriptionText,
+      inLanguage: "ko-KR",
+      image: imageRefs,
+      about,
+      mainEntityOfPage: {
+        "@id": `${canonicalUrl}#webpage`,
+      },
+      publisher: {
+        "@id": `${siteUrl}#organization`,
+      },
+    },
+    {
+      "@type": "BreadcrumbList",
+      "@id": `${canonicalUrl}#breadcrumb`,
+      itemListElement: [
+        {
+          "@type": "ListItem",
+          position: 1,
+          item: {
+            "@id": absoluteUrl("/"),
+            name: siteConfig.siteName,
+          },
+        },
+        {
+          "@type": "ListItem",
+          position: 2,
+          item: {
+            "@id": absoluteUrl(`/#product-curation-${detail.curationSlug}`),
+            name: detail.curationName,
+          },
+        },
+        {
+          "@type": "ListItem",
+          position: 3,
+          item: {
+            "@id": absoluteUrl(pathname),
+            name: detail.name,
+          },
+        },
+      ],
+    },
+    ...faqQuestions,
+    ...(faqQuestions.length
+      ? [
+          {
+            "@type": "FAQPage",
+            "@id": `${canonicalUrl}#faq`,
+            mainEntity: faqQuestions.map((question) => ({ "@id": question["@id"] })),
+          },
+        ]
+      : []),
+  ];
+
+  return [
+    {
+      "@context": "https://schema.org",
+      "@graph": graph,
+    },
+  ];
 }
 
 export function productSchema(product: Product) {
