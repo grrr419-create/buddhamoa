@@ -1,8 +1,0 @@
-<svg width="800" height="640" viewBox="0 0 800 640" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <rect width="800" height="640" rx="28" fill="#F0E4D0"/>
-  <ellipse cx="400" cy="468" rx="132" ry="30" fill="#8A6535"/>
-  <circle cx="400" cy="214" r="56" fill="#B58D53"/>
-  <path d="M322 420C342 340 364 290 400 290C436 290 458 340 478 420H322Z" fill="#C8A56C"/>
-  <path d="M338 420C355 376 376 350 400 350C424 350 445 376 462 420H338Z" fill="#B99259"/>
-  <text x="400" y="560" text-anchor="middle" fill="#5B4B34" font-family="Noto Serif KR, Noto Serif CJK KR, serif" font-size="42">소형 좌불상</text>
-</svg>

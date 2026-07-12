@@ -4,7 +4,6 @@ import {
   curationProductDetails,
   getCurationProductDetailPath,
 } from "../data/curationProductDetails";
-import { products } from "../data/products";
 
 const title = "조회수 통계 | 붓다모아";
 const description = "붓다모아 관리자용 비공개 조회수 통계 페이지입니다.";
@@ -12,7 +11,6 @@ const statsPageLabelEntries = [
   ["/", "홈"],
   ["/contact/", "문의"],
   ["/privacy/", "개인정보처리방침"],
-  ...products.map((product) => [`/products/${product.slug}/`, product.name]),
   ...curationProductDetails.map((detail) => [
     getCurationProductDetailPath(detail.curationSlug, detail.productSlug),
     detail.name,

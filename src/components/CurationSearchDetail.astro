@@ -1,0 +1,239 @@
+---
+import type { ProductCurationDetail } from "../types";
+import OptimizedImage from "./OptimizedImage.astro";
+
+type Props = {
+  detail: ProductCurationDetail;
+};
+
+const { detail } = Astro.props;
+const relatedSearchTerms = detail.relatedSearchTerms ?? [];
+const sliderImages = detail.sliderImages ?? [];
+const quickFacts = detail.quickFacts ?? [];
+const descriptionSections = detail.descriptionSections ?? [];
+const descriptionBody = detail.descriptionBody ?? [];
+const faqs = detail.faqs ?? [];
+---
+
+<div class="curation-detail-sample">
+  <header class="curation-detail-sample__header">
+    <h1 id="curation-detail-title">{detail.name}</h1>
+    <p class="curation-detail-sample__keywords" aria-label="관련 검색어">
+      {relatedSearchTerms.join(" ")}
+    </p>
+  </header>
+
+  <section
+    class="curation-detail-slider"
+    aria-label={`${detail.name} 상품 이미지`}
+    data-curation-slider
+  >
+    <div class="curation-detail-slider__viewport">
+      <div class="curation-detail-slider__track" data-curation-slider-track>
+        {sliderImages.map((image, imageIndex) => (
+          <figure class="curation-detail-slider__slide" data-curation-slider-slide>
+            <OptimizedImage
+              src={image.src}
+              alt={image.alt}
+              width="1100"
+              height="1100"
+              loading={imageIndex === 0 ? "eager" : "lazy"}
+              fetchpriority={imageIndex === 0 ? "high" : "auto"}
+              sizes="(max-width: 680px) calc(100vw - 32px), 600px"
+            />
+            {image.caption && <figcaption>{image.caption}</figcaption>}
+          </figure>
+        ))}
+      </div>
+      <button
+        class="curation-detail-slider__control curation-detail-slider__control--prev"
+        type="button"
+        aria-label="이전 상품 이미지 보기"
+        data-curation-slider-prev
+      >
+        <span aria-hidden="true">‹</span>
+      </button>
+      <button
+        class="curation-detail-slider__control curation-detail-slider__control--next"
+        type="button"
+        aria-label="다음 상품 이미지 보기"
+        data-curation-slider-next
+      >
+        <span aria-hidden="true">›</span>
+      </button>
+    </div>
+    <div class="curation-detail-slider__status" aria-live="off" aria-atomic="true">
+      <span data-curation-slider-count>1 / {sliderImages.length}</span>
+    </div>
+    <div class="curation-detail-slider__thumbnails" aria-label={`${detail.name} 이미지 선택`}>
+      {sliderImages.map((image, imageIndex) => (
+        <button
+          class="curation-detail-slider__thumbnail"
+          type="button"
+          aria-label={`${imageIndex + 1}번째 상품 이미지 보기`}
+          aria-current={imageIndex === 0 ? "true" : undefined}
+          data-curation-slider-thumb
+          data-slide-index={imageIndex}
+        >
+          <OptimizedImage
+            src={image.src}
+            alt=""
+            width="96"
+            height="96"
+            loading="lazy"
+            sizes="58px"
+            optimizedWidths={[80, 160]}
+          />
+        </button>
+      ))}
+    </div>
+  </section>
+
+  {quickFacts.length > 0 && (
+    <section class="curation-detail-facts" aria-labelledby="curation-detail-facts-title">
+      <h2 id="curation-detail-facts-title">한눈에 보는 상품 정보</h2>
+      <dl>
+        {quickFacts.map((fact) => (
+          <div>
+            <dt>{fact.name}</dt>
+            <dd>{fact.value}</dd>
+          </div>
+        ))}
+      </dl>
+    </section>
+  )}
+
+  <div class="curation-detail-description" aria-label={`${detail.name} 상품 설명`}>
+    {descriptionSections.length ? (
+      descriptionSections.map((section) => (
+        <section class="curation-detail-description__section">
+          {section.title && <h2>{section.title}</h2>}
+          <p>{section.body.join(" ")}</p>
+        </section>
+      ))
+    ) : (
+      <section class="curation-detail-description__section">
+        {descriptionBody.map((paragraph) => <p>{paragraph}</p>)}
+      </section>
+    )}
+  </div>
+
+  {faqs.length > 0 && (
+    <section class="curation-detail-faq" aria-labelledby="curation-detail-faq-title">
+      <h2 id="curation-detail-faq-title">자주 묻는 질문</h2>
+      {faqs.map((item) => (
+        <article>
+          <h3>{item.question}</h3>
+          <p>{item.answer}</p>
+        </article>
+      ))}
+    </section>
+  )}
+</div>
+
+<script is:inline>
+  document.querySelectorAll("[data-curation-slider]").forEach((slider) => {
+    if (!(slider instanceof HTMLElement) || slider.dataset.curationSliderReady === "true") return;
+
+    const track = slider.querySelector("[data-curation-slider-track]");
+    const viewport = slider.querySelector(".curation-detail-slider__viewport");
+    const slides = slider.querySelectorAll("[data-curation-slider-slide]");
+    const prevButton = slider.querySelector("[data-curation-slider-prev]");
+    const nextButton = slider.querySelector("[data-curation-slider-next]");
+    const count = slider.querySelector("[data-curation-slider-count]");
+    const thumbnails = slider.querySelectorAll("[data-curation-slider-thumb]");
+
+    if (!(track instanceof HTMLElement) || slides.length <= 1) return;
+
+    slider.dataset.curationSliderReady = "true";
+    let activeIndex = 0;
+    let autoTimer = 0;
+    let restartTimer = 0;
+    let pointerStartX = 0;
+    let pointerStartY = 0;
+
+    const autoDelay = 2000;
+    const resumeDelay = 5500;
+
+    const normalizeIndex = (index) => (index + slides.length) % slides.length;
+
+    const updateSlider = (nextIndex, alignThumbnail = false) => {
+      activeIndex = normalizeIndex(nextIndex);
+      track.style.transform = `translateX(-${activeIndex * 100}%)`;
+      slider.dataset.activeSlide = String(activeIndex);
+
+      if (count) {
+        count.textContent = `${activeIndex + 1} / ${slides.length}`;
+      }
+
+      thumbnails.forEach((thumbnail, thumbnailIndex) => {
+        if (!(thumbnail instanceof HTMLElement)) return;
+
+        if (thumbnailIndex === activeIndex) {
+          thumbnail.setAttribute("aria-current", "true");
+          if (alignThumbnail) {
+            thumbnail.scrollIntoView({ block: "nearest", inline: "center", behavior: "smooth" });
+          }
+        } else {
+          thumbnail.removeAttribute("aria-current");
+        }
+      });
+    };
+
+    const stopAuto = () => {
+      window.clearInterval(autoTimer);
+      window.clearTimeout(restartTimer);
+      autoTimer = 0;
+      restartTimer = 0;
+    };
+
+    const startAuto = () => {
+      stopAuto();
+      autoTimer = window.setInterval(() => {
+        updateSlider(activeIndex + 1);
+      }, autoDelay);
+    };
+
+    const pauseThenResume = () => {
+      stopAuto();
+      restartTimer = window.setTimeout(startAuto, resumeDelay);
+    };
+
+    const goToSlide = (index, isManual = false) => {
+      updateSlider(index, isManual);
+      if (isManual) pauseThenResume();
+    };
+
+    updateSlider(0);
+    startAuto();
+
+    prevButton?.addEventListener("click", () => goToSlide(activeIndex - 1, true));
+    nextButton?.addEventListener("click", () => goToSlide(activeIndex + 1, true));
+
+    thumbnails.forEach((thumbnail) => {
+      thumbnail.addEventListener("click", () => {
+        if (!(thumbnail instanceof HTMLElement)) return;
+
+        const slideIndex = Number(thumbnail.dataset.slideIndex);
+        if (!Number.isFinite(slideIndex)) return;
+
+        goToSlide(slideIndex, true);
+      });
+    });
+
+    viewport?.addEventListener("pointerdown", (event) => {
+      pointerStartX = event.clientX;
+      pointerStartY = event.clientY;
+    });
+
+    viewport?.addEventListener("pointerup", (event) => {
+      const deltaX = event.clientX - pointerStartX;
+      const deltaY = event.clientY - pointerStartY;
+      const isHorizontalSwipe = Math.abs(deltaX) > 44 && Math.abs(deltaX) > Math.abs(deltaY) * 1.35;
+
+      if (!isHorizontalSwipe) return;
+
+      goToSlide(activeIndex + (deltaX < 0 ? 1 : -1), true);
+    });
+  });
+</script>

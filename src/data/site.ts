@@ -107,28 +107,49 @@ export const sellerInfo = {
     "인천광역시 계양구 오조산로45번길 12 유연프라자 7층 705호 (계산동, 유연프라자)",
 };
 
+const holidayNoticeHref = "https://mkt.shopping.naver.com/link/68457bd08dd273404b731bfd";
+
 export const topNotices: TopNotice[] = [
   {
-    slug: "opening-discount",
+    slug: "holiday-shipping-schedule",
     image: "/images/notices/1.png",
+    imageAlt: "붓다모아 휴무 안내와 배송 일정 공지",
+    href: holidayNoticeHref,
+  },
+  {
+    slug: "constitution-day-holiday",
+    image: "/images/notices/2.png",
+    imageAlt: "붓다모아 제헌절 휴무 안내와 배송 일정 공지",
+    href: holidayNoticeHref,
+  },
+  {
+    slug: "summer-holiday-shipping",
+    image: "/images/notices/3.png",
+    imageAlt: "붓다모아 여름휴가 안내와 배송 일정 공지",
+    href: holidayNoticeHref,
+  },
+];
+
+export const secondaryNotices: TopNotice[] = [
+  {
+    slug: "opening-discount",
+    image: "/images/notices/secondary-1.png",
     imageAlt: "초도물량 50% 할인 이벤트 공지",
     href: siteConfig.storeUrl,
   },
   {
     slug: "same-day-shipping",
-    image: "/images/notices/2.png",
+    image: "/images/notices/secondary-2.png",
     imageAlt: "평일 낮 12시까지 주문 시 롯데택배 당일 발송 공지",
     href: siteConfig.storeUrl,
   },
   {
     slug: "notification-review-benefit",
-    image: "/images/notices/3.png",
+    image: "/images/notices/secondary-3.png",
     imageAlt: "알림받기 배송비 할인과 포토 및 동영상 리뷰 포인트 혜택 공지",
     href: siteConfig.storeUrl,
   },
 ];
-
-export const secondaryNotices: TopNotice[] = topNotices.map((notice) => ({ ...notice }));
 
 export const categories: CategoryLink[] = [
   {

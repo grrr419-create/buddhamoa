@@ -1,8 +1,0 @@
-<svg width="800" height="640" viewBox="0 0 800 640" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <rect width="800" height="640" rx="28" fill="#F0E5D4"/>
-  <circle cx="400" cy="200" r="32" fill="#9B7441"/>
-  <rect x="386" y="226" width="28" height="82" rx="14" fill="#B58C55"/>
-  <path d="M280 402C280 334 335 279 403 279C471 279 526 334 526 402V424H280V402Z" fill="#C7A36B"/>
-  <ellipse cx="403" cy="424" rx="124" ry="22" fill="#8A6435"/>
-  <text x="400" y="560" text-anchor="middle" fill="#5B4B34" font-family="Noto Serif KR, Noto Serif CJK KR, serif" font-size="42">청아한 소리의 요령</text>
-</svg>

@@ -362,8 +362,26 @@ export function faqSchema(items: FAQItem[] = faqs) {
   };
 }
 
-function uniqueValues(values: string[]) {
-  return [...new Set(values.map((value) => value.trim()).filter(Boolean))];
+function uniqueValues(values: Array<string | undefined>) {
+  return [...new Set(values.map((value) => value?.trim()).filter(Boolean))] as string[];
+}
+
+function curationProductDetailKeywords(detail: ProductCurationDetail) {
+  return uniqueValues([
+    detail.name,
+    detail.curationName,
+    detail.seo?.primaryKeyword,
+    ...(detail.seo?.secondaryKeywords ?? []),
+    ...(detail.relatedSearchTerms ?? []),
+    ...(detail.seo?.keywords ?? []),
+  ]);
+}
+
+function curationProductDetailEntities(values: string[]) {
+  return values.map((name) => ({
+    "@type": "Thing",
+    name,
+  }));
 }
 
 export function curationProductDetailDescriptionText(detail: ProductCurationDetail) {
@@ -381,7 +399,8 @@ export function curationProductDetailMeta(detail: ProductCurationDetail) {
   const title =
     detail.seo?.title ?? `${detail.name} | ${detail.curationName} | ${siteConfig.brandName}`;
   const description = detail.seo?.description ?? detail.summary;
-  const keywords = uniqueValues(detail.seo?.keywords ?? detail.relatedSearchTerms ?? siteConfig.keywords);
+  const detailKeywords = curationProductDetailKeywords(detail);
+  const keywords = detailKeywords.length ? detailKeywords : siteConfig.keywords;
 
   return {
     pathname,
@@ -423,9 +442,33 @@ export function curationProductDetailStructuredData(detail: ProductCurationDetai
   const imageUrls = imageObjects.map((image) => image.contentUrl);
   const descriptionText = curationProductDetailDescriptionText(detail);
   const about = uniqueValues([detail.name, detail.curationName, ...keywords]);
+  const aboutEntities = curationProductDetailEntities(about);
+  const alternateNames = uniqueValues([
+    ...(detail.relatedSearchTerms ?? []),
+    ...(detail.seo?.secondaryKeywords ?? []),
+  ]).filter((value) => value !== detail.name);
   const quickFactsText = detail.quickFacts
     ?.map((fact) => `${fact.name}: ${fact.value}`)
     .join(" / ");
+  const pageParts = [
+    ...(detail.quickFacts?.length
+      ? [
+          {
+            "@type": "WebPageElement",
+            "@id": `${canonicalUrl}#quick-facts`,
+            name: "한눈에 보는 상품 정보",
+            text: quickFactsText,
+          },
+        ]
+      : []),
+    ...(detail.faqs?.length
+      ? [
+          {
+            "@id": `${canonicalUrl}#faq`,
+          },
+        ]
+      : []),
+  ];
   const faqQuestions =
     detail.faqs?.map((item, index) => ({
       "@type": "Question",
@@ -474,9 +517,11 @@ export function curationProductDetailStructuredData(detail: ProductCurationDetai
         "@id": `${siteUrl}#organization`,
       },
       primaryImageOfPage: imageRefs[0],
+      thumbnailUrl: imageUrls[0],
       image: imageRefs,
       associatedMedia: imageRefs,
-      about,
+      about: aboutEntities,
+      mentions: aboutEntities,
       breadcrumb: {
         "@id": `${canonicalUrl}#breadcrumb`,
       },
@@ -486,18 +531,7 @@ export function curationProductDetailStructuredData(detail: ProductCurationDetai
         name: `${detail.name} 상품 설명`,
         text: descriptionText,
       },
-      ...(detail.quickFacts?.length
-        ? {
-            hasPart: [
-              {
-                "@type": "WebPageElement",
-                "@id": `${canonicalUrl}#quick-facts`,
-                name: "한눈에 보는 상품 정보",
-                text: quickFactsText,
-              },
-            ],
-          }
-        : {}),
+      ...(pageParts.length ? { hasPart: pageParts } : {}),
       mainEntity: {
         "@id": `${canonicalUrl}#product`,
       },
@@ -508,9 +542,11 @@ export function curationProductDetailStructuredData(detail: ProductCurationDetai
       name: detail.name,
       description,
       image: imageUrls,
+      thumbnailUrl: imageUrls[0],
       url: canonicalUrl,
       category: detail.curationName,
       keywords: keywords.join(", "),
+      ...(alternateNames.length ? { alternateName: alternateNames } : {}),
       brand: {
         "@type": "Brand",
         name: siteConfig.brandName,
@@ -545,7 +581,9 @@ export function curationProductDetailStructuredData(detail: ProductCurationDetai
       articleBody: descriptionText,
       inLanguage: "ko-KR",
       image: imageRefs,
-      about,
+      thumbnailUrl: imageUrls[0],
+      about: aboutEntities,
+      mentions: aboutEntities,
       mainEntityOfPage: {
         "@id": `${canonicalUrl}#webpage`,
       },
