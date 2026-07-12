@@ -112,19 +112,19 @@ const holidayNoticeHref = "https://mkt.shopping.naver.com/link/68457bd08dd273404
 export const topNotices: TopNotice[] = [
   {
     slug: "holiday-shipping-schedule",
-    image: "/images/notices/1.png",
+    image: "/images/notices/holiday-shipping-schedule.png",
     imageAlt: "붓다모아 휴무 안내와 배송 일정 공지",
     href: holidayNoticeHref,
   },
   {
     slug: "constitution-day-holiday",
-    image: "/images/notices/2.png",
+    image: "/images/notices/constitution-day-holiday.png",
     imageAlt: "붓다모아 제헌절 휴무 안내와 배송 일정 공지",
     href: holidayNoticeHref,
   },
   {
     slug: "summer-holiday-shipping",
-    image: "/images/notices/3.png",
+    image: "/images/notices/summer-holiday-shipping.png",
     imageAlt: "붓다모아 여름휴가 안내와 배송 일정 공지",
     href: holidayNoticeHref,
   },
