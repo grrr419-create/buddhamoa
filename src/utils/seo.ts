@@ -366,6 +366,30 @@ function uniqueValues(values: Array<string | undefined>) {
   return [...new Set(values.map((value) => value?.trim()).filter(Boolean))] as string[];
 }
 
+function curationProductDetailSectionText(detail: ProductCurationDetail) {
+  return detail.sections
+    .map((section) =>
+      [section.title, ...section.body, ...(section.items ?? [])].filter(Boolean).join(" "),
+    )
+    .join(" ");
+}
+
+function curationProductDetailAutoKeywords(detail: ProductCurationDetail) {
+  const text = [
+    detail.name,
+    detail.curationName,
+    detail.subtitle,
+    detail.summary,
+    ...(detail.introBody ?? []),
+    detail.imageAlt,
+    curationProductDetailSectionText(detail),
+    ...(detail.descriptionSections?.flatMap((section) => [section.title, ...section.body]) ?? []),
+    ...(detail.descriptionBody ?? []),
+  ].join(" ");
+
+  return siteConfig.keywords.filter((keyword) => text.includes(keyword));
+}
+
 function curationProductDetailKeywords(detail: ProductCurationDetail) {
   return uniqueValues([
     detail.name,
@@ -374,6 +398,7 @@ function curationProductDetailKeywords(detail: ProductCurationDetail) {
     ...(detail.seo?.secondaryKeywords ?? []),
     ...(detail.relatedSearchTerms ?? []),
     ...(detail.seo?.keywords ?? []),
+    ...curationProductDetailAutoKeywords(detail),
   ]);
 }
 
@@ -389,9 +414,10 @@ export function curationProductDetailDescriptionText(detail: ProductCurationDeta
     ?.map((section) => [section.title, section.body.join(" ")].filter(Boolean).join(" "))
     .join(" ");
   const bodyText = detail.descriptionBody?.join(" ");
+  const legacySectionText = curationProductDetailSectionText(detail);
   const fallbackText = [detail.summary, ...(detail.introBody ?? [])].join(" ");
 
-  return sectionText || bodyText || fallbackText;
+  return sectionText || bodyText || legacySectionText || fallbackText;
 }
 
 export function curationProductDetailMeta(detail: ProductCurationDetail) {
@@ -412,11 +438,20 @@ export function curationProductDetailMeta(detail: ProductCurationDetail) {
 }
 
 function curationProductDetailImageObjects(detail: ProductCurationDetail, canonicalUrl: string) {
-  const images = detail.sliderImages?.length
-    ? detail.sliderImages
-    : [{ src: detail.image, alt: detail.imageAlt, caption: detail.summary }];
+  const sectionImages = detail.sections.flatMap((section) => [
+    ...(section.images ?? []),
+    ...(section.imageGroups?.flatMap((group) => group.images) ?? []),
+  ]);
+  const fallbackImages = [
+    { src: detail.image, alt: detail.imageAlt, caption: detail.summary },
+    ...sectionImages,
+  ];
+  const images = detail.sliderImages?.length ? detail.sliderImages : fallbackImages;
+  const uniqueImages = images.filter(
+    (image, index, list) => list.findIndex((candidate) => candidate.src === image.src) === index,
+  );
 
-  return images.map((image, index) => {
+  return uniqueImages.map((image, index) => {
     const imageUrl = absoluteUrl(image.src);
 
     return {
