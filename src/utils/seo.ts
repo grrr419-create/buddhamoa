@@ -409,6 +409,69 @@ function curationProductDetailEntities(values: string[]) {
   }));
 }
 
+function curationProductDetailFactValue(detail: ProductCurationDetail, names: string[]) {
+  const normalizedNames = names.map((name) => name.trim());
+  const fact = detail.quickFacts?.find((item) => normalizedNames.includes(item.name.trim()));
+
+  return fact?.value.trim();
+}
+
+function curationProductDetailWordCount(text: string) {
+  return text.split(/\s+/).filter(Boolean).length;
+}
+
+function curationProductDetailDescriptionParts(
+  detail: ProductCurationDetail,
+  canonicalUrl: string,
+) {
+  const sections = detail.descriptionSections?.length
+    ? detail.descriptionSections.map((section, index) => ({
+        "@type": "WebPageElement",
+        "@id": `${canonicalUrl}#description-section-${index + 1}`,
+        name: section.title?.trim() || `${detail.name} 상세 설명 ${index + 1}`,
+        text: section.body.join(" "),
+      }))
+    : detail.descriptionBody?.length
+      ? [
+          {
+            "@type": "WebPageElement",
+            "@id": `${canonicalUrl}#description-section-1`,
+            name: `${detail.name} 상세 설명`,
+            text: detail.descriptionBody.join(" "),
+          },
+        ]
+      : detail.sections.map((section, index) => ({
+          "@type": "WebPageElement",
+          "@id": `${canonicalUrl}#description-section-${index + 1}`,
+          name: section.title,
+          text: [section.title, ...section.body, ...(section.items ?? [])].join(" "),
+        }));
+
+  return sections.filter((section) => section.text.trim());
+}
+
+function curationProductDetailRelatedTermSet(
+  detail: ProductCurationDetail,
+  canonicalUrl: string,
+) {
+  const terms = uniqueValues([...(detail.relatedSearchTerms ?? []), ...(detail.seo?.keywords ?? [])]);
+
+  if (!terms.length) return undefined;
+
+  return {
+    "@type": "DefinedTermSet",
+    "@id": `${canonicalUrl}#related-search-terms`,
+    name: `${detail.name} 관련 검색어`,
+    hasDefinedTerm: terms.map((term) => ({
+      "@type": "DefinedTerm",
+      name: term,
+      inDefinedTermSet: {
+        "@id": `${canonicalUrl}#related-search-terms`,
+      },
+    })),
+  };
+}
+
 export function curationProductDetailDescriptionText(detail: ProductCurationDetail) {
   const sectionText = detail.descriptionSections
     ?.map((section) => [section.title, section.body.join(" ")].filter(Boolean).join(" "))
@@ -476,16 +539,29 @@ export function curationProductDetailStructuredData(detail: ProductCurationDetai
   const imageRefs = imageObjects.map((image) => ({ "@id": image["@id"] }));
   const imageUrls = imageObjects.map((image) => image.contentUrl);
   const descriptionText = curationProductDetailDescriptionText(detail);
+  const descriptionParts = curationProductDetailDescriptionParts(detail, canonicalUrl);
   const about = uniqueValues([detail.name, detail.curationName, ...keywords]);
   const aboutEntities = curationProductDetailEntities(about);
   const alternateNames = uniqueValues([
     ...(detail.relatedSearchTerms ?? []),
     ...(detail.seo?.secondaryKeywords ?? []),
   ]).filter((value) => value !== detail.name);
+  const relatedTermSet = curationProductDetailRelatedTermSet(detail, canonicalUrl);
+  const material = curationProductDetailFactValue(detail, ["재질", "소재"]);
+  const size = curationProductDetailFactValue(detail, ["크기", "사이즈"]);
+  const weight = curationProductDetailFactValue(detail, ["무게", "중량"]);
+  const manufacturer = curationProductDetailFactValue(detail, ["수입사", "제조사"]);
+  const countryOfOrigin = curationProductDetailFactValue(detail, ["원산지", "제조국"]);
   const quickFactsText = detail.quickFacts
     ?.map((fact) => `${fact.name}: ${fact.value}`)
     .join(" / ");
   const pageParts = [
+    {
+      "@type": "WebPageElement",
+      "@id": `${canonicalUrl}#product-summary`,
+      name: `${detail.name} 상품 요약`,
+      text: detail.summary,
+    },
     ...(detail.quickFacts?.length
       ? [
           {
@@ -493,6 +569,14 @@ export function curationProductDetailStructuredData(detail: ProductCurationDetai
             "@id": `${canonicalUrl}#quick-facts`,
             name: "한눈에 보는 상품 정보",
             text: quickFactsText,
+          },
+        ]
+      : []),
+    ...descriptionParts,
+    ...(relatedTermSet
+      ? [
+          {
+            "@id": `${canonicalUrl}#related-search-terms`,
           },
         ]
       : []),
@@ -542,6 +626,8 @@ export function curationProductDetailStructuredData(detail: ProductCurationDetai
       url: canonicalUrl,
       name: title,
       headline: detail.name,
+      ...(detail.subtitle ? { alternativeHeadline: detail.subtitle } : {}),
+      abstract: detail.summary,
       description,
       inLanguage: "ko-KR",
       keywords: keywords.join(", "),
@@ -565,6 +651,7 @@ export function curationProductDetailStructuredData(detail: ProductCurationDetai
         "@id": `${canonicalUrl}#product-description`,
         name: `${detail.name} 상품 설명`,
         text: descriptionText,
+        ...(descriptionParts.length ? { hasPart: descriptionParts.map((part) => ({ "@id": part["@id"] })) } : {}),
       },
       ...(pageParts.length ? { hasPart: pageParts } : {}),
       mainEntity: {
@@ -579,9 +666,29 @@ export function curationProductDetailStructuredData(detail: ProductCurationDetai
       image: imageUrls,
       thumbnailUrl: imageUrls[0],
       url: canonicalUrl,
+      sku: `${detail.curationSlug}-${detail.productSlug}`,
       category: detail.curationName,
       keywords: keywords.join(", "),
       ...(alternateNames.length ? { alternateName: alternateNames } : {}),
+      ...(material ? { material } : {}),
+      ...(size ? { size } : {}),
+      ...(weight ? { weight } : {}),
+      ...(manufacturer
+        ? {
+            manufacturer: {
+              "@type": "Organization",
+              name: manufacturer,
+            },
+          }
+        : {}),
+      ...(countryOfOrigin
+        ? {
+            countryOfOrigin: {
+              "@type": "Country",
+              name: countryOfOrigin,
+            },
+          }
+        : {}),
       brand: {
         "@type": "Brand",
         name: siteConfig.brandName,
@@ -589,6 +696,7 @@ export function curationProductDetailStructuredData(detail: ProductCurationDetai
       mainEntityOfPage: {
         "@id": `${canonicalUrl}#webpage`,
       },
+      sameAs: detail.storeUrl,
       ...(detail.quickFacts?.length
         ? {
             additionalProperty: detail.quickFacts.map((fact) => ({
@@ -612,20 +720,31 @@ export function curationProductDetailStructuredData(detail: ProductCurationDetai
       "@type": "Article",
       "@id": `${canonicalUrl}#article`,
       headline: detail.descriptionSections?.[0]?.title ?? title,
+      ...(detail.subtitle ? { alternativeHeadline: detail.subtitle } : {}),
       description,
+      abstract: detail.summary,
       articleBody: descriptionText,
+      articleSection: detail.curationName,
+      keywords: keywords.join(", "),
+      wordCount: curationProductDetailWordCount(descriptionText),
+      isAccessibleForFree: true,
       inLanguage: "ko-KR",
       image: imageRefs,
       thumbnailUrl: imageUrls[0],
       about: aboutEntities,
       mentions: aboutEntities,
+      ...(descriptionParts.length ? { hasPart: descriptionParts } : {}),
       mainEntityOfPage: {
         "@id": `${canonicalUrl}#webpage`,
+      },
+      author: {
+        "@id": `${siteUrl}#organization`,
       },
       publisher: {
         "@id": `${siteUrl}#organization`,
       },
     },
+    ...(relatedTermSet ? [relatedTermSet] : []),
     {
       "@type": "BreadcrumbList",
       "@id": `${canonicalUrl}#breadcrumb`,

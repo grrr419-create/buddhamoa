@@ -21,6 +21,7 @@ const faqs = detail.faqs ?? [];
     <p class="curation-detail-sample__keywords" aria-label="관련 검색어">
       {relatedSearchTerms.join(" ")}
     </p>
+    <p id="product-summary" class="curation-detail-sample__summary">{detail.summary}</p>
   </header>
 
   <section
@@ -90,7 +91,7 @@ const faqs = detail.faqs ?? [];
   </section>
 
   {quickFacts.length > 0 && (
-    <section class="curation-detail-facts" aria-labelledby="curation-detail-facts-title">
+    <section id="quick-facts" class="curation-detail-facts" aria-labelledby="curation-detail-facts-title">
       <h2 id="curation-detail-facts-title">한눈에 보는 상품 정보</h2>
       <dl>
         {quickFacts.map((fact) => (
@@ -103,23 +104,23 @@ const faqs = detail.faqs ?? [];
     </section>
   )}
 
-  <div class="curation-detail-description" aria-label={`${detail.name} 상품 설명`}>
+  <div id="product-description" class="curation-detail-description" aria-label={`${detail.name} 상품 설명`}>
     {descriptionSections.length ? (
-      descriptionSections.map((section) => (
-        <section class="curation-detail-description__section">
+      descriptionSections.map((section, sectionIndex) => (
+        <section id={`description-section-${sectionIndex + 1}`} class="curation-detail-description__section">
           {section.title && <h2>{section.title}</h2>}
           <p>{section.body.join(" ")}</p>
         </section>
       ))
     ) : (
-      <section class="curation-detail-description__section">
+      <section id="description-section-1" class="curation-detail-description__section">
         {descriptionBody.map((paragraph) => <p>{paragraph}</p>)}
       </section>
     )}
   </div>
 
   {faqs.length > 0 && (
-    <section class="curation-detail-faq" aria-labelledby="curation-detail-faq-title">
+    <section id="faq" class="curation-detail-faq" aria-labelledby="curation-detail-faq-title">
       <h2 id="curation-detail-faq-title">자주 묻는 질문</h2>
       {faqs.map((item) => (
         <article>

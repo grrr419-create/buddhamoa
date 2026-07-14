@@ -46,6 +46,7 @@ const structuredData = curationProductDetailStructuredData(detail);
   imageWidth="1100"
   imageHeight="1100"
   keywords={keywords}
+  ogType="product"
   structuredData={structuredData}
 >
   <section class="curation-detail" aria-labelledby="curation-detail-title">
@@ -82,37 +83,40 @@ const structuredData = curationProductDetailStructuredData(detail);
             {detail.introBody?.map((paragraph) => <p>{paragraph}</p>)}
           </header>
 
-          {detail.sections.map((section, sectionIndex) => (
-            <section
-              class:list={[
-                "curation-detail-section",
-                sectionIndex === 0 && "curation-detail-section--with-divider",
-                isOptionSection(section.title) && "curation-detail-section--option",
-              ]}
-            >
-              <h2>{section.title}</h2>
-              {getSectionImageGroups(section).map((group) => (
-                <div class="curation-detail-section__images">
-                  {group.images.map((image) => (
-                    <OptimizedImage
-                      src={image.src}
-                      alt={image.alt}
-                      width="1100"
-                      height="1100"
-                      loading="lazy"
-                      sizes="(max-width: 680px) calc(100vw - 32px), 600px"
-                    />
-                  ))}
-                </div>
-              ))}
-              {section.body.map((paragraph) => <p>{paragraph}</p>)}
-              {section.items && section.items.length > 0 && (
-                <ul class="curation-detail-section__list">
-                  {section.items.map((item) => <li>{item}</li>)}
-                </ul>
-              )}
-            </section>
-          ))}
+          <div id="product-description">
+            {detail.sections.map((section, sectionIndex) => (
+              <section
+                id={`description-section-${sectionIndex + 1}`}
+                class:list={[
+                  "curation-detail-section",
+                  sectionIndex === 0 && "curation-detail-section--with-divider",
+                  isOptionSection(section.title) && "curation-detail-section--option",
+                ]}
+              >
+                <h2>{section.title}</h2>
+                {getSectionImageGroups(section).map((group) => (
+                  <div class="curation-detail-section__images">
+                    {group.images.map((image) => (
+                      <OptimizedImage
+                        src={image.src}
+                        alt={image.alt}
+                        width="1100"
+                        height="1100"
+                        loading="lazy"
+                        sizes="(max-width: 680px) calc(100vw - 32px), 600px"
+                      />
+                    ))}
+                  </div>
+                ))}
+                {section.body.map((paragraph) => <p>{paragraph}</p>)}
+                {section.items && section.items.length > 0 && (
+                  <ul class="curation-detail-section__list">
+                    {section.items.map((item) => <li>{item}</li>)}
+                  </ul>
+                )}
+              </section>
+            ))}
+          </div>
         </>
       )}
     </article>

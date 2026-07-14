@@ -3352,6 +3352,15 @@ section {
   word-break: keep-all;
 }
 
+.curation-detail-sample__summary {
+  max-width: 68ch;
+  margin: 2px 0 0;
+  color: var(--ink-soft);
+  font-size: 1.06rem;
+  line-height: 1.64;
+  word-break: keep-all;
+}
+
 .curation-detail-slider {
   display: grid;
   gap: 10px;
@@ -3665,6 +3674,11 @@ section {
   .curation-detail-sample__keywords {
     font-size: 0.94rem;
     line-height: 1.48;
+  }
+
+  .curation-detail-sample__summary {
+    font-size: 0.98rem;
+    line-height: 1.56;
   }
 
   .curation-detail-slider__viewport {

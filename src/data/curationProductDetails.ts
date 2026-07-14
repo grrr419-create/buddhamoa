@@ -5,6 +5,10 @@ import {
   standardDeliveryFact,
   standardDeliveryFaq,
 } from "./curationProductDetailHelpers";
+import {
+  practiceSpaceBuddhaDetailOverrides,
+  practiceSpaceBuddhaPublishedDetailKeys,
+} from "./practiceSpaceBuddhaDetails";
 import { productCurations } from "./productCurations";
 
 export function getCurationProductDetailPath(curationSlug: string, productSlug: string) {
@@ -46,6 +50,7 @@ const publishedCurationProductDetailKeys = new Set([
   "home-buddha-statues/medium-buddha-statue",
   "home-buddha-statues/interior-buddha-statue",
   "home-buddha-statues/buddha-object",
+  ...practiceSpaceBuddhaPublishedDetailKeys,
 ]);
 
 const buddhistFrogImageBase =
@@ -667,6 +672,7 @@ const interiorBuddhaStatueImageBase =
 const buddhaObjectImageBase = "/images/curation-details/home-buddha-statues/buddha-object";
 
 const curationProductDetailOverrides: Record<string, Partial<ProductCurationDetail>> = {
+  ...practiceSpaceBuddhaDetailOverrides,
   "emotional-buddhist-goods/buddhist-frog": defineSearchSliderCurationDetail({
     name: "불교개구리",
     subtitle: "작고 귀여운 도기 오브제",

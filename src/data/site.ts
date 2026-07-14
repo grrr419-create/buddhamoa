@@ -48,6 +48,12 @@ export const siteConfig = {
     "불교굿즈",
     "불교용품",
     "불상",
+    "부처상",
+    "부처님불상",
+    "약사여래불",
+    "아미타불",
+    "석가모니불상",
+    "가정용불상",
     "108염주",
     "목탁",
     "국립중앙박물관굿즈",
@@ -306,48 +312,6 @@ export const templeShorts: TempleShort[] = [
 ];
 
 export const postTempleCurations: TextCuration[] = [
-  {
-    slug: "practice-space-buddha",
-    name: "신행 공간의 중심 부처님",
-    description: "집 안에 차분한 평온을 들여보세요.",
-    items: [
-      {
-        slug: "buddha-statue",
-        name: "부처상",
-        image: "/images/curations/practice-space-buddha/buddha-statue.png",
-        imageAlt: "부처상 상품 이미지",
-        href: "https://mkt.shopping.naver.com/link/69dcd533a8076a338797cb47",
-      },
-      {
-        slug: "medicine-buddha",
-        name: "약사여래불",
-        image: "/images/curations/practice-space-buddha/medicine-buddha.png",
-        imageAlt: "약사여래불 상품 이미지",
-        href: "https://mkt.shopping.naver.com/link/6a48fc81a84c611cbff4cc59",
-      },
-      {
-        slug: "buddha-statue-figure",
-        name: "부처님불상",
-        image: "/images/curations/practice-space-buddha/buddha-statue-figure.png",
-        imageAlt: "부처님불상 상품 이미지",
-        href: "https://mkt.shopping.naver.com/link/6a48fd92f89fad3874ee6120",
-      },
-      {
-        slug: "amitabha-buddha",
-        name: "아미타불",
-        image: "/images/curations/practice-space-buddha/amitabha-buddha.png",
-        imageAlt: "아미타불 상품 이미지",
-        href: "https://mkt.shopping.naver.com/link/6a48fcb1bb3426556b4195d2",
-      },
-      {
-        slug: "shakyamuni-buddha",
-        name: "석가모니불상",
-        image: "/images/curations/practice-space-buddha/shakyamuni-buddha.png",
-        imageAlt: "석가모니불상 상품 이미지",
-        href: "https://mkt.shopping.naver.com/link/69d9b2cba8076a338797c877",
-      },
-    ],
-  },
   {
     slug: "avalokitesvara-symbol",
     name: "자비의 상징 관세음보살",

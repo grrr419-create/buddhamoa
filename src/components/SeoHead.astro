@@ -12,6 +12,7 @@ type Props = {
   imageWidth?: number | string;
   imageHeight?: number | string;
   keywords?: string[];
+  ogType?: string;
   robots?: string;
   structuredData?: Record<string, unknown>[];
 };
@@ -25,7 +26,8 @@ const {
   imageWidth = 1731,
   imageHeight = 909,
   keywords = siteConfig.keywords,
-  robots = "index,follow,max-image-preview:large",
+  ogType = "website",
+  robots = "index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1",
   structuredData = [],
 } = Astro.props;
 
@@ -54,6 +56,7 @@ const faviconPath = withBase("/images/brand/파비콘.png");
 <meta name="naver-site-verification" content="b5dd7ca25a2cf1ee3251a71263144079a7da3f51" />
 <meta name="robots" content={robots} />
 <meta name="theme-color" content="#ffffff" />
+<meta name="thumbnail" content={imageUrl} />
 <link rel="icon" type="image/png" href={faviconPath} />
 <link rel="shortcut icon" type="image/png" href={faviconPath} />
 <link rel="apple-touch-icon" href={faviconPath} />
@@ -65,12 +68,13 @@ const faviconPath = withBase("/images/brand/파비콘.png");
 <meta itemprop="description" content={description} />
 <meta itemprop="image" content={imageUrl} />
 
-<meta property="og:type" content="website" />
+<meta property="og:type" content={ogType} />
 <meta property="og:locale" content="ko_KR" />
 <meta property="og:title" content={title} />
 <meta property="og:description" content={description} />
 <meta property="og:url" content={canonical} />
 <meta property="og:image" content={imageUrl} />
+<meta property="og:image:url" content={imageUrl} />
 <meta property="og:image:secure_url" content={imageUrl} />
 {imageType && <meta property="og:image:type" content={imageType} />}
 <meta property="og:image:width" content={String(imageWidth)} />
@@ -79,6 +83,7 @@ const faviconPath = withBase("/images/brand/파비콘.png");
 <meta property="og:site_name" content="붓다모아" />
 
 <meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:url" content={canonical} />
 <meta name="twitter:title" content={title} />
 <meta name="twitter:description" content={description} />
 <meta name="twitter:image" content={imageUrl} />

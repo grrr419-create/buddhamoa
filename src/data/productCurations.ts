@@ -293,6 +293,43 @@ const curationProductItems: Partial<Record<CurationSlug, ProductCuration["items"
       href: "https://mkt.shopping.naver.com/link/688f0191f6028f0734cd8327",
     },
   ],
+  "practice-space-buddha": [
+    {
+      slug: "buddha-statue",
+      name: "부처상",
+      image: "/images/curations/practice-space-buddha/buddha-statue.png",
+      imageAlt: "부처상 상품 이미지",
+      href: "https://mkt.shopping.naver.com/link/69dcd533a8076a338797cb47",
+    },
+    {
+      slug: "medicine-buddha",
+      name: "약사여래불",
+      image: "/images/curations/practice-space-buddha/medicine-buddha.png",
+      imageAlt: "약사여래불 상품 이미지",
+      href: "https://mkt.shopping.naver.com/link/6a48fc81a84c611cbff4cc59",
+    },
+    {
+      slug: "buddha-statue-figure",
+      name: "부처님불상",
+      image: "/images/curations/practice-space-buddha/buddha-statue-figure.png",
+      imageAlt: "부처님불상 상품 이미지",
+      href: "https://mkt.shopping.naver.com/link/6a48fd92f89fad3874ee6120",
+    },
+    {
+      slug: "amitabha-buddha",
+      name: "아미타불",
+      image: "/images/curations/practice-space-buddha/amitabha-buddha.png",
+      imageAlt: "아미타불 상품 이미지",
+      href: "https://mkt.shopping.naver.com/link/6a48fcb1bb3426556b4195d2",
+    },
+    {
+      slug: "shakyamuni-buddha",
+      name: "석가모니불상",
+      image: "/images/curations/practice-space-buddha/shakyamuni-buddha.png",
+      imageAlt: "석가모니불상 상품 이미지",
+      href: "https://mkt.shopping.naver.com/link/69d9b2cba8076a338797c877",
+    },
+  ],
 };
 
 export const productCurations: ProductCuration[] = curationNames.flatMap(([slug, name, description]) => {
