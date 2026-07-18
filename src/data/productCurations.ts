@@ -52,6 +52,11 @@ const curationNames = [
     "지장보살부터 지장왕까지 평안을 바라는 마음을 담은 지장보살 계열 불상을 안내합니다.",
   ],
   [
+    "laughing-buddha-symbol",
+    "복과 웃음을 담은 포대화상",
+    "포대화상부터 포대스님까지 웃음과 넉넉함의 상징을 담은 불교 소품을 안내합니다.",
+  ],
+  [
     "prayer-gifts",
     "소중한 이를 위한 기도용품",
     "부모님, 지인, 초심자에게 선물하기 좋은 기도용품과 수행 소품을 모았습니다.",
@@ -407,6 +412,43 @@ const curationProductItems: Partial<Record<CurationSlug, ProductCuration["items"
       image: "/images/curations/ksitigarbha-for-loved-ones/ksitigarbha-king.png",
       imageAlt: "지장왕 초미니 나무불상 상품 이미지",
       href: "https://mkt.shopping.naver.com/link/6a48ff56e61f7638275bccf6",
+    },
+  ],
+  "laughing-buddha-symbol": [
+    {
+      slug: "laughing-buddha",
+      name: "포대화상",
+      image: "/images/curations/laughing-buddha-symbol/laughing-buddha.png",
+      imageAlt: "포대화상 금불상 미륵상 불교굿즈 상품 이미지",
+      href: "https://mkt.shopping.naver.com/link/6a4901f5f89fad3874ee6121",
+    },
+    {
+      slug: "golden-laughing-buddha",
+      name: "황금포대화상",
+      image: "/images/curations/laughing-buddha-symbol/golden-laughing-buddha.png",
+      imageAlt: "황금포대화상 포대스님 금불상 상품 이미지",
+      href: "https://mkt.shopping.naver.com/link/6a490637c07ae34f7540f795",
+    },
+    {
+      slug: "laughing-buddha-statue",
+      name: "포대화상불상",
+      image: "/images/curations/laughing-buddha-symbol/laughing-buddha-statue.png",
+      imageAlt: "포대화상불상 미륵불상 나무불상 상품 이미지",
+      href: "https://mkt.shopping.naver.com/link/6a49065dc5db947f36e1260f",
+    },
+    {
+      slug: "laughing-buddha-goods",
+      name: "포대화상굿즈",
+      image: "/images/curations/laughing-buddha-symbol/laughing-buddha-goods.png",
+      imageAlt: "포대화상굿즈 미륵불상 돌불상풍 불교굿즈 상품 이미지",
+      href: "https://mkt.shopping.naver.com/link/6a49067b2f607413f52662be",
+    },
+    {
+      slug: "budai-monk",
+      name: "포대스님",
+      image: "/images/curations/laughing-buddha-symbol/budai-monk.png",
+      imageAlt: "포대스님 상아과 미륵불상 상품 이미지",
+      href: "https://mkt.shopping.naver.com/link/6a4906a72f607413f52662bf",
     },
   ],
 };

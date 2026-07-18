@@ -95,6 +95,24 @@ export const siteConfig = {
     "목불상",
     "나무불상",
     "단주",
+    "포대화상",
+    "포대스님",
+    "황금포대화상",
+    "포대화상불상",
+    "포대화상굿즈",
+    "달마상",
+    "달마",
+    "달마대사",
+    "미륵",
+    "미륵상",
+    "미륵불",
+    "미륵불상",
+    "금불상",
+    "돌불상",
+    "돌부처",
+    "석불",
+    "석불상",
+    "상아과",
   ],
 };
 
@@ -332,48 +350,6 @@ export const templeShorts: TempleShort[] = [
 ];
 
 export const postTempleCurations: TextCuration[] = [
-  {
-    slug: "laughing-buddha-symbol",
-    name: "복과 웃음을 담은 포대화상",
-    description: "볼수록 기분 좋아지는 상징을 만나보세요.",
-    items: [
-      {
-        slug: "laughing-buddha",
-        name: "포대화상",
-        image: "/images/curations/laughing-buddha-symbol/laughing-buddha.png",
-        imageAlt: "포대화상 상품 이미지",
-        href: "https://mkt.shopping.naver.com/link/6a4901f5f89fad3874ee6121",
-      },
-      {
-        slug: "golden-laughing-buddha",
-        name: "황금포대화상",
-        image: "/images/curations/laughing-buddha-symbol/golden-laughing-buddha.png",
-        imageAlt: "황금포대화상 상품 이미지",
-        href: "https://mkt.shopping.naver.com/link/6a490637c07ae34f7540f795",
-      },
-      {
-        slug: "laughing-buddha-statue",
-        name: "포대화상불상",
-        image: "/images/curations/laughing-buddha-symbol/laughing-buddha-statue.png",
-        imageAlt: "포대화상불상 상품 이미지",
-        href: "https://mkt.shopping.naver.com/link/6a49065dc5db947f36e1260f",
-      },
-      {
-        slug: "laughing-buddha-goods",
-        name: "포대화상굿즈",
-        image: "/images/curations/laughing-buddha-symbol/laughing-buddha-goods.png",
-        imageAlt: "포대화상굿즈 상품 이미지",
-        href: "https://mkt.shopping.naver.com/link/6a49067b2f607413f52662be",
-      },
-      {
-        slug: "budai-monk",
-        name: "포대스님",
-        image: "/images/curations/laughing-buddha-symbol/budai-monk.png",
-        imageAlt: "포대스님 상품 이미지",
-        href: "https://mkt.shopping.naver.com/link/6a4906a72f607413f52662bf",
-      },
-    ],
-  },
   {
     slug: "mind-awakening-meditation-tools",
     name: "마음을 깨우는 명상도구",
