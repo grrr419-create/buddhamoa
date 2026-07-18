@@ -46,13 +46,18 @@ const afterSecondaryNoticeCurationSlugs = [
   "practice-space-buddha",
   "compassion-symbols",
   "ksitigarbha-for-loved-ones",
-  "laughing-buddha-symbol",
 ];
+const afterTempleShortsCurationSlugs = ["laughing-buddha-symbol"];
 const afterSecondaryNoticeProductCurations = productCurations.filter(
   (curation) => afterSecondaryNoticeCurationSlugs.includes(curation.slug),
 );
+const afterTempleShortsProductCurations = productCurations.filter(
+  (curation) => afterTempleShortsCurationSlugs.includes(curation.slug),
+);
 const primaryProductCurations = productCurations.filter(
-  (curation) => !afterSecondaryNoticeCurationSlugs.includes(curation.slug),
+  (curation) =>
+    !afterSecondaryNoticeCurationSlugs.includes(curation.slug) &&
+    !afterTempleShortsCurationSlugs.includes(curation.slug),
 );
 const [productCurationsBeforeShorts, productCurationsAfterShorts] = splitAfterSlug(
   primaryProductCurations,
@@ -97,6 +102,7 @@ const postTempleCurationsAfterTempleShorts = postTempleCurations;
   <LandingProductCurationsSection curations={afterSecondaryNoticeProductCurations} />
   <LandingTextCurationsSection curations={postTempleCurationsBeforeTempleShorts} />
   <LandingTempleShortsSection shorts={templeShorts} />
+  <LandingProductCurationsSection curations={afterTempleShortsProductCurations} />
   <LandingTextCurationsSection curations={postTempleCurationsAfterTempleShorts} />
   <MobileInfiniteScroller />
 
