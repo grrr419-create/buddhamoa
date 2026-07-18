@@ -90,6 +90,26 @@ export const siteConfig = {
     "소원용품",
     "목어",
     "고양이목탁",
+    "해태상",
+    "해태조각상",
+    "풍수지리동물",
+    "복두꺼비",
+    "삼족두꺼비",
+    "두꺼비상",
+    "액막이명태",
+    "액막이북어",
+    "차량용명태",
+    "원앙세트",
+    "원앙새",
+    "목각기러기",
+    "목기러기",
+    "전통공예",
+    "코끼리조각상",
+    "코끼리조각",
+    "코끼리모형",
+    "집들이선물",
+    "개업선물",
+    "풍수지리",
     "수월관음",
     "수월관음상",
     "관세음보살",
@@ -367,48 +387,6 @@ export const templeShorts: TempleShort[] = [
 ];
 
 export const postTempleCurations: TextCuration[] = [
-  {
-    slug: "good-energy-feng-shui-props",
-    name: "좋은 기운을 들이는 풍수소품",
-    description: "집안에 좋은 흐름을 들여보세요.",
-    items: [
-      {
-        slug: "haetae-statue",
-        name: "해태상",
-        image: "/images/curations/good-energy-feng-shui-props/haetae-statue.png",
-        imageAlt: "해태상 상품 이미지",
-        href: "https://mkt.shopping.naver.com/link/69de1cefc81d717af867d213",
-      },
-      {
-        slug: "three-legged-toad",
-        name: "삼족두꺼비",
-        image: "/images/curations/good-energy-feng-shui-props/three-legged-toad.png",
-        imageAlt: "삼족두꺼비 상품 이미지",
-        href: "https://mkt.shopping.naver.com/link/6a490867bb3426556b4195d5",
-      },
-      {
-        slug: "pollock-talisman",
-        name: "액막이명태",
-        image: "/images/curations/good-energy-feng-shui-props/pollock-talisman.png",
-        imageAlt: "액막이명태 상품 이미지",
-        href: "https://mkt.shopping.naver.com/link/6a490878c5db947f36e12611",
-      },
-      {
-        slug: "mandarin-duck-set",
-        name: "원앙세트",
-        image: "/images/curations/good-energy-feng-shui-props/mandarin-duck-set.png",
-        imageAlt: "원앙세트 상품 이미지",
-        href: "https://mkt.shopping.naver.com/link/6a4908afe61f7638275bccf8",
-      },
-      {
-        slug: "elephant-statue",
-        name: "코끼리조각상",
-        image: "/images/curations/good-energy-feng-shui-props/elephant-statue.png",
-        imageAlt: "코끼리조각상 상품 이미지",
-        href: "https://mkt.shopping.naver.com/link/6a4908dcc5db947f36e12612",
-      },
-    ],
-  },
 ];
 
 export const faqs: FAQItem[] = [

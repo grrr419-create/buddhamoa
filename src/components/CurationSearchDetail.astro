@@ -33,15 +33,25 @@ const faqs = detail.faqs ?? [];
       <div class="curation-detail-slider__track" data-curation-slider-track>
         {sliderImages.map((image, imageIndex) => (
           <figure class="curation-detail-slider__slide" data-curation-slider-slide>
-            <OptimizedImage
-              src={image.src}
-              alt={image.alt}
-              width="1100"
-              height="1100"
-              loading={imageIndex === 0 ? "eager" : "lazy"}
-              fetchpriority={imageIndex === 0 ? "high" : "auto"}
-              sizes="(max-width: 680px) calc(100vw - 32px), 600px"
-            />
+            <a
+              class="curation-detail-slider__image-link"
+              href={detail.storeUrl}
+              target="_blank"
+              rel="nofollow noopener noreferrer"
+              data-track={`curation_detail_image_${detail.curationSlug}_${detail.productSlug}`}
+              data-curation-slider-store-link
+              aria-label={`${detail.name} 가격과 옵션 확인하기`}
+            >
+              <OptimizedImage
+                src={image.src}
+                alt={image.alt}
+                width="1100"
+                height="1100"
+                loading={imageIndex === 0 ? "eager" : "lazy"}
+                fetchpriority={imageIndex === 0 ? "high" : "auto"}
+                sizes="(max-width: 680px) calc(100vw - 32px), 600px"
+              />
+            </a>
             {image.caption && <figcaption>{image.caption}</figcaption>}
           </figure>
         ))}
@@ -143,6 +153,7 @@ const faqs = detail.faqs ?? [];
     const nextButton = slider.querySelector("[data-curation-slider-next]");
     const count = slider.querySelector("[data-curation-slider-count]");
     const thumbnails = slider.querySelectorAll("[data-curation-slider-thumb]");
+    const storeLinks = slider.querySelectorAll("[data-curation-slider-store-link]");
 
     if (!(track instanceof HTMLElement) || slides.length <= 1) return;
 
@@ -152,6 +163,7 @@ const faqs = detail.faqs ?? [];
     let restartTimer = 0;
     let pointerStartX = 0;
     let pointerStartY = 0;
+    let didSwipe = false;
 
     const autoDelay = 2000;
     const resumeDelay = 5500;
@@ -225,6 +237,7 @@ const faqs = detail.faqs ?? [];
     viewport?.addEventListener("pointerdown", (event) => {
       pointerStartX = event.clientX;
       pointerStartY = event.clientY;
+      didSwipe = false;
     });
 
     viewport?.addEventListener("pointerup", (event) => {
@@ -234,7 +247,18 @@ const faqs = detail.faqs ?? [];
 
       if (!isHorizontalSwipe) return;
 
+      didSwipe = true;
       goToSlide(activeIndex + (deltaX < 0 ? 1 : -1), true);
+      window.setTimeout(() => {
+        didSwipe = false;
+      }, 0);
+    });
+
+    storeLinks.forEach((link) => {
+      link.addEventListener("click", (event) => {
+        if (!didSwipe) return;
+        event.preventDefault();
+      });
     });
   });
 </script>

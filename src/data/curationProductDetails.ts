@@ -10,6 +10,10 @@ import {
   compassionSymbolsPublishedDetailKeys,
 } from "./compassionSymbolsDetails";
 import {
+  goodEnergyFengShuiPropsDetailOverrides,
+  goodEnergyFengShuiPropsPublishedDetailKeys,
+} from "./goodEnergyFengShuiPropsDetails";
+import {
   ksitigarbhaDetailOverrides,
   ksitigarbhaPublishedDetailKeys,
 } from "./ksitigarbhaDetails";
@@ -71,6 +75,7 @@ const publishedCurationProductDetailKeys = new Set([
   ...ksitigarbhaPublishedDetailKeys,
   ...laughingBuddhaSymbolPublishedDetailKeys,
   ...mindAwakeningMeditationToolsPublishedDetailKeys,
+  ...goodEnergyFengShuiPropsPublishedDetailKeys,
 ]);
 
 const buddhistFrogImageBase =
@@ -697,6 +702,7 @@ const curationProductDetailOverrides: Record<string, Partial<ProductCurationDeta
   ...ksitigarbhaDetailOverrides,
   ...laughingBuddhaSymbolDetailOverrides,
   ...mindAwakeningMeditationToolsDetailOverrides,
+  ...goodEnergyFengShuiPropsDetailOverrides,
   "emotional-buddhist-goods/buddhist-frog": defineSearchSliderCurationDetail({
     name: "불교개구리",
     subtitle: "작고 귀여운 도기 오브제",

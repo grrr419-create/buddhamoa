@@ -62,6 +62,11 @@ const curationNames = [
     "싱잉볼, 금강저, 미니목탁처럼 맑은 울림과 단단한 상징을 담은 명상 도구를 안내합니다.",
   ],
   [
+    "good-energy-feng-shui-props",
+    "좋은 기운을 들이는 풍수소품",
+    "해태상, 삼족두꺼비, 액막이명태처럼 공간에 좋은 의미를 더하는 전통 상징 소품을 안내합니다.",
+  ],
+  [
     "prayer-gifts",
     "소중한 이를 위한 기도용품",
     "부모님, 지인, 초심자에게 선물하기 좋은 기도용품과 수행 소품을 모았습니다.",
@@ -491,6 +496,43 @@ const curationProductItems: Partial<Record<CurationSlug, ProductCuration["items"
       image: "/images/curations/mind-awakening-meditation-tools/mini-singing-bowl.png",
       imageAlt: "미니싱잉볼 싱잉볼 명상종 요가종 상품 이미지",
       href: "https://mkt.shopping.naver.com/link/6a49075ec07ae34f7540f796",
+    },
+  ],
+  "good-energy-feng-shui-props": [
+    {
+      slug: "haetae-statue",
+      name: "해태상",
+      image: "/images/curations/good-energy-feng-shui-props/haetae-statue.png",
+      imageAlt: "해태상 해태조각상 풍수지리동물 상품 이미지",
+      href: "https://mkt.shopping.naver.com/link/69de1cefc81d717af867d213",
+    },
+    {
+      slug: "three-legged-toad",
+      name: "삼족두꺼비",
+      image: "/images/curations/good-energy-feng-shui-props/three-legged-toad.png",
+      imageAlt: "삼족두꺼비 복두꺼비 두꺼비상 상품 이미지",
+      href: "https://mkt.shopping.naver.com/link/6a490867bb3426556b4195d5",
+    },
+    {
+      slug: "pollock-talisman",
+      name: "액막이명태",
+      image: "/images/curations/good-energy-feng-shui-props/pollock-talisman.png",
+      imageAlt: "액막이명태 액막이북어 차량용명태 상품 이미지",
+      href: "https://mkt.shopping.naver.com/link/6a490878c5db947f36e12611",
+    },
+    {
+      slug: "mandarin-duck-set",
+      name: "원앙세트",
+      image: "/images/curations/good-energy-feng-shui-props/mandarin-duck-set.png",
+      imageAlt: "원앙세트 원앙새 목각기러기 상품 이미지",
+      href: "https://mkt.shopping.naver.com/link/6a4908afe61f7638275bccf8",
+    },
+    {
+      slug: "elephant-statue",
+      name: "코끼리조각상",
+      image: "/images/curations/good-energy-feng-shui-props/elephant-statue.png",
+      imageAlt: "코끼리조각상 집들이선물 개업선물 상품 이미지",
+      href: "https://mkt.shopping.naver.com/link/6a4908dcc5db947f36e12612",
     },
   ],
 };
