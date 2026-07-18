@@ -6,6 +6,14 @@ import {
   standardDeliveryFaq,
 } from "./curationProductDetailHelpers";
 import {
+  compassionSymbolsDetailOverrides,
+  compassionSymbolsPublishedDetailKeys,
+} from "./compassionSymbolsDetails";
+import {
+  ksitigarbhaDetailOverrides,
+  ksitigarbhaPublishedDetailKeys,
+} from "./ksitigarbhaDetails";
+import {
   practiceSpaceBuddhaDetailOverrides,
   practiceSpaceBuddhaPublishedDetailKeys,
 } from "./practiceSpaceBuddhaDetails";
@@ -51,6 +59,8 @@ const publishedCurationProductDetailKeys = new Set([
   "home-buddha-statues/interior-buddha-statue",
   "home-buddha-statues/buddha-object",
   ...practiceSpaceBuddhaPublishedDetailKeys,
+  ...compassionSymbolsPublishedDetailKeys,
+  ...ksitigarbhaPublishedDetailKeys,
 ]);
 
 const buddhistFrogImageBase =
@@ -673,6 +683,8 @@ const buddhaObjectImageBase = "/images/curation-details/home-buddha-statues/budd
 
 const curationProductDetailOverrides: Record<string, Partial<ProductCurationDetail>> = {
   ...practiceSpaceBuddhaDetailOverrides,
+  ...compassionSymbolsDetailOverrides,
+  ...ksitigarbhaDetailOverrides,
   "emotional-buddhist-goods/buddhist-frog": defineSearchSliderCurationDetail({
     name: "불교개구리",
     subtitle: "작고 귀여운 도기 오브제",

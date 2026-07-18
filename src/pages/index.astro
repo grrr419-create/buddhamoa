@@ -42,19 +42,23 @@ function splitAfterSlug<Item extends { slug: string }>(items: Item[], slug: stri
   return index >= 0 ? [items.slice(0, index + 1), items.slice(index + 1)] : [items, []];
 }
 
-const afterSecondaryNoticeCurationSlug = "practice-space-buddha";
+const afterSecondaryNoticeCurationSlugs = [
+  "practice-space-buddha",
+  "compassion-symbols",
+  "ksitigarbha-for-loved-ones",
+];
 const afterSecondaryNoticeProductCurations = productCurations.filter(
-  (curation) => curation.slug === afterSecondaryNoticeCurationSlug,
+  (curation) => afterSecondaryNoticeCurationSlugs.includes(curation.slug),
 );
 const primaryProductCurations = productCurations.filter(
-  (curation) => curation.slug !== afterSecondaryNoticeCurationSlug,
+  (curation) => !afterSecondaryNoticeCurationSlugs.includes(curation.slug),
 );
 const [productCurationsBeforeShorts, productCurationsAfterShorts] = splitAfterSlug(
   primaryProductCurations,
   "finger-prayer-beads",
 );
-const [postTempleCurationsBeforeTempleShorts, postTempleCurationsAfterTempleShorts] =
-  splitAfterSlug(postTempleCurations, "ksitigarbha-for-loved-ones");
+const postTempleCurationsBeforeTempleShorts = postTempleCurations.slice(0, 0);
+const postTempleCurationsAfterTempleShorts = postTempleCurations;
 ---
 
 <Layout

@@ -1,4 +1,8 @@
-import type { ProductCurationDetail, ProductCurationDetailSection } from "../types";
+import type {
+  ProductCurationDetail,
+  ProductCurationDetailFact,
+  ProductCurationDetailSection,
+} from "../types";
 
 export const standardDeliveryFact = {
   name: "배송",
@@ -33,8 +37,74 @@ type SearchSliderDetailCandidate = Pick<
   "descriptionBody" | "descriptionSections" | "quickFacts" | "relatedSearchTerms" | "sliderImages"
 >;
 
+const quickFactNameAliases: Record<string, string> = {
+  사이즈: "크기",
+  소재: "재질",
+  중량: "무게",
+  제조국: "원산지",
+  관리: "관리 방법",
+};
+
+const quickFactOrder = [
+  "제품명",
+  "상품 유형",
+  "구성",
+  "선택 옵션",
+  "크기",
+  "재질",
+  "무게",
+  "표현",
+  "추천 공간",
+  "추천 용도",
+  "추천 대상",
+  "주의 사항",
+  "관리 방법",
+  "판매처",
+  "수입사",
+  "원산지",
+  "배송",
+];
+
 function uniqueValues(values: Array<string | undefined>) {
   return [...new Set(values.map((value) => value?.trim()).filter(Boolean))] as string[];
+}
+
+function normalizeQuickFactName(name: string) {
+  const trimmedName = name.trim();
+
+  return quickFactNameAliases[trimmedName] ?? trimmedName;
+}
+
+export function normalizeCurationProductQuickFacts(
+  quickFacts?: ProductCurationDetailFact[],
+): ProductCurationDetailFact[] | undefined {
+  if (!quickFacts?.length) return undefined;
+
+  const factsByName = new Map<string, { fact: ProductCurationDetailFact; index: number }>();
+
+  quickFacts.forEach((fact, index) => {
+    const name = normalizeQuickFactName(fact.name);
+    const value = fact.value.trim();
+
+    if (!name || !value) return;
+
+    factsByName.set(name, {
+      fact: { name, value },
+      index,
+    });
+  });
+
+  return [...factsByName.values()]
+    .sort((a, b) => {
+      const aOrder = quickFactOrder.indexOf(a.fact.name);
+      const bOrder = quickFactOrder.indexOf(b.fact.name);
+      const deliveryOrder = quickFactOrder.indexOf("배송");
+      const normalizedAOrder = aOrder >= 0 ? aOrder : deliveryOrder - 0.5;
+      const normalizedBOrder = bOrder >= 0 ? bOrder : deliveryOrder - 0.5;
+
+      return normalizedAOrder - normalizedBOrder || a.index - b.index;
+    })
+    .map(({ fact }) => fact);
 }
 
 function buildSearchSliderSeoKeywords(detail: SearchSliderCurationDetailOverride) {
@@ -50,8 +120,11 @@ function buildSearchSliderSeoKeywords(detail: SearchSliderCurationDetailOverride
 export function defineSearchSliderCurationDetail(
   detail: SearchSliderCurationDetailOverride,
 ): SearchSliderCurationDetailOverride {
+  const quickFacts = normalizeCurationProductQuickFacts(detail.quickFacts) ?? [];
+
   return {
     ...detail,
+    quickFacts,
     relatedSearchTerms: uniqueValues(detail.relatedSearchTerms),
     seo: {
       ...detail.seo,
@@ -91,10 +164,13 @@ function buildSearchSliderSections(detail: ProductCurationDetail): ProductCurati
 }
 
 export function normalizeCurationProductDetail(detail: ProductCurationDetail): ProductCurationDetail {
-  if (!usesSearchSliderCurationLayout(detail)) return detail;
+  const quickFacts = normalizeCurationProductQuickFacts(detail.quickFacts);
+  const normalizedDetail = quickFacts ? { ...detail, quickFacts } : detail;
+
+  if (!usesSearchSliderCurationLayout(normalizedDetail)) return normalizedDetail;
 
   return {
-    ...detail,
-    sections: buildSearchSliderSections(detail),
+    ...normalizedDetail,
+    sections: buildSearchSliderSections(normalizedDetail),
   };
 }
