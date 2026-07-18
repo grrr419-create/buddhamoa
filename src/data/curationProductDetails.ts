@@ -18,6 +18,10 @@ import {
   laughingBuddhaSymbolPublishedDetailKeys,
 } from "./laughingBuddhaSymbolDetails";
 import {
+  mindAwakeningMeditationToolsDetailOverrides,
+  mindAwakeningMeditationToolsPublishedDetailKeys,
+} from "./mindAwakeningMeditationToolsDetails";
+import {
   practiceSpaceBuddhaDetailOverrides,
   practiceSpaceBuddhaPublishedDetailKeys,
 } from "./practiceSpaceBuddhaDetails";
@@ -66,6 +70,7 @@ const publishedCurationProductDetailKeys = new Set([
   ...compassionSymbolsPublishedDetailKeys,
   ...ksitigarbhaPublishedDetailKeys,
   ...laughingBuddhaSymbolPublishedDetailKeys,
+  ...mindAwakeningMeditationToolsPublishedDetailKeys,
 ]);
 
 const buddhistFrogImageBase =
@@ -691,6 +696,7 @@ const curationProductDetailOverrides: Record<string, Partial<ProductCurationDeta
   ...compassionSymbolsDetailOverrides,
   ...ksitigarbhaDetailOverrides,
   ...laughingBuddhaSymbolDetailOverrides,
+  ...mindAwakeningMeditationToolsDetailOverrides,
   "emotional-buddhist-goods/buddhist-frog": defineSearchSliderCurationDetail({
     name: "불교개구리",
     subtitle: "작고 귀여운 도기 오브제",

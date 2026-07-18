@@ -57,6 +57,11 @@ const curationNames = [
     "포대화상부터 포대스님까지 웃음과 넉넉함의 상징을 담은 불교 소품을 안내합니다.",
   ],
   [
+    "mind-awakening-meditation-tools",
+    "마음을 깨우는 명상도구",
+    "싱잉볼, 금강저, 미니목탁처럼 맑은 울림과 단단한 상징을 담은 명상 도구를 안내합니다.",
+  ],
+  [
     "prayer-gifts",
     "소중한 이를 위한 기도용품",
     "부모님, 지인, 초심자에게 선물하기 좋은 기도용품과 수행 소품을 모았습니다.",
@@ -449,6 +454,43 @@ const curationProductItems: Partial<Record<CurationSlug, ProductCuration["items"
       image: "/images/curations/laughing-buddha-symbol/budai-monk.png",
       imageAlt: "포대스님 상아과 미륵불상 상품 이미지",
       href: "https://mkt.shopping.naver.com/link/6a4906a72f607413f52662bf",
+    },
+  ],
+  "mind-awakening-meditation-tools": [
+    {
+      slug: "singing-bowl",
+      name: "싱잉볼",
+      image: "/images/curations/mind-awakening-meditation-tools/singing-bowl.png",
+      imageAlt: "싱잉볼 미니싱잉볼 명상종 불교굿즈 상품 이미지",
+      href: "https://mkt.shopping.naver.com/link/69c3bdb601c5cd3461ab419a",
+    },
+    {
+      slug: "vajra",
+      name: "금강저",
+      image: "/images/curations/mind-awakening-meditation-tools/vajra.png",
+      imageAlt: "금강저 바즈라 금강령 법구 상품 이미지",
+      href: "https://mkt.shopping.naver.com/link/6a4907d9c5db947f36e12610",
+    },
+    {
+      slug: "mini-moktak",
+      name: "미니목탁",
+      image: "/images/curations/mind-awakening-meditation-tools/mini-moktak.png",
+      imageAlt: "미니목탁 고양이목탁 불교굿즈 상품 이미지",
+      href: "https://mkt.shopping.naver.com/link/6a49078be61f7638275bccf7",
+    },
+    {
+      slug: "bajra",
+      name: "바즈라",
+      image: "/images/curations/mind-awakening-meditation-tools/bajra.png",
+      imageAlt: "바즈라 금강저 금강령 법구 상품 이미지",
+      href: "https://mkt.shopping.naver.com/link/686d254a1fd1ac410798b769",
+    },
+    {
+      slug: "mini-singing-bowl",
+      name: "미니싱잉볼",
+      image: "/images/curations/mind-awakening-meditation-tools/mini-singing-bowl.png",
+      imageAlt: "미니싱잉볼 싱잉볼 명상종 요가종 상품 이미지",
+      href: "https://mkt.shopping.naver.com/link/6a49075ec07ae34f7540f796",
     },
   ],
 };
