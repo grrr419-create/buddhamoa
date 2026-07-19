@@ -173,7 +173,7 @@ async function validateDetailPage(html, filePath) {
     errors.push("본문 또는 소제목에 구어체 종결 표현이 남아 있습니다.");
   }
 
-  for (const schemaType of ["Product", "Article", "FAQPage", "BreadcrumbList"]) {
+  for (const schemaType of ["WebPage", "Article", "FAQPage", "BreadcrumbList"]) {
     if (!schemaTypes.has(schemaType)) errors.push(`구조화 데이터가 없습니다: ${schemaType}`);
   }
 
@@ -220,6 +220,9 @@ async function validateDetailPage(html, filePath) {
   }
   if (html.includes('"@type":"Offer"')) {
     errors.push("실시간 가격·재고가 없는 Offer 구조화 데이터가 남아 있습니다.");
+  }
+  if (html.includes('"@type":"Product"')) {
+    errors.push("리치 결과 필수 정보가 없는 Product 구조화 데이터가 남아 있습니다.");
   }
   if (html.includes('"@type":"DefinedTermSet"')) {
     errors.push("키워드 나열형 DefinedTermSet이 남아 있습니다.");

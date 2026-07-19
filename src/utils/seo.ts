@@ -413,13 +413,6 @@ function curationProductDetailEntities(values: string[]) {
   }));
 }
 
-function curationProductDetailFactValue(detail: ProductCurationDetail, names: string[]) {
-  const normalizedNames = names.map((name) => name.trim());
-  const fact = detail.quickFacts?.find((item) => normalizedNames.includes(item.name.trim()));
-
-  return fact?.value.trim();
-}
-
 function curationProductDetailWordCount(text: string) {
   return text.split(/\s+/).filter(Boolean).length;
 }
@@ -537,17 +530,6 @@ export function curationProductDetailStructuredData(detail: ProductCurationDetai
     ...(detail.seo?.secondaryKeywords ?? []).slice(0, 4),
   ]).slice(0, 8);
   const aboutEntities = curationProductDetailEntities(about);
-  const alternateNames = uniqueValues([
-    ...(detail.relatedSearchTerms ?? []),
-    ...(detail.seo?.secondaryKeywords ?? []),
-  ])
-    .filter((value) => value !== detail.name)
-    .slice(0, 8);
-  const material = curationProductDetailFactValue(detail, ["재질", "소재"]);
-  const size = curationProductDetailFactValue(detail, ["크기", "사이즈"]);
-  const weight = curationProductDetailFactValue(detail, ["무게", "중량"]);
-  const manufacturer = curationProductDetailFactValue(detail, ["수입사", "제조사"]);
-  const countryOfOrigin = curationProductDetailFactValue(detail, ["원산지", "제조국"]);
   const quickFactsText = detail.quickFacts
     ?.map((fact) => `${fact.name}: ${fact.value}`)
     .join(" / ");
@@ -645,57 +627,8 @@ export function curationProductDetailStructuredData(detail: ProductCurationDetai
       },
       ...(pageParts.length ? { hasPart: pageParts } : {}),
       mainEntity: {
-        "@id": `${canonicalUrl}#product`,
+        "@id": `${canonicalUrl}#article`,
       },
-    },
-    {
-      "@type": "Product",
-      "@id": `${canonicalUrl}#product`,
-      name: detail.name,
-      description,
-      image: imageUrls,
-      thumbnailUrl: imageUrls[0],
-      url: canonicalUrl,
-      sku: `${detail.curationSlug}-${detail.productSlug}`,
-      category: detail.curationName,
-      keywords: keywords.join(", "),
-      ...(alternateNames.length ? { alternateName: alternateNames } : {}),
-      ...(material ? { material } : {}),
-      ...(size ? { size } : {}),
-      ...(weight ? { weight } : {}),
-      ...(manufacturer
-        ? {
-            manufacturer: {
-              "@type": "Organization",
-              name: manufacturer,
-            },
-          }
-        : {}),
-      ...(countryOfOrigin
-        ? {
-            countryOfOrigin: {
-              "@type": "Country",
-              name: countryOfOrigin,
-            },
-          }
-        : {}),
-      brand: {
-        "@type": "Brand",
-        name: siteConfig.brandName,
-      },
-      mainEntityOfPage: {
-        "@id": `${canonicalUrl}#webpage`,
-      },
-      sameAs: detail.storeUrl,
-      ...(detail.quickFacts?.length
-        ? {
-            additionalProperty: detail.quickFacts.map((fact) => ({
-              "@type": "PropertyValue",
-              name: fact.name,
-              value: fact.value,
-            })),
-          }
-        : {}),
     },
     {
       "@type": "Article",
