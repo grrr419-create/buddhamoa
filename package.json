@@ -10,6 +10,8 @@
     "dev": "astro dev",
     "prebuild": "node scripts/optimize-images.mjs",
     "build": "astro build",
+    "postbuild": "npm run validate:curations",
+    "validate:curations": "node scripts/validate-curation-details.mjs",
     "prepreview": "node scripts/optimize-images.mjs",
     "preview": "astro preview",
     "astro": "astro"

@@ -1,11 +1,11 @@
 import type {
   ProductCurationDetail,
-  ProductCurationDetailDescriptionSection,
   ProductCurationDetailFact,
-  ProductCurationDetailImage,
 } from "../types";
 import {
-  defineSearchSliderCurationDetail,
+  buildCurationSliderImages,
+  buildDocumentDescriptionSections,
+  createSearchSliderCurationDetail,
   standardDeliveryFact,
   standardDeliveryFaq,
 } from "./curationProductDetailHelpers";
@@ -41,41 +41,6 @@ const curationSlug = "laughing-buddha-symbol";
 const curationName = "복과 웃음을 담은 포대화상";
 const detailImageBase = "/images/curation-details/laughing-buddha-symbol";
 
-function isDescriptionHeading(paragraph: string, nextParagraph?: string) {
-  return Boolean(
-    nextParagraph &&
-      paragraph.length <= 34 &&
-      (nextParagraph.length > 42 || /[?요]$/.test(paragraph)),
-  );
-}
-
-function buildDescriptionSections(paragraphs: string[]): ProductCurationDetailDescriptionSection[] {
-  const [firstTitle, ...rest] = paragraphs;
-  const sections: ProductCurationDetailDescriptionSection[] = [];
-  let currentSection: ProductCurationDetailDescriptionSection = {
-    title: firstTitle,
-    body: [],
-  };
-
-  rest.forEach((paragraph, index) => {
-    const nextParagraph = rest[index + 1];
-
-    if (currentSection.body.length > 0 && isDescriptionHeading(paragraph, nextParagraph)) {
-      sections.push(currentSection);
-      currentSection = { title: paragraph, body: [] };
-      return;
-    }
-
-    currentSection.body.push(paragraph);
-  });
-
-  if (currentSection.title && currentSection.body.length > 0) {
-    sections.push(currentSection);
-  }
-
-  return sections;
-}
-
 function buildImageNames(prefix: string, count: number) {
   return Array.from(
     { length: count },
@@ -83,18 +48,16 @@ function buildImageNames(prefix: string, count: number) {
   );
 }
 
-function buildSliderImages(input: LaughingBuddhaSymbolDetailInput): ProductCurationDetailImage[] {
-  return buildImageNames(input.imagePrefix, input.imageCount).map((imageName, index) => ({
-    src: detailImageBase + "/" + input.productSlug + "/" + imageName,
-    alt: input.name + " " + input.relatedSearchTerms.slice(0, 4).join(" ") + " 상세 이미지 " + String(index + 1),
-    caption: index === 0 ? input.name + " 대표 이미지" : input.name + " 상품 디테일 " + String(index + 1),
-  }));
-}
-
 function createLaughingBuddhaSymbolDetail(input: LaughingBuddhaSymbolDetailInput) {
-  const sliderImages = buildSliderImages(input);
+  const sliderImages = buildCurationSliderImages({
+    detailImageBase,
+    productSlug: input.productSlug,
+    name: input.name,
+    relatedSearchTerms: input.relatedSearchTerms,
+    imageNames: buildImageNames(input.imagePrefix, input.imageCount),
+  });
 
-  return defineSearchSliderCurationDetail({
+  return createSearchSliderCurationDetail({
     curationSlug,
     curationName,
     productSlug: input.productSlug,
@@ -107,7 +70,7 @@ function createLaughingBuddhaSymbolDetail(input: LaughingBuddhaSymbolDetailInput
     storeUrl: input.storeUrl,
     relatedSearchTerms: input.relatedSearchTerms,
     sliderImages,
-    descriptionSections: buildDescriptionSections(input.documentParagraphs),
+    descriptionSections: buildDocumentDescriptionSections(input.documentParagraphs),
     quickFacts: [...input.quickFacts, standardDeliveryFact],
     faqs: [
       ...(input.faqs ?? []),
@@ -336,7 +299,7 @@ export const laughingBuddhaSymbolDetailOverrides: Record<
     name: "포대화상불상",
     subtitle: "측백나무로 만든 작은 포대화상 미륵불상",
     summary:
-      "측백나무 소재로 제작된 높이 약 6.0cm, 너비 약 14cm, 무게 약 50g의 포대화상불상입니다. 나무불상과 목불상 분위기를 찾는 분께 어울리는 소형 미륵불상입니다.",
+      "측백나무 소재로 제작된 높이 약 6.0cm, 너비 약 14cm, 무게 약 50g의 포대화상불상입니다. 나무결과 길게 누운 자세가 돋보여 책상과 선반에 놓기 좋은 소형 미륵불상입니다.",
     imageAlt: "포대화상불상 달마상 미륵불상 나무불상 목불상 대표 이미지",
     storeUrl: "https://mkt.shopping.naver.com/link/6a49065dc5db947f36e1260f",
     imagePrefix: "laughing-buddha-statue",
@@ -418,7 +381,7 @@ export const laughingBuddhaSymbolDetailOverrides: Record<
     name: "포대화상굿즈",
     subtitle: "회녹색 천연석 느낌을 살린 포대화상 인테리어 불상",
     summary:
-      "수지 재질로 제작된 높이 약 7.0cm, 너비 약 12.0cm의 포대화상 인테리어 불상입니다. 미륵불상과 돌불상풍 불교굿즈를 찾는 분께 어울립니다.",
+      "수지 재질로 제작된 높이 약 7.0cm, 너비 약 12.0cm의 포대화상 인테리어 불상입니다. 돌불상 같은 차분한 표면으로 책상과 선반에 넉넉한 미소의 포인트를 더합니다.",
     imageAlt: "포대화상굿즈 미륵불상 달마상 돌불상 불교굿즈 대표 이미지",
     storeUrl: "https://mkt.shopping.naver.com/link/6a49067b2f607413f52662be",
     imagePrefix: "laughing-buddha-goods",

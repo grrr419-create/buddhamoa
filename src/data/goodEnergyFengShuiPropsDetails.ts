@@ -1,11 +1,11 @@
 import type {
   ProductCurationDetail,
-  ProductCurationDetailDescriptionSection,
   ProductCurationDetailFact,
-  ProductCurationDetailImage,
 } from "../types";
 import {
-  defineSearchSliderCurationDetail,
+  buildCurationSliderImages,
+  buildDocumentDescriptionSections,
+  createSearchSliderCurationDetail,
   standardDeliveryFact,
   standardDeliveryFaq,
 } from "./curationProductDetailHelpers";
@@ -40,41 +40,6 @@ const curationSlug = "good-energy-feng-shui-props";
 const curationName = "좋은 기운을 들이는 풍수소품";
 const detailImageBase = "/images/curation-details/good-energy-feng-shui-props";
 
-function isDescriptionHeading(paragraph: string, nextParagraph?: string) {
-  return Boolean(
-    nextParagraph &&
-      paragraph.length <= 34 &&
-      (nextParagraph.length > 42 || /[?요]$/.test(paragraph)),
-  );
-}
-
-function buildDescriptionSections(paragraphs: string[]): ProductCurationDetailDescriptionSection[] {
-  const [firstTitle, ...rest] = paragraphs;
-  const sections: ProductCurationDetailDescriptionSection[] = [];
-  let currentSection: ProductCurationDetailDescriptionSection = {
-    title: firstTitle,
-    body: [],
-  };
-
-  rest.forEach((paragraph, index) => {
-    const nextParagraph = rest[index + 1];
-
-    if (currentSection.body.length > 0 && isDescriptionHeading(paragraph, nextParagraph)) {
-      sections.push(currentSection);
-      currentSection = { title: paragraph, body: [] };
-      return;
-    }
-
-    currentSection.body.push(paragraph);
-  });
-
-  if (currentSection.title && currentSection.body.length > 0) {
-    sections.push(currentSection);
-  }
-
-  return sections;
-}
-
 function buildImageNames(prefix: string, count: number, extension = "png") {
   return Array.from(
     { length: count },
@@ -82,18 +47,16 @@ function buildImageNames(prefix: string, count: number, extension = "png") {
   );
 }
 
-function buildSliderImages(input: GoodEnergyFengShuiPropsDetailInput): ProductCurationDetailImage[] {
-  return input.imageNames.map((imageName, index) => ({
-    src: detailImageBase + "/" + input.productSlug + "/" + imageName,
-    alt: input.name + " " + input.relatedSearchTerms.slice(0, 4).join(" ") + " 상세 이미지 " + String(index + 1),
-    caption: index === 0 ? input.name + " 대표 이미지" : input.name + " 상품 디테일 " + String(index + 1),
-  }));
-}
-
 function createGoodEnergyFengShuiPropsDetail(input: GoodEnergyFengShuiPropsDetailInput) {
-  const sliderImages = buildSliderImages(input);
+  const sliderImages = buildCurationSliderImages({
+    detailImageBase,
+    productSlug: input.productSlug,
+    name: input.name,
+    relatedSearchTerms: input.relatedSearchTerms,
+    imageNames: input.imageNames,
+  });
 
-  return defineSearchSliderCurationDetail({
+  return createSearchSliderCurationDetail({
     curationSlug,
     curationName,
     productSlug: input.productSlug,
@@ -106,7 +69,7 @@ function createGoodEnergyFengShuiPropsDetail(input: GoodEnergyFengShuiPropsDetai
     storeUrl: input.storeUrl,
     relatedSearchTerms: input.relatedSearchTerms,
     sliderImages,
-    descriptionSections: buildDescriptionSections(input.documentParagraphs),
+    descriptionSections: buildDocumentDescriptionSections(input.documentParagraphs),
     quickFacts: [...input.quickFacts, standardDeliveryFact],
     faqs: [
       ...(input.faqs ?? []),
@@ -155,7 +118,7 @@ export const goodEnergyFengShuiPropsDetailOverrides: Record<
     name: "해태상",
     subtitle: "궁궐의 수호 이미지를 담은 작은 인테리어 해태상",
     summary:
-      "해태 2조각 1세트로 구성된 인테리어 해태석상입니다. 해태상, 해태조각상, 풍수지리동물, 조형물, 장식품을 찾는 분께 전통적인 수호 상징을 차분하게 소개합니다.",
+      "해태 2조각 1세트로 구성된 인테리어 해태석상입니다. 현관과 사무실에 전통적인 수호 상징과 묵직한 장식 포인트를 더합니다.",
     imageAlt: "해태상 해태조각상 풍수지리동물 조형물 장식품 대표 이미지",
     storeUrl: "https://mkt.shopping.naver.com/link/69de1cefc81d717af867d213",
     imageNames: [
@@ -236,7 +199,7 @@ export const goodEnergyFengShuiPropsDetailOverrides: Record<
     name: "삼족두꺼비",
     subtitle: "귀엽고 복스럽게 다가오는 삼족두꺼비 장식품",
     summary:
-      "높이 약 9.5cm, 너비 약 10.5cm, 무게 약 377g의 삼족 두꺼비 조각상입니다. 복두꺼비, 삼족두꺼비, 두꺼비상, 개업·이사 선물을 찾는 분께 어울립니다.",
+      "높이 약 9.5cm, 너비 약 10.5cm, 무게 약 377g의 삼족 두꺼비 조각상입니다. 개업과 이사를 축하하는 매장·사무실·현관 장식 선물로 어울립니다.",
     imageAlt: "복두꺼비 삼족두꺼비 두꺼비상 장식품 개업 이사 선물 대표 이미지",
     storeUrl: "https://mkt.shopping.naver.com/link/6a490867bb3426556b4195d5",
     imageNames: buildImageNames("three-legged-toad", 10),
@@ -432,6 +395,7 @@ export const goodEnergyFengShuiPropsDetailOverrides: Record<
       "결혼을 앞둔 분께, 신혼부부 집들이 선물로, 부모님이나 지인 선물로, 목각기러기와 원앙새처럼 한국적인 상징을 담은 장식품을 찾는 분께 소개하기 좋습니다.",
       "배송과 포장 안내",
       "평일 낮 12시까지 결제 완료된 상품은 당일 발송을 기준으로 준비하고 있습니다. 평균 배송기간은 약 1~3영업일이며, 휴일과 공휴일은 제외됩니다.",
+      "오래 두고 보기 좋은 전통 소품",
       "원앙세트는 화려한 장식보다 오래 두고 볼 수 있는 의미 있는 소품을 찾는 분께 잘 어울립니다. 네이버에서 '붓다모아'를 검색하시면 원앙, 원앙세트, 목각기러기 느낌의 전통 인테리어 소품을 만나보실 수 있습니다.",
     ],
   }),
@@ -440,7 +404,7 @@ export const goodEnergyFengShuiPropsDetailOverrides: Record<
     name: "코끼리조각상",
     subtitle: "집들이와 개업 선물로 좋은 흰색 코끼리조각상",
     summary:
-      "높이 약 19.0cm, 너비 약 23.5cm, 무게 약 525g ±25g의 흰색 코끼리 모형입니다. 집들이선물, 개업선물, 풍수지리 인테리어 장식을 찾는 분께 어울립니다.",
+      "높이 약 19.0cm, 너비 약 23.5cm, 무게 약 525g ±25g의 흰색 코끼리 모형입니다. 집들이와 개업을 축하하는 현관·거실·사무실 인테리어 선물로 어울립니다.",
     imageAlt: "집들이선물 개업선물 코끼리조각 코끼리모형 흰색 풍수지리 대표 이미지",
     storeUrl: "https://mkt.shopping.naver.com/link/6a4908dcc5db947f36e12612",
     imageNames: buildImageNames("elephant-statue", 12),

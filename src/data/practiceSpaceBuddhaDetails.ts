@@ -1,11 +1,11 @@
 import type {
   ProductCurationDetail,
-  ProductCurationDetailDescriptionSection,
   ProductCurationDetailFact,
-  ProductCurationDetailImage,
 } from "../types";
 import {
-  defineSearchSliderCurationDetail,
+  buildCurationSliderImages,
+  buildDocumentDescriptionSections,
+  createSearchSliderCurationDetail,
   standardDeliveryFact,
   standardDeliveryFaq,
 } from "./curationProductDetailHelpers";
@@ -39,51 +39,8 @@ const curationSlug = "practice-space-buddha";
 const curationName = "신행 공간의 중심, 부처님불상";
 const detailImageBase = "/images/curation-details/practice-space-buddha";
 
-function isDescriptionHeading(paragraph: string, nextParagraph?: string) {
-  return Boolean(
-    nextParagraph &&
-      paragraph.length <= 34 &&
-      (nextParagraph.length > 42 || /[?요]$/.test(paragraph)),
-  );
-}
-
-function buildDescriptionSections(paragraphs: string[]): ProductCurationDetailDescriptionSection[] {
-  const [firstTitle, ...rest] = paragraphs;
-  const sections: ProductCurationDetailDescriptionSection[] = [];
-  let currentSection: ProductCurationDetailDescriptionSection = {
-    title: firstTitle,
-    body: [],
-  };
-
-  rest.forEach((paragraph, index) => {
-    const nextParagraph = rest[index + 1];
-
-    if (currentSection.body.length > 0 && isDescriptionHeading(paragraph, nextParagraph)) {
-      sections.push(currentSection);
-      currentSection = { title: paragraph, body: [] };
-      return;
-    }
-
-    currentSection.body.push(paragraph);
-  });
-
-  if (currentSection.title && currentSection.body.length > 0) {
-    sections.push(currentSection);
-  }
-
-  return sections;
-}
-
-function buildSliderImages(input: PracticeSpaceBuddhaDetailInput): ProductCurationDetailImage[] {
-  return input.imageNames.map((imageName, index) => ({
-    src: detailImageBase + "/" + input.productSlug + "/" + imageName,
-    alt: input.name + " " + input.relatedSearchTerms.slice(1, 4).join(" ") + " 상세 이미지 " + String(index + 1),
-    caption: index === 0 ? input.name + " 대표 이미지" : input.name + " 상품 디테일 " + String(index + 1),
-  }));
-}
-
 function createPracticeSpaceBuddhaDetail(input: PracticeSpaceBuddhaDetailInput) {
-  return defineSearchSliderCurationDetail({
+  return createSearchSliderCurationDetail({
     curationSlug,
     curationName,
     productSlug: input.productSlug,
@@ -95,8 +52,14 @@ function createPracticeSpaceBuddhaDetail(input: PracticeSpaceBuddhaDetailInput) 
     imageAlt: input.imageAlt,
     storeUrl: input.storeUrl,
     relatedSearchTerms: input.relatedSearchTerms,
-    sliderImages: buildSliderImages(input),
-    descriptionSections: buildDescriptionSections(input.documentParagraphs),
+    sliderImages: buildCurationSliderImages({
+        detailImageBase,
+        productSlug: input.productSlug,
+        name: input.name,
+        relatedSearchTerms: input.relatedSearchTerms,
+        imageNames: input.imageNames,
+      }),
+    descriptionSections: buildDocumentDescriptionSections(input.documentParagraphs),
     quickFacts: [...input.quickFacts, standardDeliveryFact],
     faqs: [
       {
@@ -473,7 +436,7 @@ export const practiceSpaceBuddhaDetailOverrides: Record<
   "불교용품"
 ],
     seoTitle: "부처님불상 | 불상 부처상 | 붓다모아",
-    seoDescription: "아미타불, 석가모니, 약사여래 세 가지 옵션 중 한 분을 선택하는 높이 약 10.8cm의 묵직한 가정용 황동불상입니다. 부처님불상, 불상, 부처상, 미니불상, 황동불상, 아미타불, 석가모니을 찾는 분께 소개합니다.",
+    seoDescription: "아미타불, 석가모니, 약사여래 세 가지 옵션 중 한 분을 선택하는 높이 약 10.8cm의 묵직한 가정용 황동불상입니다. 부처님불상, 불상, 부처상, 미니불상, 황동불상, 아미타불, 석가모니를 찾는 분께 소개합니다.",
     quickFacts: [
   {
     "name": "제품명",
@@ -620,7 +583,7 @@ export const practiceSpaceBuddhaDetailOverrides: Record<
   "불교용품",
   "불교굿즈"
 ],
-    seoTitle: "아미타불 | 아미타불상 미니불상 | 붓다모아",
+    seoTitle: "아미타불 | 수지 미니 불상 | 붓다모아",
     seoDescription: "돌처럼 거칠고 차분한 표면을 수지 재질로 표현한 높이 약 11cm의 아미타불 미니불상입니다. 아미타불, 아미타불상, 미니불상, 돌불상, 가정용불상, 부처님불상, 불상을 찾는 분께 소개합니다.",
     quickFacts: [
   {

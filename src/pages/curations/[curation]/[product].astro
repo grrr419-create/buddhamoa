@@ -10,6 +10,7 @@ import { usesSearchSliderCurationLayout } from "../../../data/curationProductDet
 import { withBase } from "../../../utils/paths";
 import {
   curationProductDetailMeta,
+  curationProductDetailOpenGraphImage,
   curationProductDetailStructuredData,
 } from "../../../utils/seo";
 
@@ -25,6 +26,7 @@ export function getStaticPaths() {
 
 const { detail } = Astro.props;
 const { pathname: detailPath, title, description, keywords } = curationProductDetailMeta(detail);
+const openGraphImage = curationProductDetailOpenGraphImage(detail);
 const optionSectionTitles = new Set(["목탁 고양이", "목탁 황구", "목탁 흑구", "목탁 수달", "목탁 돼지"]);
 const isOptionSection = (title: string) => optionSectionTitles.has(title) || /^선택\d+\./.test(title);
 const getStoreTrack = (placement: "pc" | "mobile") =>
@@ -41,10 +43,10 @@ const structuredData = curationProductDetailStructuredData(detail);
   title={title}
   description={description}
   pathname={detailPath}
-  image={detail.image}
+  image={openGraphImage.src}
   imageAlt={detail.imageAlt}
-  imageWidth="1100"
-  imageHeight="1100"
+  imageWidth={openGraphImage.width}
+  imageHeight={openGraphImage.height}
   keywords={keywords}
   ogType="product"
   structuredData={structuredData}

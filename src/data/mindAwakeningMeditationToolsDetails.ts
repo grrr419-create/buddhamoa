@@ -1,11 +1,11 @@
 import type {
   ProductCurationDetail,
-  ProductCurationDetailDescriptionSection,
   ProductCurationDetailFact,
-  ProductCurationDetailImage,
 } from "../types";
 import {
-  defineSearchSliderCurationDetail,
+  buildCurationSliderImages,
+  buildDocumentDescriptionSections,
+  createSearchSliderCurationDetail,
   standardDeliveryFact,
   standardDeliveryFaq,
 } from "./curationProductDetailHelpers";
@@ -41,41 +41,6 @@ const curationSlug = "mind-awakening-meditation-tools";
 const curationName = "마음을 깨우는 명상도구";
 const detailImageBase = "/images/curation-details/mind-awakening-meditation-tools";
 
-function isDescriptionHeading(paragraph: string, nextParagraph?: string) {
-  return Boolean(
-    nextParagraph &&
-      paragraph.length <= 34 &&
-      (nextParagraph.length > 42 || /[?요]$/.test(paragraph)),
-  );
-}
-
-function buildDescriptionSections(paragraphs: string[]): ProductCurationDetailDescriptionSection[] {
-  const [firstTitle, ...rest] = paragraphs;
-  const sections: ProductCurationDetailDescriptionSection[] = [];
-  let currentSection: ProductCurationDetailDescriptionSection = {
-    title: firstTitle,
-    body: [],
-  };
-
-  rest.forEach((paragraph, index) => {
-    const nextParagraph = rest[index + 1];
-
-    if (currentSection.body.length > 0 && isDescriptionHeading(paragraph, nextParagraph)) {
-      sections.push(currentSection);
-      currentSection = { title: paragraph, body: [] };
-      return;
-    }
-
-    currentSection.body.push(paragraph);
-  });
-
-  if (currentSection.title && currentSection.body.length > 0) {
-    sections.push(currentSection);
-  }
-
-  return sections;
-}
-
 function buildImageNames(prefix: string, count: number) {
   return Array.from(
     { length: count },
@@ -83,22 +48,18 @@ function buildImageNames(prefix: string, count: number) {
   );
 }
 
-function buildSliderImages(
-  input: MindAwakeningMeditationToolsDetailInput,
-): ProductCurationDetailImage[] {
-  return buildImageNames(input.imagePrefix, input.imageCount).map((imageName, index) => ({
-    src: detailImageBase + "/" + input.productSlug + "/" + imageName,
-    alt: input.name + " " + input.relatedSearchTerms.slice(0, 4).join(" ") + " 상세 이미지 " + String(index + 1),
-    caption: index === 0 ? input.name + " 대표 이미지" : input.name + " 상품 디테일 " + String(index + 1),
-  }));
-}
-
 function createMindAwakeningMeditationToolsDetail(
   input: MindAwakeningMeditationToolsDetailInput,
 ) {
-  const sliderImages = buildSliderImages(input);
+  const sliderImages = buildCurationSliderImages({
+    detailImageBase,
+    productSlug: input.productSlug,
+    name: input.name,
+    relatedSearchTerms: input.relatedSearchTerms,
+    imageNames: buildImageNames(input.imagePrefix, input.imageCount),
+  });
 
-  return defineSearchSliderCurationDetail({
+  return createSearchSliderCurationDetail({
     curationSlug,
     curationName,
     productSlug: input.productSlug,
@@ -111,7 +72,7 @@ function createMindAwakeningMeditationToolsDetail(
     storeUrl: input.storeUrl,
     relatedSearchTerms: input.relatedSearchTerms,
     sliderImages,
-    descriptionSections: buildDescriptionSections(input.documentParagraphs),
+    descriptionSections: buildDocumentDescriptionSections(input.documentParagraphs),
     quickFacts: [...input.quickFacts, standardDeliveryFact],
     faqs: [
       ...(input.faqs ?? []),
@@ -160,7 +121,7 @@ export const mindAwakeningMeditationToolsDetailOverrides: Record<
     name: "싱잉볼",
     subtitle: "하루를 잠시 멈추게 하는 작은 싱잉볼 명상종",
     summary:
-      "높이 약 9.5cm, 너비 약 10.5cm, 무게 약 140g의 아담한 싱잉볼입니다. 미니싱잉볼, 명상종, 씽잉볼, 띵샤, 요가종을 찾는 분께 어울리는 작은 명상 도구입니다.",
+      "높이 약 9.5cm, 너비 약 10.5cm, 무게 약 140g의 아담한 싱잉볼입니다. 자석 내장 구조로 보관하기 편하고 명상과 호흡 정리에 활용하기 좋습니다.",
     imageAlt: "싱잉볼 불교굿즈 미니싱잉볼 명상종 씽잉볼 대표 이미지",
     storeUrl: "https://mkt.shopping.naver.com/link/69c3bdb601c5cd3461ab419a",
     imagePrefix: "singing-bowl",
@@ -193,7 +154,7 @@ export const mindAwakeningMeditationToolsDetailOverrides: Record<
       "명상도구",
       "불교용품",
     ],
-    seoTitle: "싱잉볼 | 미니싱잉볼 명상종 요가종 | 붓다모아",
+    seoTitle: "싱잉볼 | 작은 명상종 요가종 | 붓다모아",
     seoDescription:
       "높이 약 9.5cm, 너비 약 10.5cm의 아담한 붓다모아 싱잉볼입니다. 싱잉볼, 미니싱잉볼, 명상종, 씽잉볼, 띵샤, 요가종을 찾는 분께 소개합니다.",
     quickFacts: [
@@ -268,7 +229,7 @@ export const mindAwakeningMeditationToolsDetailOverrides: Record<
     name: "금강저",
     subtitle: "손에 쥐는 작은 법구가 주는 단단한 상징",
     summary:
-      "길이 약 90mm, 무게 약 70g의 붓다모아 금강저입니다. 금강저, 바즈라, 금강령, 법구, 명상 도구를 찾는 분께 불교적 상징을 차분하게 소개합니다.",
+      "길이 약 90mm, 무게 약 70g의 붓다모아 금강저입니다. 손에 쥐기 좋은 크기로 명상 공간에 두거나 불교적 상징을 가까이 간직하기 좋습니다.",
     imageAlt: "금강저 불교굿즈 바즈라 금강령 법구 명상 도구 대표 이미지",
     storeUrl: "https://mkt.shopping.naver.com/link/6a4907d9c5db947f36e12610",
     imagePrefix: "vajra",
@@ -374,7 +335,7 @@ export const mindAwakeningMeditationToolsDetailOverrides: Record<
     name: "미니목탁",
     subtitle: "귀여운 고양이목탁, 작은 울림으로 시작하는 차분한 시간",
     summary:
-      "목탁 기준 높이 약 6.0cm, 너비 약 5.5cm, 무게 약 40g ±5g의 귀여운 고양이 나무 목탁입니다. 미니목탁, 목탁, 불교굿즈, 명상 도구를 찾는 분께 어울립니다.",
+      "목탁 기준 높이 약 6.0cm, 너비 약 5.5cm, 무게 약 40g ±5g의 귀여운 고양이 나무 목탁입니다. 손안에 들어오는 크기로 짧은 명상 시간이나 책상 위 소품으로 사용하기 좋습니다.",
     imageAlt: "미니목탁 불교굿즈 목탁 고양이 명상 도구 대표 이미지",
     storeUrl: "https://mkt.shopping.naver.com/link/6a49078be61f7638275bccf7",
     imagePrefix: "mini-moktak",
@@ -462,7 +423,7 @@ export const mindAwakeningMeditationToolsDetailOverrides: Record<
     name: "바즈라",
     subtitle: "불안한 순간, 손 안에 들어오는 작은 금강령 법구",
     summary:
-      "길이 약 54mm, 무게 약 15g ±3g의 초미니 금강령 불교용품입니다. 바즈라, 금강저, 금강령, 법구, 명상 도구를 찾는 분께 어울리는 작은 상징물입니다.",
+      "길이 약 54mm, 무게 약 15g ±3g의 초미니 금강령 불교용품입니다. 손안에 들어오는 작은 법구로 명상 공간이나 휴대용 상징물로 두기 좋습니다.",
     imageAlt: "바즈라 금강저 불교굿즈 금강령 법구 명상 도구 대표 이미지",
     storeUrl: "https://mkt.shopping.naver.com/link/686d254a1fd1ac410798b769",
     imagePrefix: "bajra",
@@ -554,7 +515,7 @@ export const mindAwakeningMeditationToolsDetailOverrides: Record<
     name: "미니싱잉볼",
     subtitle: "하루의 끝을 정리하는 작은 싱잉볼 명상도구",
     summary:
-      "싱잉볼 지름 약 8.0cm, 높이 약 4.5cm의 미니싱잉볼입니다. 싱잉볼, 명상종, 띵샤, 요가종, 씽잉볼을 찾는 분께 작은 명상 시간을 제안합니다.",
+      "싱잉볼 지름 약 8.0cm, 높이 약 4.5cm의 미니싱잉볼입니다. 작은 공간에서 맑은 울림과 함께 짧은 명상 시간을 시작하기 좋습니다.",
     imageAlt: "미니싱잉볼 싱잉볼 명상종 띵샤 요가종 명상도구 대표 이미지",
     storeUrl: "https://mkt.shopping.naver.com/link/6a49075ec07ae34f7540f796",
     imagePrefix: "mini-singing-bowl",

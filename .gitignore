@@ -4,6 +4,7 @@ dist/
 # generated responsive image variants
 public/images/**/*-[0-9]*.avif
 public/images/**/*-[0-9]*.webp
+public/images/curation-details/**/*-og.jpg
 
 # generated types
 .astro/
@@ -20,6 +21,9 @@ pnpm-debug.log*
 # environment variables
 .env
 .env.production
+
+# local source materials
+업로드/
 
 # macOS-specific files
 .DS_Store

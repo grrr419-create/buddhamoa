@@ -1,11 +1,11 @@
 import type {
   ProductCurationDetail,
-  ProductCurationDetailDescriptionSection,
   ProductCurationDetailFact,
-  ProductCurationDetailImage,
 } from "../types";
 import {
-  defineSearchSliderCurationDetail,
+  buildCurationSliderImages,
+  buildDocumentDescriptionSections,
+  createSearchSliderCurationDetail,
   standardDeliveryFact,
   standardDeliveryFaq,
 } from "./curationProductDetailHelpers";
@@ -39,51 +39,8 @@ const curationSlug = "ksitigarbha-for-loved-ones";
 const curationName = "소중한 이를 위한 지장보살";
 const detailImageBase = "/images/curation-details/ksitigarbha-for-loved-ones";
 
-function isDescriptionHeading(paragraph: string, nextParagraph?: string) {
-  return Boolean(
-    nextParagraph &&
-      paragraph.length <= 34 &&
-      (nextParagraph.length > 42 || /[?요]$/.test(paragraph)),
-  );
-}
-
-function buildDescriptionSections(paragraphs: string[]): ProductCurationDetailDescriptionSection[] {
-  const [firstTitle, ...rest] = paragraphs;
-  const sections: ProductCurationDetailDescriptionSection[] = [];
-  let currentSection: ProductCurationDetailDescriptionSection = {
-    title: firstTitle,
-    body: [],
-  };
-
-  rest.forEach((paragraph, index) => {
-    const nextParagraph = rest[index + 1];
-
-    if (currentSection.body.length > 0 && isDescriptionHeading(paragraph, nextParagraph)) {
-      sections.push(currentSection);
-      currentSection = { title: paragraph, body: [] };
-      return;
-    }
-
-    currentSection.body.push(paragraph);
-  });
-
-  if (currentSection.title && currentSection.body.length > 0) {
-    sections.push(currentSection);
-  }
-
-  return sections;
-}
-
-function buildSliderImages(input: KsitigarbhaDetailInput): ProductCurationDetailImage[] {
-  return input.imageNames.map((imageName, index) => ({
-    src: detailImageBase + "/" + input.productSlug + "/" + imageName,
-    alt: input.name + " " + input.relatedSearchTerms.slice(0, 4).join(" ") + " 상세 이미지 " + String(index + 1),
-    caption: index === 0 ? input.name + " 대표 이미지" : input.name + " 상품 디테일 " + String(index + 1),
-  }));
-}
-
 function createKsitigarbhaDetail(input: KsitigarbhaDetailInput) {
-  return defineSearchSliderCurationDetail({
+  return createSearchSliderCurationDetail({
     curationSlug,
     curationName,
     productSlug: input.productSlug,
@@ -95,8 +52,14 @@ function createKsitigarbhaDetail(input: KsitigarbhaDetailInput) {
     imageAlt: input.imageAlt,
     storeUrl: input.storeUrl,
     relatedSearchTerms: input.relatedSearchTerms,
-    sliderImages: buildSliderImages(input),
-    descriptionSections: buildDescriptionSections(input.documentParagraphs),
+    sliderImages: buildCurationSliderImages({
+        detailImageBase,
+        productSlug: input.productSlug,
+        name: input.name,
+        relatedSearchTerms: input.relatedSearchTerms,
+        imageNames: input.imageNames,
+      }),
+    descriptionSections: buildDocumentDescriptionSections(input.documentParagraphs),
     quickFacts: [...input.quickFacts, standardDeliveryFact],
     faqs: [
       {

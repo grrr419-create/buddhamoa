@@ -99,6 +99,7 @@ export type ProductCurationDetail = {
   quickFacts?: ProductCurationDetailFact[];
   faqs?: FAQItem[];
   seo?: ProductCurationDetailSeo;
+  updatedAt?: string;
   image: string;
   imageAlt: string;
   storeUrl: string;

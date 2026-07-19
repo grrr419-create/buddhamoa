@@ -366,6 +366,10 @@ function uniqueValues(values: Array<string | undefined>) {
   return [...new Set(values.map((value) => value?.trim()).filter(Boolean))] as string[];
 }
 
+function uniqueKeywordValues(values: Array<string | undefined>) {
+  return uniqueValues(values.flatMap((value) => value?.split(",") ?? []));
+}
+
 function curationProductDetailSectionText(detail: ProductCurationDetail) {
   return detail.sections
     .map((section) =>
@@ -391,7 +395,7 @@ function curationProductDetailAutoKeywords(detail: ProductCurationDetail) {
 }
 
 function curationProductDetailKeywords(detail: ProductCurationDetail) {
-  return uniqueValues([
+  return uniqueKeywordValues([
     detail.name,
     detail.curationName,
     detail.seo?.primaryKeyword,
@@ -399,7 +403,7 @@ function curationProductDetailKeywords(detail: ProductCurationDetail) {
     ...(detail.relatedSearchTerms ?? []),
     ...(detail.seo?.keywords ?? []),
     ...curationProductDetailAutoKeywords(detail),
-  ]);
+  ]).slice(0, 12);
 }
 
 function curationProductDetailEntities(values: string[]) {
@@ -450,28 +454,6 @@ function curationProductDetailDescriptionParts(
   return sections.filter((section) => section.text.trim());
 }
 
-function curationProductDetailRelatedTermSet(
-  detail: ProductCurationDetail,
-  canonicalUrl: string,
-) {
-  const terms = uniqueValues([...(detail.relatedSearchTerms ?? []), ...(detail.seo?.keywords ?? [])]);
-
-  if (!terms.length) return undefined;
-
-  return {
-    "@type": "DefinedTermSet",
-    "@id": `${canonicalUrl}#related-search-terms`,
-    name: `${detail.name} 관련 검색어`,
-    hasDefinedTerm: terms.map((term) => ({
-      "@type": "DefinedTerm",
-      name: term,
-      inDefinedTermSet: {
-        "@id": `${canonicalUrl}#related-search-terms`,
-      },
-    })),
-  };
-}
-
 export function curationProductDetailDescriptionText(detail: ProductCurationDetail) {
   const sectionText = detail.descriptionSections
     ?.map((section) => [section.title, section.body.join(" ")].filter(Boolean).join(" "))
@@ -500,6 +482,14 @@ export function curationProductDetailMeta(detail: ProductCurationDetail) {
   };
 }
 
+export function curationProductDetailOpenGraphImage(detail: ProductCurationDetail) {
+  return {
+    src: detail.image.replace(/\.(?:png|jpe?g)$/i, "-og.jpg"),
+    width: 1200,
+    height: 1200,
+  };
+}
+
 function curationProductDetailImageObjects(detail: ProductCurationDetail, canonicalUrl: string) {
   const sectionImages = detail.sections.flatMap((section) => [
     ...(section.images ?? []),
@@ -514,7 +504,7 @@ function curationProductDetailImageObjects(detail: ProductCurationDetail, canoni
     (image, index, list) => list.findIndex((candidate) => candidate.src === image.src) === index,
   );
 
-  return uniqueImages.map((image, index) => {
+  return uniqueImages.slice(0, 3).map((image, index) => {
     const imageUrl = absoluteUrl(image.src);
 
     return {
@@ -540,13 +530,19 @@ export function curationProductDetailStructuredData(detail: ProductCurationDetai
   const imageUrls = imageObjects.map((image) => image.contentUrl);
   const descriptionText = curationProductDetailDescriptionText(detail);
   const descriptionParts = curationProductDetailDescriptionParts(detail, canonicalUrl);
-  const about = uniqueValues([detail.name, detail.curationName, ...keywords]);
+  const about = uniqueValues([
+    detail.name,
+    detail.curationName,
+    detail.seo?.primaryKeyword,
+    ...(detail.seo?.secondaryKeywords ?? []).slice(0, 4),
+  ]).slice(0, 8);
   const aboutEntities = curationProductDetailEntities(about);
   const alternateNames = uniqueValues([
     ...(detail.relatedSearchTerms ?? []),
     ...(detail.seo?.secondaryKeywords ?? []),
-  ]).filter((value) => value !== detail.name);
-  const relatedTermSet = curationProductDetailRelatedTermSet(detail, canonicalUrl);
+  ])
+    .filter((value) => value !== detail.name)
+    .slice(0, 8);
   const material = curationProductDetailFactValue(detail, ["재질", "소재"]);
   const size = curationProductDetailFactValue(detail, ["크기", "사이즈"]);
   const weight = curationProductDetailFactValue(detail, ["무게", "중량"]);
@@ -573,13 +569,6 @@ export function curationProductDetailStructuredData(detail: ProductCurationDetai
         ]
       : []),
     ...descriptionParts,
-    ...(relatedTermSet
-      ? [
-          {
-            "@id": `${canonicalUrl}#related-search-terms`,
-          },
-        ]
-      : []),
     ...(detail.faqs?.length
       ? [
           {
@@ -614,7 +603,7 @@ export function curationProductDetailStructuredData(detail: ProductCurationDetai
       url: siteUrl,
       description: siteConfig.description,
       inLanguage: "ko-KR",
-      keywords: siteConfig.keywords.join(", "),
+      keywords: siteConfig.keywords.slice(0, 12).join(", "),
       publisher: {
         "@id": `${siteUrl}#organization`,
       },
@@ -629,6 +618,7 @@ export function curationProductDetailStructuredData(detail: ProductCurationDetai
       ...(detail.subtitle ? { alternativeHeadline: detail.subtitle } : {}),
       abstract: detail.summary,
       description,
+      ...(detail.updatedAt ? { dateModified: detail.updatedAt } : {}),
       inLanguage: "ko-KR",
       keywords: keywords.join(", "),
       isPartOf: {
@@ -706,15 +696,6 @@ export function curationProductDetailStructuredData(detail: ProductCurationDetai
             })),
           }
         : {}),
-      offers: {
-        "@type": "Offer",
-        url: detail.storeUrl,
-        availability: "https://schema.org/InStock",
-        priceCurrency: "KRW",
-        seller: {
-          "@id": `${siteUrl}#organization`,
-        },
-      },
     },
     {
       "@type": "Article",
@@ -723,6 +704,7 @@ export function curationProductDetailStructuredData(detail: ProductCurationDetai
       ...(detail.subtitle ? { alternativeHeadline: detail.subtitle } : {}),
       description,
       abstract: detail.summary,
+      ...(detail.updatedAt ? { dateModified: detail.updatedAt } : {}),
       articleBody: descriptionText,
       articleSection: detail.curationName,
       keywords: keywords.join(", "),
@@ -744,7 +726,6 @@ export function curationProductDetailStructuredData(detail: ProductCurationDetai
         "@id": `${siteUrl}#organization`,
       },
     },
-    ...(relatedTermSet ? [relatedTermSet] : []),
     {
       "@type": "BreadcrumbList",
       "@id": `${canonicalUrl}#breadcrumb`,
