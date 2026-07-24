@@ -188,26 +188,26 @@ export const sellerInfo = {
     "인천광역시 계양구 오조산로45번길 12 유연프라자 7층 705호 (계산동, 유연프라자)",
 };
 
-const holidayNoticeHref = "https://mkt.shopping.naver.com/link/68457bd08dd273404b731bfd";
+const topNoticeHref = "https://mkt.shopping.naver.com/link/6a35268a4e58f1369596f3aa";
 
 export const topNotices: TopNotice[] = [
   {
-    slug: "holiday-shipping-schedule",
-    image: "/images/notices/holiday-shipping-schedule.png",
-    imageAlt: "붓다모아 휴무 안내와 배송 일정 공지",
-    href: holidayNoticeHref,
+    slug: "notice-1",
+    image: "/images/notices/1.png",
+    imageAlt: "붓다모아 공지사항 1",
+    href: topNoticeHref,
   },
   {
-    slug: "constitution-day-holiday",
-    image: "/images/notices/constitution-day-holiday.png",
-    imageAlt: "붓다모아 제헌절 휴무 안내와 배송 일정 공지",
-    href: holidayNoticeHref,
+    slug: "notice-2",
+    image: "/images/notices/2.png",
+    imageAlt: "붓다모아 공지사항 2",
+    href: topNoticeHref,
   },
   {
-    slug: "summer-holiday-shipping",
-    image: "/images/notices/summer-holiday-shipping.png",
-    imageAlt: "붓다모아 여름휴가 안내와 배송 일정 공지",
-    href: holidayNoticeHref,
+    slug: "notice-3",
+    image: "/images/notices/3.png",
+    imageAlt: "붓다모아 공지사항 3",
+    href: topNoticeHref,
   },
 ];
 
