@@ -3293,6 +3293,27 @@ section {
   color: var(--muted);
 }
 
+.curation-detail-facts__link {
+  color: #03a84e;
+  font-weight: 900;
+  text-decoration: underline;
+  text-decoration-color: rgba(3, 199, 90, 0.72);
+  text-decoration-thickness: 2px;
+  text-underline-offset: 0.2em;
+}
+
+.curation-detail-facts__link:hover,
+.curation-detail-facts__link:focus-visible {
+  color: #00c73c;
+  text-decoration-color: currentColor;
+}
+
+.curation-detail-facts__link:focus-visible {
+  outline: 3px solid rgba(3, 199, 90, 0.28);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
 .curation-detail-description {
   display: grid;
   gap: 24px;

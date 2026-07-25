@@ -197,18 +197,6 @@ export const topNotices: TopNotice[] = [
     imageAlt: "붓다모아 공지사항 1",
     href: topNoticeHref,
   },
-  {
-    slug: "notice-2",
-    image: "/images/notices/2.png",
-    imageAlt: "붓다모아 공지사항 2",
-    href: topNoticeHref,
-  },
-  {
-    slug: "notice-3",
-    image: "/images/notices/3.png",
-    imageAlt: "붓다모아 공지사항 3",
-    href: topNoticeHref,
-  },
 ];
 
 export const secondaryNotices: TopNotice[] = [

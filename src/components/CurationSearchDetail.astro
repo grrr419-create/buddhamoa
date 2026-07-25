@@ -1,5 +1,6 @@
 ---
 import type { ProductCurationDetail } from "../types";
+import { siteConfig } from "../data/site";
 import OptimizedImage from "./OptimizedImage.astro";
 
 type Props = {
@@ -13,6 +14,8 @@ const quickFacts = detail.quickFacts ?? [];
 const descriptionSections = detail.descriptionSections ?? [];
 const descriptionBody = detail.descriptionBody ?? [];
 const faqs = detail.faqs ?? [];
+const isStoreSellerFact = (fact: NonNullable<ProductCurationDetail["quickFacts"]>[number]) =>
+  fact.name.trim() === "판매처" && fact.value.trim() === siteConfig.brandName;
 ---
 
 <div class="curation-detail-sample">
@@ -107,7 +110,22 @@ const faqs = detail.faqs ?? [];
         {quickFacts.map((fact) => (
           <div>
             <dt>{fact.name}</dt>
-            <dd>{fact.value}</dd>
+            <dd>
+              {isStoreSellerFact(fact) ? (
+                <a
+                  class="curation-detail-facts__link"
+                  href={siteConfig.storeUrl}
+                  target="_blank"
+                  rel="nofollow noopener noreferrer"
+                  data-track={`curation_detail_seller_${detail.curationSlug}_${detail.productSlug}`}
+                  aria-label={`${siteConfig.brandName} 스마트스토어로 이동`}
+                >
+                  {fact.value}(네이버 스마트스토어)
+                </a>
+              ) : (
+                fact.value
+              )}
+            </dd>
           </div>
         ))}
       </dl>
