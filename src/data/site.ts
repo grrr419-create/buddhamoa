@@ -193,8 +193,8 @@ const topNoticeHref = "https://mkt.shopping.naver.com/link/6a35268a4e58f1369596f
 export const topNotices: TopNotice[] = [
   {
     slug: "notice-1",
-    image: "/images/notices/1.png",
-    imageAlt: "붓다모아 공지사항 1",
+    image: "/images/notices/top-notice-20260725-prayer-beads.png",
+    imageAlt: "두 번 감아 착용하는 염주 할인 공지",
     href: topNoticeHref,
   },
 ];
