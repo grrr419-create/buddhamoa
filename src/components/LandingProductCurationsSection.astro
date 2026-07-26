@@ -24,7 +24,7 @@ const getItemHref = (curation: ProductCuration, item: ProductCuration["items"][n
   <section id={sectionId} class="product-curations" aria-label="붓다모아 상품 큐레이션">
     {curations.map((curation, curationIndex) => (
       <section
-        class={`product-curation${curationIndex % 2 === 1 ? " product-curation--reverse" : ""}`}
+        class="product-curation"
         aria-labelledby={`product-curation-${curation.slug}`}
       >
         <h2 class="product-curation__title" id={`product-curation-${curation.slug}`}>
@@ -61,34 +61,12 @@ const getItemHref = (curation: ProductCuration, item: ProductCuration["items"][n
                       height="720"
                       loading={curationIndex === 0 && itemIndex === 0 ? "eager" : "lazy"}
                       fetchpriority={curationIndex === 0 && itemIndex === 0 ? "high" : "auto"}
-                      sizes="(max-width: 860px) 72vw, (max-width: 1040px) 20vw, 180px"
+                      sizes="(max-width: 767px) 18vw, (max-width: 1040px) 20vw, 180px"
                       optimizedWidths={[320, 480, 720]}
                     />
                   </span>
                   <span class="product-curation-card__name">{item.name}</span>
                 </a>
-              ))}
-            </div>
-            <div class="product-curation__group" aria-hidden="true">
-              {curation.items.map((item) => (
-                <article
-                  class="product-curation-card"
-                  data-track={`product_curation_${curation.slug}_${item.slug}`}
-                >
-                  <span class="product-curation-card__image-wrap">
-                    <OptimizedImage
-                      class="product-curation-card__image"
-                      src={item.image}
-                      alt={item.imageAlt}
-                      width="720"
-                      height="720"
-                      loading="lazy"
-                      sizes="(max-width: 860px) 72vw, (max-width: 1040px) 20vw, 180px"
-                      optimizedWidths={[320, 480, 720]}
-                    />
-                  </span>
-                  <span class="product-curation-card__name">{item.name}</span>
-                </article>
               ))}
             </div>
           </div>
