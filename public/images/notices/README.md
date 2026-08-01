@@ -2,7 +2,7 @@
 
 - 작업 원칙: 공지 이미지는 모두 `1:1 비율`
 - 권장 비율: `1:1`
-- 현재 연결된 파일: `1.png`, `2.png`, `3.png`
+- 현재 연결된 파일: `top-notice-20260801.png`
 - 현재 공지 링크: `https://mkt.shopping.naver.com/link/6a35268a4e58f1369596f3aa`
 
 공지 링크는 `src/data/site.ts`의 각 공지 객체 `href`에 입력하면 활성화됩니다.

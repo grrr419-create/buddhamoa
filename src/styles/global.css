@@ -365,6 +365,37 @@ h3 {
   display: block;
 }
 
+#notice-1 .notice-banner__link {
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--radius);
+  isolation: isolate;
+}
+
+#notice-1 .notice-banner__link::after {
+  position: absolute;
+  inset: -24% -64%;
+  z-index: 1;
+  pointer-events: none;
+  content: "";
+  background: linear-gradient(
+    115deg,
+    transparent 35%,
+    rgba(255, 255, 255, 0.18) 44%,
+    rgba(255, 237, 174, 0.58) 50%,
+    rgba(255, 255, 255, 0.2) 56%,
+    transparent 66%
+  );
+  mix-blend-mode: screen;
+  transform: translateX(-54%) rotate(7deg);
+  animation: noticeShine 4.8s ease-in-out infinite;
+}
+
+#notice-1 .notice-banner__link:focus-visible {
+  outline: 3px solid rgba(199, 139, 52, 0.55);
+  outline-offset: 4px;
+}
+
 .notice-banner__image {
   width: 100%;
   height: auto;
@@ -373,6 +404,39 @@ h3 {
   border-radius: var(--radius);
   border: 1px solid rgba(10, 74, 48, 0.12);
   box-shadow: 0 18px 40px rgba(8, 53, 35, 0.1);
+}
+
+#notice-1 .notice-banner__link .notice-banner__image {
+  transition: transform 280ms ease, filter 280ms ease, box-shadow 280ms ease;
+  will-change: transform;
+}
+
+#notice-1 .notice-banner__link:hover .notice-banner__image,
+#notice-1 .notice-banner__link:focus-visible .notice-banner__image {
+  transform: scale(1.018);
+  filter: saturate(1.04) brightness(1.02);
+  box-shadow: 0 22px 48px rgba(8, 53, 35, 0.16);
+}
+
+@keyframes noticeShine {
+  0%,
+  56% {
+    transform: translateX(-54%) rotate(7deg);
+    opacity: 0;
+  }
+
+  62% {
+    opacity: 0.82;
+  }
+
+  78% {
+    opacity: 0.28;
+  }
+
+  100% {
+    transform: translateX(54%) rotate(7deg);
+    opacity: 0;
+  }
 }
 
 .notice-carousel__controls {
@@ -2911,8 +2975,20 @@ section {
 @media (prefers-reduced-motion: reduce) {
   .notice-carousel__track,
   .notice-carousel__selector,
-  .notice-carousel__arrow {
+  .notice-carousel__arrow,
+  #notice-1 .notice-banner__link .notice-banner__image {
     transition: none;
+  }
+
+  #notice-1 .notice-banner__link::after {
+    animation: none;
+    opacity: 0;
+  }
+
+  #notice-1 .notice-banner__link:hover .notice-banner__image,
+  #notice-1 .notice-banner__link:focus-visible .notice-banner__image {
+    transform: none;
+    filter: none;
   }
 
   .section-store-button::after,
